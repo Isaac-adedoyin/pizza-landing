@@ -6,6 +6,9 @@
   <title>Pizza Colombia Újpest | Fresh Artisanal Neapolitan & New York Pizza</title>
   <meta name="description" content="Experience the best of both worlds in Újpest. Pizza Colombia offers authentic Neapolitan and crispy New York-style pizzas crafted with premium ingredients and baked in our high-heat electric deck ovens.">
   
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍕</text></svg>">
+
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -156,18 +159,21 @@
     <div class="container stats-container">
       <div class="stat-card">
         <p class="stat-kicker">Dual Style</p>
-        <p class="stat-label">Neapolitan + New York</p>
-        <p class="stat-desc">Choose airy leopard-spotted crust or a crisp, foldable slice without leaving Újpest.</p>
+        <div class="stat-number" data-target="450" data-suffix="°C">0°C</div>
+        <p class="stat-label">Neapolitan & New York</p>
+        <p class="stat-desc">Baked at extreme heat to achieve the signature leopard-spotted crust or crisp foldable slice.</p>
       </div>
       <div class="stat-card">
         <p class="stat-kicker">Late Hours</p>
-        <p class="stat-label">Lunch to Late Night</p>
-        <p class="stat-desc">Built for easy daytime stops, evening dinners, and late-night pizza runs with friends.</p>
+        <div class="stat-number" data-target="12" data-suffix="h">0h</div>
+        <p class="stat-label">Continuous Service</p>
+        <p class="stat-desc">Built for easy daytime lunch stops, cozy dinners, and late-night pizza runs in Újpest.</p>
       </div>
       <div class="stat-card">
         <p class="stat-kicker">Fresh First</p>
-        <p class="stat-label">Ingredients That Matter</p>
-        <p class="stat-desc">San Marzano tomatoes, quality cheeses, and toppings chosen for flavour instead of filler.</p>
+        <div class="stat-number" data-target="100" data-suffix="%">0%</div>
+        <p class="stat-label">Premium Import Quality</p>
+        <p class="stat-desc">San Marzano tomatoes, premium cheeses, and toppings chosen for authentic flavor instead of filler.</p>
       </div>
     </div>
   </section>
@@ -178,30 +184,100 @@
       <div class="accent-line-gradient center"></div>
       <h2 class="order-title">Taste Pizza Colombia</h2>
       <p class="order-subtitle">
-        Browse our interactive menu below or visit us in Újpest!
+        Browse our interactive menu or order delivery below!
       </p>
 
-      <div class="testimonial-strip">
-        <p class="testimonial-quote">“One of those places you recommend immediately after the first bite.”</p>
-        <p class="testimonial-meta">Local favourite for terrace evenings, casual dinners, and serious pizza cravings.</p>
+      <!-- Social Review Wall -->
+      <div class="reviews-section-header">
+        <h3 class="reviews-subtitle">What Our Guests Say</h3>
+      </div>
+      <div class="reviews-grid">
+        <!-- Google Review -->
+        <div class="review-card google-review">
+          <div class="review-header">
+            <div class="review-user">
+              <div class="user-avatar" style="background-color: #E67E22;">PK</div>
+              <div class="user-info">
+                <h4 class="user-name">Péter Kiss</h4>
+                <span class="user-title">Local Guide • 18 reviews</span>
+              </div>
+            </div>
+            <div class="social-source">
+              <svg class="social-icon-sm" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12.24 10.285V13.4h6.887c-.275 1.565-1.88 4.604-6.887 4.604-4.33 0-7.866-3.577-7.866-8s3.536-8 7.866-8c2.46 0 4.105 1.025 5.047 1.926l2.427-2.334C17.955 2.192 15.34 1 12.24 1 5.92 1 12.2 1 12.24 11.2s4.92 11.2 11.24 11.2c6.6 0 11-4.64 11-11.2 0-.756-.08-1.333-.18-1.915H12.24z"/>
+              </svg>
+            </div>
+          </div>
+          <div class="rating-stars">⭐⭐⭐⭐⭐</div>
+          <p class="review-text">
+            "Best Neapolitan pizza in Újpest! The leopard-spotted crust is light, airy, and baked to perfection in their deck oven. Highly recommend the Margherita with extra buffalo mozzarella."
+          </p>
+          <span class="review-time" data-date="2026-06-10">Google Review • Loading...</span>
+        </div>
+
+        <!-- Facebook Recommendation -->
+        <div class="review-card facebook-review">
+          <div class="review-header">
+            <div class="review-user">
+              <div class="user-avatar" style="background-color: #2ECC71;">ZB</div>
+              <div class="user-info">
+                <h4 class="user-name">Zsófia B.</h4>
+                <span class="user-title">Recommends Pizza Colombia</span>
+              </div>
+            </div>
+            <div class="social-source">
+              <svg class="social-icon-sm" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+              </svg>
+            </div>
+          </div>
+          <div class="rating-stars">👍 Recommended</div>
+          <p class="review-text">
+            "Great vibes on the terrace and the pizzas are top tier. We got a half-and-half New York style crust which was crispy and foldable. Very friendly staff and fast delivery."
+          </p>
+          <span class="review-time" data-date="2026-06-06">Facebook • Loading...</span>
+        </div>
+
+        <!-- Instagram Quote -->
+        <div class="review-card instagram-review">
+          <div class="review-header">
+            <div class="review-user">
+              <div class="user-avatar" style="background-color: #9B59B6;">DM</div>
+              <div class="user-info">
+                <h4 class="user-name">david_m92</h4>
+                <span class="user-title">Budapest Foodie</span>
+              </div>
+            </div>
+            <div class="social-source">
+              <svg class="social-icon-sm" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
+              </svg>
+            </div>
+          </div>
+          <div class="rating-stars">⭐⭐⭐⭐⭐</div>
+          <p class="review-text">
+            "Literally obsessed with their Nutella dough balls (Nutella Golyó) and their White Base pizzas! Truly authentic Italian taste in Budapest. 10/10 local spot!"
+          </p>
+          <span class="review-time" data-date="2026-05-30">Instagram • Loading...</span>
+        </div>
       </div>
 
       <div class="order-actions">
-        <!-- Wolt & Foodora commented out for now
-        <a href="https://wolt.com" target="_blank" class="btn btn-order wolt-btn btn-magnetic">
+        <!-- Wolt Order Button -->
+        <a href="https://wolt.com/en/hun/budapest/restaurant/pizza-colombia" target="_blank" class="btn btn-order wolt-btn btn-magnetic">
           <svg class="order-brand-icon" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14.5h-2v-2h2v2zm0-4h-2V7h2v5.5z"/>
+            <path d="M19 7h-1.2c-.4-1.2-1.5-2-2.8-2h-3c-1.3 0-2.4.8-2.8 2H8c-2.2 0-4 1.8-4 4v2c0 2.2 1.8 4 4 4h9c1.7 0 3-1.3 3-3v-4c0-1.7-1.3-3-3-3zm-10 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm8 0c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
           </svg>
           <span>Order on Wolt</span>
         </a>
 
-        <a href="https://foodora.hu" target="_blank" class="btn btn-order foodora-btn btn-magnetic">
+        <!-- Foodora Order Button -->
+        <a href="https://www.foodora.hu/en/restaurant/v8zo/pizza-colombia" target="_blank" class="btn btn-order foodora-btn btn-magnetic">
           <svg class="order-brand-icon" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+            <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm1 14.5h-2v-2h2v2zm0-4h-2V7h2v5.5z"/>
           </svg>
           <span>Order on Foodora</span>
         </a>
-        -->
 
         <!-- Interactive Menu Trigger -->
         <button id="btn-open-menu" class="btn btn-secondary btn-magnetic">
@@ -249,7 +325,7 @@
             <span class="info-icon">📞</span>
             <div class="info-text">
               <strong>Phone:</strong>
-              <p>+36 (20) 123-4567</p>
+              <p><a href="tel:+36708846991" style="color: inherit; text-decoration: none;">+36 708846991</a></p>
             </div>
           </div>
         </div>
@@ -283,91 +359,133 @@
                 <span class="menu-item-name">Margherita Pizza</span>
                 <span class="menu-item-price">4,550 Ft</span>
               </div>
-              <p class="menu-item-desc">Tomato base, mozzarella, and fresh basil. <em>(Allergens: 1, 7, 🌱 Veg)</em></p>
+              <p class="menu-item-desc">Tomato base, mozzarella, and fresh basil.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-veg">🌱 Veg</span>
+                <span class="badge badge-allergen">Allergens: 1, 7</span>
+              </div>
             </div>
             <div class="menu-item">
               <div class="menu-item-header">
                 <span class="menu-item-name">Marinara Pizza</span>
                 <span class="menu-item-price">4,550 Ft</span>
               </div>
-              <p class="menu-item-desc">Tomato base, garlic, oregano. <em>(Allergens: 1, 🍃 Vegan)</em></p>
+              <p class="menu-item-desc">Tomato base, garlic, oregano.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-vegan">🍃 Vegan</span>
+                <span class="badge badge-allergen">Allergens: 1</span>
+              </div>
             </div>
             <div class="menu-item">
               <div class="menu-item-header">
                 <span class="menu-item-name">Diablo Pizza</span>
                 <span class="menu-item-price">5,200 Ft</span>
               </div>
-              <p class="menu-item-desc">Tomato base, mozzarella, salami, bacon, spicy paprika. <em>(Allergens: 1, 7)</em></p>
+              <p class="menu-item-desc">Tomato base, mozzarella, salami, bacon, spicy paprika.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-allergen">Allergens: 1, 7</span>
+              </div>
             </div>
             <div class="menu-item">
               <div class="menu-item-header">
                 <span class="menu-item-name">Ham Pizza / Sonkás Pizza</span>
                 <span class="menu-item-price">4,750 Ft</span>
               </div>
-              <p class="menu-item-desc">Tomato base, mozzarella, ham. <em>(Allergens: 1, 7)</em></p>
+              <p class="menu-item-desc">Tomato base, mozzarella, ham.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-allergen">Allergens: 1, 7</span>
+              </div>
             </div>
             <div class="menu-item">
               <div class="menu-item-header">
                 <span class="menu-item-name">Songoku Pizza</span>
                 <span class="menu-item-price">4,950 Ft</span>
               </div>
-              <p class="menu-item-desc">Tomato base, mozzarella, ham, mushroom, sweetcorn. <em>(Allergens: 1, 7)</em></p>
+              <p class="menu-item-desc">Tomato base, mozzarella, ham, mushroom, sweetcorn.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-allergen">Allergens: 1, 7</span>
+              </div>
             </div>
             <div class="menu-item">
               <div class="menu-item-header">
                 <span class="menu-item-name">Hawaii Pizza</span>
                 <span class="menu-item-price">4,950 Ft</span>
               </div>
-              <p class="menu-item-desc">Tomato base, mozzarella, ham, sweetcorn, pineapple. <em>(Allergens: 1, 7)</em></p>
+              <p class="menu-item-desc">Tomato base, mozzarella, ham, sweetcorn, pineapple.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-allergen">Allergens: 1, 7</span>
+              </div>
             </div>
             <div class="menu-item">
               <div class="menu-item-header">
                 <span class="menu-item-name">Four Cheese / Négy Sajtos</span>
                 <span class="menu-item-price">4,950 Ft</span>
               </div>
-              <p class="menu-item-desc">Tomato base, mozzarella, blue cheese, smoked cheese, parmesan. <em>(Allergens: 1, 7, 🌱 Veg)</em></p>
+              <p class="menu-item-desc">Tomato base, mozzarella, blue cheese, smoked cheese, parmesan.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-veg">🌱 Veg</span>
+                <span class="badge badge-allergen">Allergens: 1, 7</span>
+              </div>
             </div>
             <div class="menu-item">
               <div class="menu-item-header">
                 <span class="menu-item-name">Salami Pizza</span>
                 <span class="menu-item-price">4,900 Ft</span>
               </div>
-              <p class="menu-item-desc">Tomato base, mozzarella, paprika salami, red onion. <em>(Allergens: 1, 7)</em></p>
+              <p class="menu-item-desc">Tomato base, mozzarella, paprika salami, red onion.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-allergen">Allergens: 1, 7</span>
+              </div>
             </div>
             <div class="menu-item">
               <div class="menu-item-header">
                 <span class="menu-item-name">Grilled Chicken Supreme</span>
                 <span class="menu-item-price">5,150 Ft</span>
               </div>
-              <p class="menu-item-desc">Tomato base, mozzarella, chicken, red onion, mushroom. <em>(Allergens: 1, 7)</em></p>
+              <p class="menu-item-desc">Tomato base, mozzarella, chicken, red onion, mushroom.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-allergen">Allergens: 1, 7</span>
+              </div>
             </div>
             <div class="menu-item">
               <div class="menu-item-header">
                 <span class="menu-item-name">Magyaros / Made in Hungary</span>
                 <span class="menu-item-price">5,350 Ft</span>
               </div>
-              <p class="menu-item-desc">Tomato base, mozzarella, ham, salami, bacon, red onion, spicy paprika. <em>(Allergens: 1, 7)</em></p>
+              <p class="menu-item-desc">Tomato base, mozzarella, ham, salami, bacon, red onion, spicy paprika.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-allergen">Allergens: 1, 7</span>
+              </div>
             </div>
             <div class="menu-item">
               <div class="menu-item-header">
                 <span class="menu-item-name">Tuna Pizza</span>
                 <span class="menu-item-price">5,350 Ft</span>
               </div>
-              <p class="menu-item-desc">Tomato base, mozzarella, tuna, red onion, olives / pickles. <em>(Allergens: 1, 7, 4)</em></p>
+              <p class="menu-item-desc">Tomato base, mozzarella, tuna, red onion, olives / pickles.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-allergen">Allergens: 1, 4, 7</span>
+              </div>
             </div>
             <div class="menu-item">
               <div class="menu-item-header">
                 <span class="menu-item-name">Húsímádó / Meaty One</span>
                 <span class="menu-item-price">5,450 Ft</span>
               </div>
-              <p class="menu-item-desc">Tomato base, mozzarella, ham, salami, bacon, grilled sausage / chicken, red onion. <em>(Allergens: 1, 7)</em></p>
+              <p class="menu-item-desc">Tomato base, mozzarella, ham, salami, bacon, grilled sausage / chicken, red onion.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-allergen">Allergens: 1, 7</span>
+              </div>
             </div>
             <div class="menu-item">
               <div class="menu-item-header">
                 <span class="menu-item-name">Mexico Pizza</span>
                 <span class="menu-item-price">5,150 Ft</span>
               </div>
-              <p class="menu-item-desc">Tomato base, mozzarella, bacon, red beans, sweetcorn, spicy paprika. <em>(Allergens: 1, 7)</em></p>
+              <p class="menu-item-desc">Tomato base, mozzarella, bacon, red beans, sweetcorn, spicy paprika.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-allergen">Allergens: 1, 7</span>
+              </div>
             </div>
           </div>
         </div>
@@ -380,56 +498,80 @@
                 <span class="menu-item-name">Garlic Sourcream Pizza</span>
                 <span class="menu-item-price">5,250 Ft</span>
               </div>
-              <p class="menu-item-desc">Garlic sourcream base, mozzarella, ham, salami, red onion. <em>(Allergens: 1, 7)</em></p>
+              <p class="menu-item-desc">Garlic sourcream base, mozzarella, ham, salami, red onion.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-allergen">Allergens: 1, 7</span>
+              </div>
             </div>
             <div class="menu-item">
               <div class="menu-item-header">
                 <span class="menu-item-name">Asterix Pizza</span>
                 <span class="menu-item-price">5,100 Ft</span>
               </div>
-              <p class="menu-item-desc">Garlic sourcream base, mozzarella, ham, bacon, sweetcorn. <em>(Allergens: 1, 7)</em></p>
+              <p class="menu-item-desc">Garlic sourcream base, mozzarella, ham, bacon, sweetcorn.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-allergen">Allergens: 1, 7</span>
+              </div>
             </div>
             <div class="menu-item">
               <div class="menu-item-header">
                 <span class="menu-item-name">Colombia Pizza</span>
                 <span class="menu-item-price">5,200 Ft</span>
               </div>
-              <p class="menu-item-desc">Garlic sourcream base, mozzarella, bacon, smoked cheese, spicy paprika. <em>(Allergens: 1, 7)</em></p>
+              <p class="menu-item-desc">Garlic sourcream base, mozzarella, bacon, smoked cheese, spicy paprika.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-allergen">Allergens: 1, 7</span>
+              </div>
             </div>
             <div class="menu-item">
               <div class="menu-item-header">
                 <span class="menu-item-name">Tatra Pizza</span>
                 <span class="menu-item-price">5,150 Ft</span>
               </div>
-              <p class="menu-item-desc">Garlic sourcream base, mozzarella, ham, blue cheese, parmesan. <em>(Allergens: 1, 7)</em></p>
+              <p class="menu-item-desc">Garlic sourcream base, mozzarella, ham, blue cheese, parmesan.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-allergen">Allergens: 1, 7</span>
+              </div>
             </div>
             <div class="menu-item">
               <div class="menu-item-header">
                 <span class="menu-item-name">Gyros Pizza</span>
                 <span class="menu-item-price">5,350 Ft</span>
               </div>
-              <p class="menu-item-desc">Garlic sourcream base, mozzarella, chicken, red onion, pickle, tomato. <em>(Allergens: 1, 7)</em></p>
+              <p class="menu-item-desc">Garlic sourcream base, mozzarella, chicken, red onion, pickle, tomato.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-allergen">Allergens: 1, 7</span>
+              </div>
             </div>
             <div class="menu-item">
               <div class="menu-item-header">
                 <span class="menu-item-name">Colombia Greek Pizza</span>
                 <span class="menu-item-price">5,450 Ft</span>
               </div>
-              <p class="menu-item-desc">Garlic sourcream base, mozzarella, ham, spinach, ricotta, red onion. <em>(Allergens: 1, 7)</em></p>
+              <p class="menu-item-desc">Garlic sourcream base, mozzarella, ham, spinach, ricotta, red onion.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-allergen">Allergens: 1, 7</span>
+              </div>
             </div>
             <div class="menu-item">
               <div class="menu-item-header">
                 <span class="menu-item-name">Megyeri Pizza</span>
                 <span class="menu-item-price">5,150 Ft</span>
               </div>
-              <p class="menu-item-desc">Garlic sourcream base, mozzarella, ham, mushroom. <em>(Allergens: 1, 7)</em></p>
+              <p class="menu-item-desc">Garlic sourcream base, mozzarella, ham, mushroom.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-allergen">Allergens: 1, 7</span>
+              </div>
             </div>
             <div class="menu-item">
               <div class="menu-item-header">
                 <span class="menu-item-name">Bacon Pizza</span>
                 <span class="menu-item-price">5,300 Ft</span>
               </div>
-              <p class="menu-item-desc">Garlic sourcream base, mozzarella, bacon, mushroom, smoked cheese. <em>(Allergens: 1, 7)</em></p>
+              <p class="menu-item-desc">Garlic sourcream base, mozzarella, bacon, mushroom, smoked cheese.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-allergen">Allergens: 1, 7</span>
+              </div>
             </div>
           </div>
         </div>
@@ -442,28 +584,43 @@
                 <span class="menu-item-name">Garlic Bread</span>
                 <span class="menu-item-price">1,900 Ft</span>
               </div>
-              <p class="menu-item-desc">Garlic oil, oregano. <em>(Allergens: 1, 🍃 Vegan)</em></p>
+              <p class="menu-item-desc">Garlic oil, oregano.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-vegan">🍃 Vegan</span>
+                <span class="badge badge-allergen">Allergens: 1</span>
+              </div>
             </div>
             <div class="menu-item">
               <div class="menu-item-header">
                 <span class="menu-item-name">Cheesy Garlic Bread</span>
                 <span class="menu-item-price">3,800 Ft</span>
               </div>
-              <p class="menu-item-desc">Garlic oil, oregano, mozzarella. <em>(Allergens: 1, 7, 🌱 Veg)</em></p>
+              <p class="menu-item-desc">Garlic oil, oregano, mozzarella.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-veg">🌱 Veg</span>
+                <span class="badge badge-allergen">Allergens: 1, 7</span>
+              </div>
             </div>
             <div class="menu-item">
               <div class="menu-item-header">
                 <span class="menu-item-name">Spicy Cheese Garlic Bread</span>
                 <span class="menu-item-price">4,200 Ft</span>
               </div>
-              <p class="menu-item-desc">Garlic oil, oregano, mozzarella, chili. <em>(Allergens: 1, 7, 🌱 Veg)</em></p>
+              <p class="menu-item-desc">Garlic oil, oregano, mozzarella, chili.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-veg">🌱 Veg</span>
+                <span class="badge badge-allergen">Allergens: 1, 7</span>
+              </div>
             </div>
             <div class="menu-item">
               <div class="menu-item-header">
                 <span class="menu-item-name">Signature Calzones (32cm)</span>
                 <span class="menu-item-price">Pizza Price</span>
               </div>
-              <p class="menu-item-desc">All pizzas from our Tomato Base and Sour Cream Base sections can be ordered as a fresh, folded Calzone. <em>(Allergens: 1, 7)</em></p>
+              <p class="menu-item-desc">All pizzas can be ordered as a fresh, folded Calzone.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-allergen">Allergens: 1, 7</span>
+              </div>
             </div>
           </div>
         </div>
@@ -476,75 +633,127 @@
                 <span class="menu-item-name">Arrabiata Sauce Pasta</span>
                 <span class="menu-item-price">4,550 Ft</span>
               </div>
-              <p class="menu-item-desc">Pasta in a spicy tomato sauce with garlic, chili, and olive oil. <em>(Allergens: 1, 7, 🌱 Veg)</em></p>
+              <p class="menu-item-desc">Pasta in a spicy tomato sauce with garlic, chili, and olive oil.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-veg">🌱 Veg</span>
+                <span class="badge badge-allergen">Allergens: 1, 7</span>
+              </div>
             </div>
             <div class="menu-item">
               <div class="menu-item-header">
                 <span class="menu-item-name">Marinara Sauce Pasta</span>
                 <span class="menu-item-price">4,550 Ft</span>
               </div>
-              <p class="menu-item-desc">Simple and fresh tomato sauce with garlic, herbs, and olive oil. <em>(Allergens: 1, 🍃 Vegan)</em></p>
+              <p class="menu-item-desc">Simple and fresh tomato sauce with garlic, herbs, and olive oil.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-vegan">🍃 Vegan</span>
+                <span class="badge badge-allergen">Allergens: 1</span>
+              </div>
             </div>
             <div class="menu-item">
               <div class="menu-item-header">
                 <span class="menu-item-name">Alfredo Cream Sauce Pasta</span>
                 <span class="menu-item-price">4,950 Ft</span>
               </div>
-              <p class="menu-item-desc">Rich and creamy sauce made with butter, cream, and parmesan. <em>(Allergens: 1, 7)</em></p>
+              <p class="menu-item-desc">Rich and creamy sauce made with butter, cream, and parmesan.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-allergen">Allergens: 1, 7</span>
+              </div>
             </div>
             <div class="menu-item">
               <div class="menu-item-header">
                 <span class="menu-item-name">Four Cheese Sauce Pasta</span>
                 <span class="menu-item-price">4,750 Ft</span>
               </div>
-              <p class="menu-item-desc">Creamy blend of four cheeses creating a rich and indulgent sauce. <em>(Allergens: 1, 7, 🌱 Veg)</em></p>
+              <p class="menu-item-desc">Creamy blend of four cheeses creating a rich and indulgent sauce.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-veg">🌱 Veg</span>
+                <span class="badge badge-allergen">Allergens: 1, 7</span>
+              </div>
             </div>
             <div class="menu-item">
               <div class="menu-item-header">
                 <span class="menu-item-name">Carbonara</span>
                 <span class="menu-item-price">5,200 Ft</span>
               </div>
-              <p class="menu-item-desc">Classic creamy pasta with parmesan and crispy bacon. <em>(Allergens: 1, 7)</em></p>
+              <p class="menu-item-desc">Classic creamy pasta with parmesan and crispy bacon.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-allergen">Allergens: 1, 7</span>
+              </div>
             </div>
             <div class="menu-item">
               <div class="menu-item-header">
                 <span class="menu-item-name">Basil Pesto Sauce Pasta</span>
                 <span class="menu-item-price">4,950 Ft</span>
               </div>
-              <p class="menu-item-desc">Pasta tossed in a fragrant basil pesto with garlic, parmesan, and olive oil. <em>(Allergens: 1, 7, 5, 11)</em></p>
+              <p class="menu-item-desc">Pasta tossed in a fragrant basil pesto with garlic, parmesan, and olive oil.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-veg">🌱 Veg</span>
+                <span class="badge badge-allergen">Allergens: 1, 5, 7, 11</span>
+              </div>
             </div>
             <div class="menu-item">
               <div class="menu-item-header">
                 <span class="menu-item-name">Aglio e Olio</span>
                 <span class="menu-item-price">4,950 Ft</span>
               </div>
-              <p class="menu-item-desc">Pasta with garlic, olive oil, and a touch of chili for a simple, classic flavour. <em>(Allergens: 1)</em></p>
+              <p class="menu-item-desc">Pasta with garlic, olive oil, and a touch of chili for a simple, classic flavour.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-vegan">🍃 Vegan</span>
+                <span class="badge badge-allergen">Allergens: 1</span>
+              </div>
             </div>
             <div class="menu-item">
               <div class="menu-item-header">
                 <span class="menu-item-name">Cheesecake Slice</span>
                 <span class="menu-item-price">2,500 Ft</span>
               </div>
-              <p class="menu-item-desc">Creamy NY-style cheesecake slice. <em>(Allergens: 1, 7, 5, 8)</em></p>
+              <p class="menu-item-desc">Creamy NY-style cheesecake slice.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-allergen">Allergens: 1, 5, 7, 8</span>
+              </div>
             </div>
             <div class="menu-item">
               <div class="menu-item-header">
                 <span class="menu-item-name">Nutella Golyó (8 db)</span>
                 <span class="menu-item-price">2,500 Ft</span>
               </div>
-              <p class="menu-item-desc">Warm dough balls stuffed with premium Nutella. <em>(Allergens: 1, 7, 5, 8)</em></p>
+              <p class="menu-item-desc">Warm dough balls stuffed with premium Nutella.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-allergen">Allergens: 1, 5, 7, 8</span>
+              </div>
             </div>
             <div class="menu-item">
               <div class="menu-item-header">
                 <span class="menu-item-name">Churros</span>
                 <span class="menu-item-price">2,500 Ft</span>
               </div>
-              <p class="menu-item-desc">Deep-fried dough sticks rolled in cinnamon sugar. <em>(Allergens: 1, 7, 5, 8)</em></p>
+              <p class="menu-item-desc">Deep-fried dough sticks rolled in cinnamon sugar.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-allergen">Allergens: 1, 5, 7, 8</span>
+              </div>
             </div>
           </div>
-          <div style="margin-top: 1.5rem; font-size: 0.85rem; color: var(--text-muted);">
-            <strong>Pasta Options:</strong> Spaghetti, Penne, or Tagliatelle. 
-            <strong style="margin-left: 1rem;">Extra Toppings:</strong> Chicken (+600 Ft), Bacon (+600 Ft), Tuna (+800 Ft), Mushrooms, Mozzarella, Olives, Artichokes, Parmesan, Chilli (+500 Ft each).
+          
+          <div class="menu-customizations">
+            <div class="customization-card">
+              <h4>🍝 Select Your Pasta</h4>
+              <p>Choose from Spaghetti, Penne, or Tagliatelle at no extra charge.</p>
+            </div>
+            <div class="customization-card">
+              <h4>🍕 Customize with Extra Toppings</h4>
+              <div class="toppings-grid">
+                <span class="topping-badge premium">Chicken <strong class="price">+600 Ft</strong></span>
+                <span class="topping-badge premium">Bacon <strong class="price">+600 Ft</strong></span>
+                <span class="topping-badge premium">Tuna <strong class="price">+800 Ft</strong></span>
+                <span class="topping-badge">Mushrooms <strong class="price">+500 Ft</strong></span>
+                <span class="topping-badge">Mozzarella <strong class="price">+500 Ft</strong></span>
+                <span class="topping-badge">Olives <strong class="price">+500 Ft</strong></span>
+                <span class="topping-badge">Artichokes <strong class="price">+500 Ft</strong></span>
+                <span class="topping-badge">Parmesan <strong class="price">+500 Ft</strong></span>
+                <span class="topping-badge">Chilli <strong class="price">+500 Ft</strong></span>
+              </div>
+            </div>
           </div>
         </div>
       </div>

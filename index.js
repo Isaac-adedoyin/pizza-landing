@@ -158,24 +158,87 @@ document.addEventListener('DOMContentLoaded', () => {
         const mouseX = e.clientX - bound.left - bound.width / 2;
         const mouseY = e.clientY - bound.top - bound.height / 2;
 
+        // Disable transitions temporarily for instant mouse tracking
+        btn.style.transition = 'none';
+        const innerText = btn.querySelector('span');
+        const innerIcon = btn.querySelector('svg');
+        if (innerText) innerText.style.transition = 'none';
+        if (innerIcon) innerIcon.style.transition = 'none';
+
         // Move the button slightly in the direction of the cursor
         btn.style.transform = `translate(${mouseX * 0.15}px, ${mouseY * 0.15}px)`;
         
         // Also move inner text / svg contents slightly less
-        const innerText = btn.querySelector('span');
-        const innerIcon = btn.querySelector('svg');
         if (innerText) innerText.style.transform = `translate(${mouseX * 0.05}px, ${mouseY * 0.05}px)`;
         if (innerIcon) innerIcon.style.transform = `translate(${mouseX * 0.08}px, ${mouseY * 0.08}px)`;
       });
 
       btn.addEventListener('mouseleave', () => {
-        // Smoothly snap back to origin
+        // Re-enable smooth transition for return snap
+        btn.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
         btn.style.transform = 'translate(0px, 0px)';
+        
         const innerText = btn.querySelector('span');
         const innerIcon = btn.querySelector('svg');
-        if (innerText) innerText.style.transform = 'translate(0px, 0px)';
-        if (innerIcon) innerIcon.style.transform = 'translate(0px, 0px)';
+        if (innerText) {
+          innerText.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+          innerText.style.transform = 'translate(0px, 0px)';
+        }
+        if (innerIcon) {
+          innerIcon.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+          innerIcon.style.transform = 'translate(0px, 0px)';
+        }
       });
+    });
+  }
+
+
+
+  // 9. Dynamic Relative Dates for Reviews
+  const reviewTimeElements = document.querySelectorAll('.review-time');
+  if (reviewTimeElements.length > 0) {
+    reviewTimeElements.forEach(el => {
+      const dateStr = el.getAttribute('data-date');
+      if (!dateStr) return;
+      
+      const reviewDate = new Date(dateStr);
+      const currentDate = new Date();
+      
+      // Reset hours to compare calendar days
+      reviewDate.setHours(0, 0, 0, 0);
+      currentDate.setHours(0, 0, 0, 0);
+      
+      const diffTime = currentDate - reviewDate;
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      
+      let relativeText = '';
+      if (diffDays < 0) {
+        relativeText = 'just now';
+      } else if (diffDays === 0) {
+        relativeText = 'today';
+      } else if (diffDays === 1) {
+        relativeText = 'yesterday';
+      } else if (diffDays < 7) {
+        relativeText = `${diffDays} days ago`;
+      } else {
+        const diffWeeks = Math.floor(diffDays / 7);
+        if (diffWeeks === 1) {
+          relativeText = '1 week ago';
+        } else if (diffWeeks < 4) {
+          relativeText = `${diffWeeks} weeks ago`;
+        } else {
+          const diffMonths = Math.floor(diffDays / 30);
+          if (diffMonths === 1) {
+            relativeText = '1 month ago';
+          } else {
+            relativeText = `${diffMonths} months ago`;
+          }
+        }
+      }
+      
+      // Parse prefix (e.g. "Google Review" or "Facebook" or "Instagram")
+      const prefix = el.innerText.split('•')[0].trim();
+      el.innerText = `${prefix} • ${relativeText}`;
     });
   }
 
