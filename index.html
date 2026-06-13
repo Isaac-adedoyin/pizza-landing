@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pizza Columbia Újpest | Fresh Artisanal Neapolitan & New York Pizza</title>
+  <meta name="description" content="Experience the best of both worlds in Újpest. Pizza Columbia offers authentic Neapolitan and crispy New York-style pizzas crafted with premium ingredients and baked in our high-heat electric deck ovens.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="#" class="logo-group">
+        <svg class="brand-logo" viewBox="0 0 220 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Pizza Circle (Red) -->
+          <circle cx="25" cy="25" r="18" fill="#E74C3C" />
+          <path d="M25 15C25.5523 15 26 15.4477 26 16V25C26 25.5523 25.5523 26 25 26C24.4477 26 24 25.5523 24 25V16C24 15.4477 24.4477 15 25 15Z" fill="white" />
+          <path d="M25 25L31.364 18.636C31.7545 18.2455 32.3877 18.2455 32.7782 18.636C33.1687 19.0265 33.1687 19.6597 32.7782 20.0503L26.4142 26.4142L25 25Z" fill="white" />
+          <circle cx="21" cy="20" r="2" fill="white" />
+          <circle cx="29" cy="23" r="1.5" fill="white" />
+          
+          <!-- Coffee Circle (Yellow) -->
+          <circle cx="65" cy="25" r="18" fill="#F1C40F" />
+          <path d="M60 21H68C69.1 21 70 21.9 70 23V27C70 29.2 68.2 31 66 31H62C59.8 31 58 29.2 58 27V23C58 21.9 58.9 21 60 21Z" stroke="white" stroke-width="2" stroke-linecap="round" />
+          <path d="M70 23H72C73.1 23 74 23.9 74 25V27C74 28.1 73.1 29 72 29H70" stroke="white" stroke-width="2" stroke-linecap="round" />
+          <path d="M61 17V15" stroke="white" stroke-width="1.5" stroke-linecap="round" />
+          <path d="M64 17V14" stroke="white" stroke-width="1.5" stroke-linecap="round" />
+          <path d="M67 17V15" stroke="white" stroke-width="1.5" stroke-linecap="round" />
+
+          <!-- Drink Circle (Teal) -->
+          <circle cx="105" cy="25" r="18" fill="#1ABC9C" />
+          <path d="M99 17L102 31H108L111 17H99Z" stroke="white" stroke-width="2" stroke-linejoin="round" />
+          <path d="M109 13L104 19" stroke="white" stroke-width="2" stroke-linecap="round" />
+          <path d="M97 17H113" stroke="white" stroke-width="1.5" stroke-linecap="round" />
+
+          <!-- Text -->
+          <text x="130" y="27" font-family="'Outfit', sans-serif" font-size="14" font-weight="700" fill="#2D2B2A" letter-spacing="0.5">COLUMBIA</text>
+          <text x="130" y="40" font-family="'Outfit', sans-serif" font-size="10" font-weight="400" fill="#7F8C8D" letter-spacing="1">ÚJPEST</text>
+        </svg>
+      </a>
+      
+      <nav class="nav-links">
+        <a href="#hero">Home</a>
+        <a href="#showcase-1">Oven</a>
+        <a href="#showcase-2">Ingredients</a>
+        <a href="#showcase-3">Styles</a>
+        <a href="#stats">Stats</a>
+        <a href="#order" class="btn-nav-order">Order Now</a>
+      </nav>
+
+      <button class="mobile-nav-toggle" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Overlay Menu -->
+  <div class="mobile-menu">
+    <a href="#hero">Home</a>
+    <a href="#showcase-1">Our Oven</a>
+    <a href="#showcase-2">Ingredients</a>
+    <a href="#showcase-3">Pizza Styles</a>
+    <a href="#stats">Stats</a>
+    <a href="#order" class="btn-mobile-order">Order Online</a>
+  </div>
+
+  <!-- Hero Section -->
+  <section id="hero" class="hero-section">
+    <div class="hero-background-stripes"></div>
+    <div class="container hero-container">
+      <div class="hero-content">
+        <h1 class="hero-title">
+          Pizza Columbia offers fresh Neapolitan and New York-style pizzas in Újpest.
+        </h1>
+        <p class="hero-subtitle">
+          View our menu, see upcoming events, and get all essential information in one place.
+        </p>
+        <div class="hero-actions">
+          <a href="#order" class="btn btn-primary btn-magnetic">
+            <span>Explore Menu & Order</span>
+            <svg class="arrow-down-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <polyline points="19 12 12 19 5 12"></polyline>
+            </svg>
+          </a>
+        </div>
+      </div>
+      <div class="hero-image-wrapper">
+        <div class="hero-image-glow"></div>
+        <img src="assets/hero_pizza.png" alt="Freshly baked premium Pizza Columbia pizza" class="hero-pizza-img">
+      </div>
+    </div>
+  </section>
+
+  <!-- Showcase Section 1 (Oven) -->
+  <section id="showcase-1" class="showcase-section bg-light scroll-reveal">
+    <div class="container showcase-container">
+      <div class="showcase-image-box">
+        <img src="assets/pizza_oven.png" alt="Sleek professional electric deck pizza oven" class="showcase-img">
+      </div>
+      <div class="showcase-content-box">
+        <div class="accent-line-gradient"></div>
+        <h2 class="showcase-title">Artisanal Electric Deck Oven</h2>
+        <p class="showcase-text">
+          At the heart of Pizza Columbia lies our state-of-the-art electric deck oven, baking at a blistering 450°C (840°F). This advanced, precise heat technology distributes temperature perfectly across the stone deck, producing our signature leopard-spotted crust and airy Neapolitan crumb in under 90 seconds.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Showcase Section 2 (Ingredients) -->
+  <section id="showcase-2" class="showcase-section scroll-reveal">
+    <div class="container showcase-container reverse">
+      <div class="showcase-content-box">
+        <div class="accent-line-gradient"></div>
+        <h2 class="showcase-title">Fresh & Premium Ingredients</h2>
+        <p class="showcase-text">
+          A great pizza starts with perfect basics. We import genuine San Marzano tomatoes grown in the volcanic soil of Mount Vesuvius for our sauce, topped with fresh buffalo mozzarella, aromatic local basil, and a generous drizzle of premium extra virgin olive oil.
+        </p>
+      </div>
+      <div class="showcase-image-box">
+        <img src="assets/pizza_ingredients.png" alt="Fresh pizza ingredients including tomatoes, basil and mozzarella" class="showcase-img">
+      </div>
+    </div>
+  </section>
+
+  <!-- Showcase Section 3 (Styles) -->
+  <section id="showcase-3" class="showcase-section bg-light scroll-reveal">
+    <div class="container showcase-container">
+      <div class="showcase-image-box">
+        <img src="assets/pizza_styles.png" alt="Neapolitan and New York style pizza slices side-by-side" class="showcase-img">
+      </div>
+      <div class="showcase-content-box">
+        <div class="accent-line-gradient"></div>
+        <h2 class="showcase-title">Neapolitan Meets New York</h2>
+        <p class="showcase-text">
+          Can't decide between a soft, pillowy Neapolitan pie and a crispy, foldable New York slice? We master both. Enjoy the delicate tenderness of our electric-baked artisan sourdough Neapolitan crust or the satisfying, savory bite of our thin-crust New York style pizzas.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section id="stats" class="stats-section scroll-reveal">
+    <div class="container stats-container">
+      <div class="stat-card">
+        <h3 class="stat-number" data-target="500">0</h3>
+        <p class="stat-label">Pizzas Crafted Daily</p>
+        <p class="stat-desc">Hand-stretched and baked to perfection by our expert pizzaiolos.</p>
+      </div>
+      <div class="stat-card">
+        <h3 class="stat-number" data-target="280">0</h3>
+        <p class="stat-label">Indoor & Terrace Seats</p>
+        <p class="stat-desc">A warm, cozy interior and a bustling outdoor summer terrace in Újpest.</p>
+      </div>
+      <div class="stat-card">
+        <h3 class="stat-number" data-target="98" data-suffix="%">0</h3>
+        <p class="stat-label">Foodie Rating</p>
+        <p class="stat-desc">Consistently rated as one of the best pizza spots by local food lovers.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Order & Info Section -->
+  <section id="order" class="order-section scroll-reveal">
+    <div class="container order-container">
+      <div class="accent-line-gradient center"></div>
+      <h2 class="order-title">Taste Pizza Columbia</h2>
+      <p class="order-subtitle">
+        Browse our interactive menu below or visit us in Újpest!
+      </p>
+
+      <div class="order-actions">
+        <!-- Wolt & Foodora commented out for now
+        <a href="https://wolt.com" target="_blank" class="btn btn-order wolt-btn btn-magnetic">
+          <svg class="order-brand-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14.5h-2v-2h2v2zm0-4h-2V7h2v5.5z"/>
+          </svg>
+          <span>Order on Wolt</span>
+        </a>
+
+        <a href="https://foodora.hu" target="_blank" class="btn btn-order foodora-btn btn-magnetic">
+          <svg class="order-brand-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+          </svg>
+          <span>Order on Foodora</span>
+        </a>
+        -->
+
+        <!-- Interactive Menu Trigger -->
+        <button id="btn-open-menu" class="btn btn-secondary btn-magnetic">
+          <svg class="order-brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke-linecap="round" />
+          </svg>
+          <span>Explore Digital Menu</span>
+        </button>
+      </div>
+
+      <!-- Info Details (Map, Opening Hours, Address) -->
+      <div class="info-grid">
+        <div class="info-card map-card">
+          <!-- Real Megyeri út 205 coordinates map embed -->
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2690.6974911854497!2d19.1068000!3d47.5855000!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4741db497ecba649%3A0xe543c166ad2b9fc2!2sBudapest%2C%20Megyeri%20\u00fat%20205%2C%201048!5e0!3m2!1sen!2shu!4v1718288000000!5m2!1sen!2shu" 
+            width="100%" 
+            height="300" 
+            style="border:0; border-radius: 12px;" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+        
+        <div class="info-card hours-card">
+          <h3>Visit Our Pizzeria</h3>
+          <div class="info-item">
+            <span class="info-icon">📍</span>
+            <div class="info-text">
+              <strong>Address:</strong>
+              <p>Budapest, Megyeri út 205-Ép D / 1, 1048</p>
+            </div>
+          </div>
+          <div class="info-item">
+            <span class="info-icon">🕒</span>
+            <div class="info-text">
+              <strong>Opening Hours:</strong>
+              <p>Monday: 13:30 – 23:30</p>
+              <p>Tuesday – Thursday: 12:00 – 23:30</p>
+              <p>Friday – Sunday: 11:30 – 23:30</p>
+            </div>
+          </div>
+          <div class="info-item">
+            <span class="info-icon">📞</span>
+            <div class="info-text">
+              <strong>Phone:</strong>
+              <p>+36 (20) 123-4567</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Interactive Digital Menu Modal -->
+  <div id="menu-modal" class="modal">
+    <div class="modal-overlay"></div>
+    <div class="modal-container">
+      <header class="modal-header">
+        <h2>Pizza Columbia Menu</h2>
+        <button id="btn-close-menu" class="modal-close-btn" aria-label="Close menu">&times;</button>
+      </header>
+      
+      <div class="modal-tabs">
+        <button class="tab-btn active" data-tab="red-pizzas">Tomato Base Pizzas</button>
+        <button class="tab-btn" data-tab="white-pizzas">Sour Cream Base Pizzas</button>
+        <button class="tab-btn" data-tab="calzones-bread">Calzones & Breads</button>
+        <button class="tab-btn" data-tab="pastas-desserts">Pastas & Desserts</button>
+      </div>
+
+      <div class="modal-content">
+        <!-- Tomato Base Pizzas -->
+        <div class="menu-tab-pane active" id="pane-red-pizzas">
+          <div class="menu-grid">
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Margherita Pizza</span>
+                <span class="menu-item-price">4,550 Ft</span>
+              </div>
+              <p class="menu-item-desc">Tomato base, mozzarella, and fresh basil. <em>(Allergens: 1, 7, 🌱 Veg)</em></p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Marinara Pizza</span>
+                <span class="menu-item-price">4,550 Ft</span>
+              </div>
+              <p class="menu-item-desc">Tomato base, garlic, oregano. <em>(Allergens: 1, 🍃 Vegan)</em></p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Diablo Pizza</span>
+                <span class="menu-item-price">5,200 Ft</span>
+              </div>
+              <p class="menu-item-desc">Tomato base, mozzarella, salami, bacon, spicy paprika. <em>(Allergens: 1, 7)</em></p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Ham Pizza / Sonkás Pizza</span>
+                <span class="menu-item-price">4,750 Ft</span>
+              </div>
+              <p class="menu-item-desc">Tomato base, mozzarella, ham. <em>(Allergens: 1, 7)</em></p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Songoku Pizza</span>
+                <span class="menu-item-price">4,950 Ft</span>
+              </div>
+              <p class="menu-item-desc">Tomato base, mozzarella, ham, mushroom, sweetcorn. <em>(Allergens: 1, 7)</em></p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Hawaii Pizza</span>
+                <span class="menu-item-price">4,950 Ft</span>
+              </div>
+              <p class="menu-item-desc">Tomato base, mozzarella, ham, sweetcorn, pineapple. <em>(Allergens: 1, 7)</em></p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Four Cheese / Négy Sajtos</span>
+                <span class="menu-item-price">4,950 Ft</span>
+              </div>
+              <p class="menu-item-desc">Tomato base, mozzarella, blue cheese, smoked cheese, parmesan. <em>(Allergens: 1, 7, 🌱 Veg)</em></p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Salami Pizza</span>
+                <span class="menu-item-price">4,900 Ft</span>
+              </div>
+              <p class="menu-item-desc">Tomato base, mozzarella, paprika salami, red onion. <em>(Allergens: 1, 7)</em></p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Grilled Chicken Supreme</span>
+                <span class="menu-item-price">5,150 Ft</span>
+              </div>
+              <p class="menu-item-desc">Tomato base, mozzarella, chicken, red onion, mushroom. <em>(Allergens: 1, 7)</em></p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Magyaros / Made in Hungary</span>
+                <span class="menu-item-price">5,350 Ft</span>
+              </div>
+              <p class="menu-item-desc">Tomato base, mozzarella, ham, salami, bacon, red onion, spicy paprika. <em>(Allergens: 1, 7)</em></p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Tuna Pizza</span>
+                <span class="menu-item-price">5,350 Ft</span>
+              </div>
+              <p class="menu-item-desc">Tomato base, mozzarella, tuna, red onion, olives / pickles. <em>(Allergens: 1, 7, 4)</em></p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Húsímádó / Meaty One</span>
+                <span class="menu-item-price">5,450 Ft</span>
+              </div>
+              <p class="menu-item-desc">Tomato base, mozzarella, ham, salami, bacon, grilled sausage / chicken, red onion. <em>(Allergens: 1, 7)</em></p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Mexico Pizza</span>
+                <span class="menu-item-price">5,150 Ft</span>
+              </div>
+              <p class="menu-item-desc">Tomato base, mozzarella, bacon, red beans, sweetcorn, spicy paprika. <em>(Allergens: 1, 7)</em></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sour Cream Base Pizzas -->
+        <div class="menu-tab-pane" id="pane-white-pizzas">
+          <div class="menu-grid">
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Garlic Sourcream Pizza</span>
+                <span class="menu-item-price">5,250 Ft</span>
+              </div>
+              <p class="menu-item-desc">Garlic sourcream base, mozzarella, ham, salami, red onion. <em>(Allergens: 1, 7)</em></p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Asterix Pizza</span>
+                <span class="menu-item-price">5,100 Ft</span>
+              </div>
+              <p class="menu-item-desc">Garlic sourcream base, mozzarella, ham, bacon, sweetcorn. <em>(Allergens: 1, 7)</em></p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Colombia Pizza</span>
+                <span class="menu-item-price">5,200 Ft</span>
+              </div>
+              <p class="menu-item-desc">Garlic sourcream base, mozzarella, bacon, smoked cheese, spicy paprika. <em>(Allergens: 1, 7)</em></p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Tatra Pizza</span>
+                <span class="menu-item-price">5,150 Ft</span>
+              </div>
+              <p class="menu-item-desc">Garlic sourcream base, mozzarella, ham, blue cheese, parmesan. <em>(Allergens: 1, 7)</em></p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Gyros Pizza</span>
+                <span class="menu-item-price">5,350 Ft</span>
+              </div>
+              <p class="menu-item-desc">Garlic sourcream base, mozzarella, chicken, red onion, pickle, tomato. <em>(Allergens: 1, 7)</em></p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Colombia Greek Pizza</span>
+                <span class="menu-item-price">5,450 Ft</span>
+              </div>
+              <p class="menu-item-desc">Garlic sourcream base, mozzarella, ham, spinach, ricotta, red onion. <em>(Allergens: 1, 7)</em></p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Megyeri Pizza</span>
+                <span class="menu-item-price">5,150 Ft</span>
+              </div>
+              <p class="menu-item-desc">Garlic sourcream base, mozzarella, ham, mushroom. <em>(Allergens: 1, 7)</em></p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Bacon Pizza</span>
+                <span class="menu-item-price">5,300 Ft</span>
+              </div>
+              <p class="menu-item-desc">Garlic sourcream base, mozzarella, bacon, mushroom, smoked cheese. <em>(Allergens: 1, 7)</em></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Calzones & Breads -->
+        <div class="menu-tab-pane" id="pane-calzones-bread">
+          <div class="menu-grid">
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Garlic Bread</span>
+                <span class="menu-item-price">1,900 Ft</span>
+              </div>
+              <p class="menu-item-desc">Garlic oil, oregano. <em>(Allergens: 1, 🍃 Vegan)</em></p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Cheesy Garlic Bread</span>
+                <span class="menu-item-price">3,800 Ft</span>
+              </div>
+              <p class="menu-item-desc">Garlic oil, oregano, mozzarella. <em>(Allergens: 1, 7, 🌱 Veg)</em></p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Spicy Cheese Garlic Bread</span>
+                <span class="menu-item-price">4,200 Ft</span>
+              </div>
+              <p class="menu-item-desc">Garlic oil, oregano, mozzarella, chili. <em>(Allergens: 1, 7, 🌱 Veg)</em></p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Signature Calzones (32cm)</span>
+                <span class="menu-item-price">Pizza Price</span>
+              </div>
+              <p class="menu-item-desc">All pizzas from our Tomato Base and Sour Cream Base sections can be ordered as a fresh, folded Calzone. <em>(Allergens: 1, 7)</em></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pastas & Desserts -->
+        <div class="menu-tab-pane" id="pane-pastas-desserts">
+          <div class="menu-grid">
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Arrabiata Sauce Pasta</span>
+                <span class="menu-item-price">4,550 Ft</span>
+              </div>
+              <p class="menu-item-desc">Pasta in a spicy tomato sauce with garlic, chili, and olive oil. <em>(Allergens: 1, 7, 🌱 Veg)</em></p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Marinara Sauce Pasta</span>
+                <span class="menu-item-price">4,550 Ft</span>
+              </div>
+              <p class="menu-item-desc">Simple and fresh tomato sauce with garlic, herbs, and olive oil. <em>(Allergens: 1, 🍃 Vegan)</em></p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Alfredo Cream Sauce Pasta</span>
+                <span class="menu-item-price">4,950 Ft</span>
+              </div>
+              <p class="menu-item-desc">Rich and creamy sauce made with butter, cream, and parmesan. <em>(Allergens: 1, 7)</em></p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Four Cheese Sauce Pasta</span>
+                <span class="menu-item-price">4,750 Ft</span>
+              </div>
+              <p class="menu-item-desc">Creamy blend of four cheeses creating a rich and indulgent sauce. <em>(Allergens: 1, 7, 🌱 Veg)</em></p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Carbonara</span>
+                <span class="menu-item-price">5,200 Ft</span>
+              </div>
+              <p class="menu-item-desc">Classic creamy pasta with parmesan and crispy bacon. <em>(Allergens: 1, 7)</em></p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Basil Pesto Sauce Pasta</span>
+                <span class="menu-item-price">4,950 Ft</span>
+              </div>
+              <p class="menu-item-desc">Pasta tossed in a fragrant basil pesto with garlic, parmesan, and olive oil. <em>(Allergens: 1, 7, 5, 11)</em></p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Aglio e Olio</span>
+                <span class="menu-item-price">4,950 Ft</span>
+              </div>
+              <p class="menu-item-desc">Pasta with garlic, olive oil, and a touch of chili for a simple, classic flavour. <em>(Allergens: 1)</em></p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Cheesecake Slice</span>
+                <span class="menu-item-price">2,500 Ft</span>
+              </div>
+              <p class="menu-item-desc">Creamy NY-style cheesecake slice. <em>(Allergens: 1, 7, 5, 8)</em></p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Nutella Golyó (8 db)</span>
+                <span class="menu-item-price">2,500 Ft</span>
+              </div>
+              <p class="menu-item-desc">Warm dough balls stuffed with premium Nutella. <em>(Allergens: 1, 7, 5, 8)</em></p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Churros</span>
+                <span class="menu-item-price">2,500 Ft</span>
+              </div>
+              <p class="menu-item-desc">Deep-fried dough sticks rolled in cinnamon sugar. <em>(Allergens: 1, 7, 5, 8)</em></p>
+            </div>
+          </div>
+          <div style="margin-top: 1.5rem; font-size: 0.85rem; color: var(--text-muted);">
+            <strong>Pasta Options:</strong> Spaghetti, Penne, or Tagliatelle. 
+            <strong style="margin-left: 1rem;">Extra Toppings:</strong> Chicken (+600 Ft), Bacon (+600 Ft), Tuna (+800 Ft), Mushrooms, Mozzarella, Olives, Artichokes, Parmesan, Chilli (+500 Ft each).
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="container footer-container">
+      <p class="footer-copy">&copy; 2026 Pizza Columbia Újpest. All rights reserved.</p>
+      <div class="footer-socials">
+        <a href="#" aria-label="Facebook">
+          <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M9 8H7v3h2v9h3v-9h3l.5-3H12V6c0-.88.39-1 1-1h2V2h-3c-2.9 0-5 1.55-5 4.5V8z"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="Instagram">
+          <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JS Logic -->
+  <script src="index.js"></script>
+</body>
+</html>
