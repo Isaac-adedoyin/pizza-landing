@@ -1,5 +1,5 @@
 /* -------------------------------------------------------------------------
-   Pizza Columbia Újpest - Interactive Script
+   Pizza Colombia Újpest - Interactive Script
    ------------------------------------------------------------------------- */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -56,6 +56,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const countDuration = 2000; // 2 seconds
 
   const animateCount = (element) => {
+    if (!element.hasAttribute('data-target')) {
+      return;
+    }
+
     const target = parseInt(element.getAttribute('data-target'), 10);
     const suffix = element.getAttribute('data-suffix') || '';
     let startTimestamp = null;
