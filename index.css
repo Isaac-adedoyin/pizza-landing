@@ -812,6 +812,23 @@ button {
   color: var(--text-muted);
 }
 
+.hours-list p {
+  display: grid;
+  grid-template-columns: minmax(92px, auto) 1fr;
+  align-items: baseline;
+  column-gap: 1rem;
+  line-height: 1.45;
+  margin-bottom: 0.35rem;
+}
+
+.hours-list p:last-child {
+  margin-bottom: 0;
+}
+
+.hours-list p span:last-child {
+  font-variant-numeric: tabular-nums;
+}
+
 /* -------------------------------------------------------------------------
    Interactive Digital Menu Modal
    ------------------------------------------------------------------------- */
