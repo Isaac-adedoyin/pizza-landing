@@ -8,7 +8,7 @@ const CONFIG = {
   // Example: 'https://docs.google.com/spreadsheets/d/e/2PACX-1v.../pub?output=csv'
   // Set to 'menu.csv' to load from the local fallback spreadsheet in the project folder.
   // Set to null to use the static fallback menu defined in index.html.
-  menuSpreadsheetUrl: 'menu.csv'
+  menuSpreadsheetUrl: null
 };
 
 // Simple but robust CSV parser handling commas and quotes inside fields
