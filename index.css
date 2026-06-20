@@ -1764,8 +1764,35 @@ button {
 @media (max-width: 868px) {
   .pizza-wheel-container {
     grid-template-columns: 1fr;
-    gap: 3rem;
-    padding: 2rem;
+    gap: 2rem;
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .pizza-wheel-container {
+    padding: 1rem;
+    gap: 1.5rem;
+    border-radius: 24px;
+  }
+
+  .wheel-center-btn {
+    width: 60px;
+    height: 60px;
+    font-size: 0.9rem;
+    border-width: 3px;
+  }
+
+  .wheel-pointer {
+    top: -8px;
+    width: 26px;
+    height: 26px;
+  }
+
+  .wheel-pointer::before {
+    border-left-width: 13px;
+    border-right-width: 13px;
+    border-top-width: 20px;
   }
 }
 
@@ -1777,8 +1804,9 @@ button {
 
 .wheel-wrapper {
   position: relative;
-  width: 320px;
-  height: 320px;
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 1 / 1;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1789,6 +1817,7 @@ button {
   width: 100%;
   height: 100%;
   border-radius: 50%;
+  display: block;
   transition: transform 4.5s cubic-bezier(0.1, 0.8, 0.1, 1);
 }
 
