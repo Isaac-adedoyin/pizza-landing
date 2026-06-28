@@ -26,10 +26,11 @@
         <svg class="brand-logo" viewBox="0 0 220 50" fill="none" xmlns="http://www.w3.org/2000/svg">
           <!-- Pizza Circle (Red) -->
           <circle cx="25" cy="25" r="18" fill="#E74C3C" />
-          <path d="M25 15C25.5523 15 26 15.4477 26 16V25C26 25.5523 25.5523 26 25 26C24.4477 26 24 25.5523 24 25V16C24 15.4477 24.4477 15 25 15Z" fill="white" />
-          <path d="M25 25L31.364 18.636C31.7545 18.2455 32.3877 18.2455 32.7782 18.636C33.1687 19.0265 33.1687 19.6597 32.7782 20.0503L26.4142 26.4142L25 25Z" fill="white" />
-          <circle cx="21" cy="20" r="2" fill="white" />
-          <circle cx="29" cy="23" r="1.5" fill="white" />
+          <path d="M19 18 Q25 15 31 18 L25 30 Z" stroke="white" stroke-width="2" stroke-linejoin="round" fill="none" />
+          <path d="M19.5 20.5 Q25 18 30.5 20.5" stroke="white" stroke-width="1.5" fill="none" />
+          <circle cx="25" cy="23" r="1.2" fill="white" />
+          <circle cx="22" cy="26" r="1" fill="white" />
+          <circle cx="27" cy="27" r="1" fill="white" />
           
           <!-- Coffee Circle (Yellow) -->
           <circle cx="65" cy="25" r="18" fill="#F1C40F" />
@@ -52,12 +53,15 @@
       </a>
       
       <nav class="nav-links">
-        <a href="#hero">Home</a>
-        <a href="#showcase-1">Oven</a>
-        <a href="#showcase-2">Ingredients</a>
-        <a href="#showcase-3">Styles</a>
-        <a href="#stats">Stats</a>
-        <a href="#order" class="btn-nav-order">Order Now</a>
+        <a href="#hero" data-i18n="nav_home">Home</a>
+        <a href="#showcase-1" data-i18n="nav_oven">Oven</a>
+        <a href="#showcase-2" data-i18n="nav_ingredients">Ingredients</a>
+        <a href="#showcase-3" data-i18n="nav_styles">Styles</a>
+        <a href="#stats" data-i18n="nav_stats">Stats</a>
+        <a href="#order" class="btn-nav-order" data-i18n="nav_order">Order Now</a>
+        <button type="button" class="btn-lang-toggle" style="background: transparent; border: 1px solid rgba(0,0,0,0.1); padding: 0.35rem 0.65rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 0.35rem; color: var(--text-dark); transition: all 0.3s; margin-left: 0.5rem;">
+          <span class="flag-icon">🇬🇧</span> <span class="lang-label">EN</span>
+        </button>
       </nav>
 
       <button class="mobile-nav-toggle" aria-label="Toggle navigation">
@@ -70,12 +74,15 @@
 
   <!-- Mobile Overlay Menu -->
   <div class="mobile-menu">
-    <a href="#hero">Home</a>
-    <a href="#showcase-1">Our Oven</a>
-    <a href="#showcase-2">Ingredients</a>
-    <a href="#showcase-3">Pizza Styles</a>
-    <a href="#stats">Stats</a>
-    <a href="#order" class="btn-mobile-order">Order Online</a>
+    <a href="#hero" data-i18n="nav_home">Home</a>
+    <a href="#showcase-1" data-i18n="nav_oven">Oven</a>
+    <a href="#showcase-2" data-i18n="nav_ingredients">Ingredients</a>
+    <a href="#showcase-3" data-i18n="nav_styles">Styles</a>
+    <a href="#stats" data-i18n="nav_stats">Stats</a>
+    <a href="#order" class="btn-mobile-order" data-i18n="nav_order_mobile">Order Online</a>
+    <button type="button" class="btn-lang-toggle" style="margin-top: 1.5rem; background: rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.1); padding: 0.65rem 1.25rem; border-radius: 30px; font-size: 1rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; color: var(--text-dark); width: 80%; max-width: 250px; margin-left: auto; margin-right: auto; box-sizing: border-box;">
+      <span class="flag-icon">🇬🇧</span> <span class="lang-label">EN</span>
+    </button>
   </div>
 
   <!-- Hero Section -->
@@ -83,14 +90,14 @@
     <div class="hero-background-stripes"></div>
     <div class="container hero-container">
       <div class="hero-content">
-        <h1 class="hero-title">
+        <h1 class="hero-title" data-i18n="hero_title">
           Pizza Colombia offers fresh Neapolitan and New York-style pizzas in Újpest.
         </h1>
-        <p class="hero-subtitle">
+        <p class="hero-subtitle" data-i18n="hero_subtitle">
           View our menu, see upcoming events, and get all essential information in one place.
         </p>
         <div class="hero-actions">
-          <a href="#order" class="btn btn-primary btn-magnetic">
+          <a href="#order" class="btn btn-primary btn-magnetic" data-i18n="hero_btn">
             <span>Explore Menu & Order</span>
             <svg class="arrow-down-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -111,8 +118,8 @@
     <div class="container">
       <div class="showcase-header">
         <div class="accent-line-gradient center"></div>
-        <h2>Authentic Neapolitan Pizza Catering & Pizzeria Experience</h2>
-        <p class="showcase-subtitle">Experience authentic Neapolitan pizza, whether at your event or in our pizzeria.</p>
+        <h2 data-i18n="showcase1_title">Authentic Neapolitan Pizza Catering & Pizzeria Experience</h2>
+        <p class="showcase-subtitle" data-i18n="showcase1_subtitle">Experience authentic Neapolitan pizza, whether at your event or in our pizzeria.</p>
       </div>
 
       <div class="experience-grid">
@@ -122,8 +129,8 @@
             <img src="assets/mobile_oven.png" alt="Professional mobile gas-fired pizza oven catering an outdoor event" class="experience-card-img">
           </div>
           <div class="experience-card-content">
-            <h3 class="experience-card-title">🔥 Mobile Gas Ovens for Off-Site Catering</h3>
-            <p class="experience-card-text">
+            <h3 class="experience-card-title" data-i18n="card1_title">🔥 Mobile Gas Ovens for Off-Site Catering</h3>
+            <p class="experience-card-text" data-i18n="card1_text">
               For corporate events, private functions, birthdays, weddings, and festivals, we bring our professional mobile gas-fired pizza ovens directly to your venue. Operating at temperatures of up to 450°C, these ovens allow us to hand-stretch and bake authentic Neapolitan pizzas fresh on-site in as little as 90 seconds, creating an unforgettable live food experience for your guests.
             </p>
             <div class="badge-container">
@@ -143,16 +150,16 @@
             <img src="assets/pizza_oven.png" alt="Sleek professional electric deck pizza oven inside Pizza Colombia" class="experience-card-img">
           </div>
           <div class="experience-card-content">
-            <h3 class="experience-card-title">⚡ Artisanal Electric Deck Oven for In-House Service</h3>
-            <p class="experience-card-text">
+            <h3 class="experience-card-title" data-i18n="card2_title">⚡ Artisanal Electric Deck Oven for In-House Service</h3>
+            <p class="experience-card-text" data-i18n="card2_text">
               At Pizza Colombia, our electric deck oven forms the heart of our kitchen. Baking at approximately 450°C (840°F), it delivers precise and consistent heat across the stone deck, producing our signature leopard-spotted crust, airy cornicione, and perfectly baked Neapolitan style pizzas every time.
             </p>
             <div class="badge-container">
-              <span class="catering-badge">In-House Dining</span>
-              <span class="catering-badge">Dine-in Excellence</span>
-              <span class="catering-badge">Takeaway Service</span>
-              <span class="catering-badge">Consistent Baking</span>
-              <span class="catering-badge">Leopard-Spotted Crust</span>
+              <span class="catering-badge" data-i18n="badge_dining">In-House Dining</span>
+              <span class="catering-badge" data-i18n="badge_excellence">Dine-in Excellence</span>
+              <span class="catering-badge" data-i18n="badge_takeaway">Takeaway Service</span>
+              <span class="catering-badge" data-i18n="badge_consistent">Consistent Baking</span>
+              <span class="catering-badge" data-i18n="badge_crust">Leopard-Spotted Crust</span>
             </div>
           </div>
         </div>
@@ -163,33 +170,33 @@
         <ul class="features-emoji-list">
           <li class="feature-emoji-item">
             <div class="emoji-circle">🍕</div>
-            <div class="feature-text">Authentic Neapolitan Pizza</div>
+            <div class="feature-text" data-i18n="feature1">Authentic Neapolitan Pizza</div>
           </li>
           <li class="feature-emoji-item">
             <div class="emoji-circle">🔥</div>
-            <div class="feature-text">Mobile Gas Ovens for Events</div>
+            <div class="feature-text" data-i18n="feature2">Mobile Gas Ovens for Events</div>
           </li>
           <li class="feature-emoji-item">
             <div class="emoji-circle">⚡</div>
-            <div class="feature-text">Electric Deck Oven for Pizzeria Service</div>
+            <div class="feature-text" data-i18n="feature3">Electric Deck Oven for Pizzeria Service</div>
           </li>
           <li class="feature-emoji-item">
             <div class="emoji-circle">👨‍🍳</div>
-            <div class="feature-text">Freshly Made Before Your Guests</div>
+            <div class="feature-text" data-i18n="feature4">Freshly Made Before Your Guests</div>
           </li>
           <li class="feature-emoji-item">
             <div class="emoji-circle">🎉</div>
-            <div class="feature-text">Tailored Catering Packages Available</div>
+            <div class="feature-text" data-i18n="feature5">Tailored Catering Packages Available</div>
           </li>
         </ul>
       </div>
 
       <!-- Outro Section -->
       <div class="catering-outro">
-        <p class="catering-outro-text">
+        <p class="catering-outro-text" data-i18n="catering_outro">
           We offer a range of classic and gourmet pizzas, with vegetarian, vegan, and meat options available. From intimate gatherings to large-scale events, we bring the authentic taste of Naples to every occasion.
         </p>
-        <div class="tagline-fired">Fresh. Authentic. Fired with Passion.</div>
+        <div class="tagline-fired" data-i18n="tagline">Fresh. Authentic. Fired with Passion.</div>
       </div>
     </div>
   </section>
@@ -199,15 +206,15 @@
     <div class="container showcase-container reverse">
       <div class="showcase-content-box">
         <div class="accent-line-gradient"></div>
-        <h2 class="showcase-title">Fresh & Premium Ingredients</h2>
-        <p class="showcase-subheading">Exceptional pizza begins with exceptional ingredients.</p>
-        <p class="showcase-text" style="margin-bottom: 1rem;">
+        <h2 class="showcase-title" data-i18n="showcase2_title">Fresh & Premium Ingredients</h2>
+        <p class="showcase-subheading" data-i18n="showcase2_subheading">Exceptional pizza begins with exceptional ingredients.</p>
+        <p class="showcase-text" style="margin-bottom: 1rem;" data-i18n="showcase2_text1">
           We use only carefully selected, high-quality ingredients, starting with <strong>San Marzano tomatoes</strong> creating a naturally sweet and balanced sauce.
         </p>
-        <p class="showcase-text" style="margin-bottom: 1rem;">
+        <p class="showcase-text" style="margin-bottom: 1rem;" data-i18n="showcase2_text2">
           Each pizza is topped with <strong>premium mozzarella</strong> particular for each type of oven (gas or electric), fresh basil, and a drizzle of extra virgin olive oil, complemented by locally sourced produce and quality imported Italian ingredients wherever possible.
         </p>
-        <p class="showcase-text">
+        <p class="showcase-text" data-i18n="showcase2_text3">
           The result is simple, honest food that celebrates the authentic flavours of Naples—fresh, vibrant, and crafted with care in every bite.
         </p>
       </div>
@@ -225,24 +232,24 @@
       </div>
       <div class="showcase-content-box">
         <div class="accent-line-gradient"></div>
-        <h2 class="showcase-title">Neapolitan Meets New York</h2>
-        <p class="showcase-subheading">Why choose one when you can enjoy both?</p>
-        <p class="showcase-text" style="font-weight: 500; margin-bottom: 1rem; color: var(--text-main);">
+        <h2 class="showcase-title" data-i18n="showcase3_title">Neapolitan Meets New York</h2>
+        <p class="showcase-subheading" data-i18n="showcase3_subheading">Why choose one when you can enjoy both?</p>
+        <p class="showcase-text" style="font-weight: 500; margin-bottom: 1rem; color: var(--text-main);" data-i18n="showcase3_text1">
           Experience the best of two pizza traditions.
         </p>
 
         <div class="pizza-comparison-grid">
           <div class="comparison-column col-neapolitan">
-            <h4>🍕 Neapolitan Style</h4>
-            <p>Our handcrafted Neapolitan pizzas feature a light, airy sourdough crust with a soft, tender center and beautifully blistered cornicione, baked at high heat for authentic flavor and texture.</p>
+            <h4 data-i18n="comparison_neapolitan_title">🍕 Neapolitan Style</h4>
+            <p data-i18n="comparison_neapolitan_desc">Our handcrafted Neapolitan pizzas feature a light, airy sourdough crust with a soft, tender center and beautifully blistered cornicione, baked at high heat for authentic flavor and texture.</p>
           </div>
           <div class="comparison-column col-newyork">
-            <h4>🗽 New York Style</h4>
-            <p>Prefer something crispier? Our New York-style pizzas offer a thin, foldable crust with the perfect balance of crunch and chew, topped generously and baked to golden perfection.</p>
+            <h4 data-i18n="comparison_newyork_title">🗽 New York Style</h4>
+            <p data-i18n="comparison_newyork_desc">Prefer something crispier? Our New York-style pizzas offer a thin, foldable crust with the perfect balance of crunch and chew, topped generously and baked to golden perfection.</p>
           </div>
         </div>
 
-        <p class="showcase-text">
+        <p class="showcase-text" data-i18n="showcase3_text2">
           Whether you're craving the artisanal elegance of Naples or the bold, satisfying bite of New York, we've got a pizza for every mood. Perfect for dine-in, takeaway, private events, corporate catering, and mobile pizza experiences. 🍕
         </p>
       </div>
@@ -253,22 +260,22 @@
   <section id="stats" class="stats-section scroll-reveal">
     <div class="container stats-container">
       <div class="stat-card">
-        <p class="stat-kicker">Dual Style</p>
+        <p class="stat-kicker" data-i18n="stat1_kicker">Dual Style</p>
         <div class="stat-number" data-target="450" data-suffix="°C">0°C</div>
-        <p class="stat-label">Neapolitan & New York</p>
-        <p class="stat-desc">Baked at extreme heat to achieve the signature leopard-spotted crust or crisp foldable slice.</p>
+        <p class="stat-label" data-i18n="stat1_label">Neapolitan & New York</p>
+        <p class="stat-desc" data-i18n="stat1_desc">Baked at extreme heat to achieve the signature leopard-spotted crust or crisp foldable slice.</p>
       </div>
       <div class="stat-card">
-        <p class="stat-kicker">Late Hours</p>
+        <p class="stat-kicker" data-i18n="stat2_kicker">Late Hours</p>
         <div class="stat-number" data-target="12" data-suffix="h">0h</div>
-        <p class="stat-label">Continuous Service</p>
-        <p class="stat-desc">Built for easy daytime lunch stops, cozy dinners, and late-night pizza runs in Újpest.</p>
+        <p class="stat-label" data-i18n="stat2_label">Continuous Service</p>
+        <p class="stat-desc" data-i18n="stat2_desc">Built for easy daytime lunch stops, cozy dinners, and late-night pizza runs in Újpest.</p>
       </div>
       <div class="stat-card">
-        <p class="stat-kicker">Fresh First</p>
+        <p class="stat-kicker" data-i18n="stat3_kicker">Fresh First</p>
         <div class="stat-number" data-target="100" data-suffix="%">0%</div>
-        <p class="stat-label">Premium Import Quality</p>
-        <p class="stat-desc">San Marzano tomatoes, premium cheeses, and toppings chosen for authentic flavor instead of filler.</p>
+        <p class="stat-label" data-i18n="stat3_label">Premium Import Quality</p>
+        <p class="stat-desc" data-i18n="stat3_desc">San Marzano tomatoes, premium cheeses, and toppings chosen for authentic flavor instead of filler.</p>
       </div>
     </div>
   </section>
@@ -277,8 +284,8 @@
   <section id="order" class="order-section scroll-reveal">
     <div class="container order-container">
       <div class="accent-line-gradient center"></div>
-      <h2 class="order-title">Taste Pizza Colombia</h2>
-      <p class="order-subtitle">
+      <h2 class="order-title" data-i18n="order_title">Taste Pizza Colombia</h2>
+      <p class="order-subtitle" data-i18n="order_subtitle">
         Browse our digital menu or order delivery directly below!
       </p>
 
@@ -289,32 +296,32 @@
             <div class="wheel-wrapper">
               <div class="wheel-pointer"></div>
               <canvas id="pizza-wheel" width="380" height="380"></canvas>
-              <button id="btn-spin-wheel" class="wheel-center-btn">SPIN</button>
+              <button id="btn-spin-wheel" class="wheel-center-btn" data-i18n="wheel_spin_btn">SPIN</button>
             </div>
           </div>
           
           <div class="wheel-column wheel-info-col">
             <div class="wheel-info-card">
               <div class="wheel-card-header">
-                <h3>🍕 Dine-In Spin & Win!</h3>
-                <p><strong>Available for Eat-In only!</strong> Spin the wheel, take a screenshot of your win, post & tag us on Facebook, Instagram, or TikTok to receive a special <strong>Surprise Pack</strong> on your next visit! 🎁</p>
+                <h3 data-i18n="wheel_title">🍕 Dine-In Spin & Win!</h3>
+                <p data-i18n="wheel_desc"><strong>Available for Eat-In only!</strong> Spin the wheel, take a screenshot of your win, post & tag us on Facebook, Instagram, or TikTok to receive a special <strong>Surprise Pack</strong> on your next visit! 🎁</p>
               </div>
               
               <div id="wheel-status-area" class="wheel-status-area">
                 <div class="wheel-prizes-list">
-                  <div class="prize-row"><span class="prize-dot" style="background-color: #E67E22;"></span><span>🍕 10% Off Bill</span><span class="odds-tag rare">Rare</span></div>
-                  <div class="prize-row"><span class="prize-dot" style="background-color: #F1C40F;"></span><span>🥤 Free Drink</span><span class="odds-tag common">Common</span></div>
-                  <div class="prize-row"><span class="prize-dot" style="background-color: #9B59B6;"></span><span>🎡 Real-Life Spin</span><span class="odds-tag lucky">Lucky</span></div>
-                  <div class="prize-row"><span class="prize-dot" style="background-color: #2ECC71;"></span><span>🍕 5% Off Bill</span><span class="odds-tag common">Common</span></div>
+                  <div class="prize-row"><span class="prize-dot" style="background-color: #E67E22;"></span><span data-i18n="prize_10">🍕 10% Off Bill</span><span class="odds-tag rare" data-i18n="tag_rare">Rare</span></div>
+                  <div class="prize-row"><span class="prize-dot" style="background-color: #F1C40F;"></span><span data-i18n="prize_drink">🥤 Free Drink</span><span class="odds-tag common" data-i18n="tag_common">Common</span></div>
+                  <div class="prize-row"><span class="prize-dot" style="background-color: #9B59B6;"></span><span data-i18n="prize_real">🎡 Real-Life Spin</span><span class="odds-tag lucky" data-i18n="tag_lucky">Lucky</span></div>
+                  <div class="prize-row"><span class="prize-dot" style="background-color: #2ECC71;"></span><span data-i18n="prize_5">🍕 5% Off Bill</span><span class="odds-tag common" data-i18n="tag_common">Common</span></div>
                 </div>
                 <div class="wheel-action-hint">
-                  <p>Click <strong>SPIN</strong> in the center of the pizza to test your luck!</p>
+                  <p data-i18n="wheel_hint">Click <strong>SPIN</strong> in the center of the pizza to test your luck!</p>
                 </div>
               </div>
 
               <!-- Spin Result Card (hidden initially) -->
               <div id="wheel-result-card" class="wheel-result-card hidden">
-                <div class="result-celebration">🎉 DINE-IN WINNER! 🎉</div>
+                <div class="result-celebration" data-i18n="result_celebration_win">🎉 DINE-IN WINNER! 🎉</div>
                 <h4 id="wheel-prize-title">You won 10% Off!</h4>
                 <p id="wheel-prize-desc">Take a screenshot now, post it on your story tagging our official accounts, and show it to our staff when dining in to claim your surprise reward pack!</p>
                 
@@ -343,7 +350,7 @@
                   <span class="camera-emoji">📸</span>
                   <span id="wheel-promo-code" class="promo-code-text">SCREENSHOT WIN</span>
                 </div>
-                <p class="result-terms">Valid for eat-in only. Limit one spin per day. Tag must be active.</p>
+                <p class="result-terms" data-i18n="wheel_terms">Valid for eat-in only. Limit one spin per day. Tag must be active.</p>
               </div>
             </div>
           </div>
@@ -356,7 +363,7 @@
           <svg class="order-brand-icon" viewBox="0 0 24 24" fill="currentColor">
             <path d="M19 7h-1.2c-.4-1.2-1.5-2-2.8-2h-3c-1.3 0-2.4.8-2.8 2H8c-2.2 0-4 1.8-4 4v2c0 2.2 1.8 4 4 4h9c1.7 0 3-1.3 3-3v-4c0-1.7-1.3-3-3-3zm-10 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm8 0c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
           </svg>
-          <span>Order on Wolt</span>
+          <span data-i18n="order_wolt">Order on Wolt</span>
         </a>
 
         <!-- Foodora Order Button -->
@@ -364,7 +371,7 @@
           <svg class="order-brand-icon" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm1 14.5h-2v-2h2v2zm0-4h-2V7h2v5.5z"/>
           </svg>
-          <span>Order on Foodora</span>
+          <span data-i18n="order_foodora">Order on Foodora</span>
         </a>
 
         <!-- Interactive Menu Trigger -->
@@ -372,13 +379,13 @@
           <svg class="order-brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke-linecap="round" />
           </svg>
-          <span>Explore Digital Menu</span>
+          <span data-i18n="order_btn">Explore Digital Menu</span>
         </button>
       </div>
 
       <!-- Social Review Wall -->
       <div class="reviews-section-header">
-        <h3 class="reviews-subtitle">What Our Guests Say</h3>
+        <h3 class="reviews-subtitle" data-i18n="reviews_header">What Our Guests Say</h3>
       </div>
       <div class="reviews-grid">
         <!-- Google Review -->
@@ -388,7 +395,7 @@
               <div class="user-avatar" style="background-color: #E67E22;">PK</div>
               <div class="user-info">
                 <h4 class="user-name">Péter Kiss</h4>
-                <span class="user-title">Local Guide • 18 reviews</span>
+                <span class="user-title" data-i18n="review1_title">Local Guide • 18 reviews</span>
               </div>
             </div>
             <div class="social-source">
@@ -398,7 +405,7 @@
             </div>
           </div>
           <div class="rating-stars">⭐⭐⭐⭐⭐</div>
-          <p class="review-text">
+          <p class="review-text" data-i18n="review1_text">
             "Best Neapolitan pizza in Újpest! The leopard-spotted crust is light, airy, and baked to perfection in their deck oven. Highly recommend the Margherita with extra buffalo mozzarella."
           </p>
           <span class="review-time" data-date="2026-06-10">Google Review • Loading...</span>
@@ -411,7 +418,7 @@
               <div class="user-avatar" style="background-color: #2ECC71;">ZB</div>
               <div class="user-info">
                 <h4 class="user-name">Zsófia B.</h4>
-                <span class="user-title">Recommends Pizza Colombia</span>
+                <span class="user-title" data-i18n="review2_title">Recommends Pizza Colombia</span>
               </div>
             </div>
             <div class="social-source">
@@ -421,7 +428,7 @@
             </div>
           </div>
           <div class="rating-stars">👍 Recommended</div>
-          <p class="review-text">
+          <p class="review-text" data-i18n="review2_text">
             "Great vibes on the terrace and the pizzas are top tier. We got a half-and-half New York style crust which was crispy and foldable. Very friendly staff and fast delivery."
           </p>
           <span class="review-time" data-date="2026-06-06">Facebook • Loading...</span>
@@ -434,7 +441,7 @@
               <div class="user-avatar" style="background-color: #9B59B6;">DM</div>
               <div class="user-info">
                 <h4 class="user-name">david_m92</h4>
-                <span class="user-title">Budapest Foodie</span>
+                <span class="user-title" data-i18n="review3_title">Budapest Foodie</span>
               </div>
             </div>
             <div class="social-source">
@@ -444,7 +451,7 @@
             </div>
           </div>
           <div class="rating-stars">⭐⭐⭐⭐⭐</div>
-          <p class="review-text">
+          <p class="review-text" data-i18n="review3_text">
             "Literally obsessed with their Nutella dough balls (Nutella Golyó) and their White Base pizzas! Truly authentic Italian taste in Budapest. 10/10 local spot!"
           </p>
           <span class="review-time" data-date="2026-05-30">Instagram • Loading...</span>
@@ -456,7 +463,7 @@
         <!-- Card 1: Visit & Hours Dashboard -->
         <div class="info-card hours-card">
           <div class="hours-card-header">
-            <h3>Visit Our Pizzeria</h3>
+            <h3 data-i18n="info_title">Visit Our Pizzeria</h3>
             <span id="pizzeria-status" class="status-badge checking">Checking Status...</span>
           </div>
           
@@ -471,7 +478,7 @@
                   </svg>
                 </span>
                 <div class="info-text">
-                  <strong>Address:</strong>
+                  <strong data-i18n="info_address">Address:</strong>
                   <div class="address-wrapper">
                     <p class="address-text">Pizza Colombia Újpest<br>1048, Budapest, Megyeri út 205/D</p>
                     <button id="btn-copy-address" class="btn-copy-address" title="Copy address to clipboard" data-address="Pizza Colombia Újpest, 1048, Budapest, Megyeri út 205/D">
@@ -491,7 +498,7 @@
                   </svg>
                 </span>
                 <div class="info-text">
-                  <strong>Phone:</strong>
+                  <strong data-i18n="info_phone">Phone:</strong>
                   <p><a href="tel:+36708846991" style="color: inherit; text-decoration: none;">+36 708846991</a></p>
                 </div>
               </div>
@@ -507,7 +514,7 @@
                   </svg>
                 </span>
                 <div class="info-text" style="width: 100%;">
-                  <strong>Opening Hours:</strong>
+                  <strong data-i18n="info_hours">Opening Hours:</strong>
                   <div class="hours-grid hours-list" style="margin-top: 0.5rem;">
                     <p data-day="Monday"><span>Monday</span><span>13:30 – 23:30</span></p>
                     <p data-day="Tuesday"><span>Tuesday</span><span>12:00 – 23:30</span></p>
@@ -554,15 +561,16 @@
     <div class="modal-overlay"></div>
     <div class="modal-container">
       <header class="modal-header">
-        <h2>Pizza Colombia Menu</h2>
+        <h2 data-i18n="modal_title">Pizza Colombia Menu</h2>
         <button id="btn-close-menu" class="modal-close-btn" aria-label="Close menu">&times;</button>
       </header>
       
       <div id="menu-tabs-container" class="modal-tabs">
-        <button class="tab-btn active" data-tab="red-pizzas">Tomato Base Pizzas</button>
-        <button class="tab-btn" data-tab="white-pizzas">Sour Cream Base Pizzas</button>
-        <button class="tab-btn" data-tab="calzones-bread">Calzones & Breads</button>
-        <button class="tab-btn" data-tab="pastas-desserts">Pastas & Desserts</button>
+        <button class="tab-btn active" data-tab="red-pizzas" data-i18n="tab_red">Tomato Base Pizzas</button>
+        <button class="tab-btn" data-tab="white-pizzas" data-i18n="tab_white">Sour Cream Base Pizzas</button>
+        <button class="tab-btn" data-tab="calzones-bread" data-i18n="tab_calzones">Calzones & Breads</button>
+        <button class="tab-btn" data-tab="pastas-desserts" data-i18n="tab_pastas">Pastas & Desserts</button>
+        <button class="tab-btn" data-tab="extras-drinks" data-i18n="tab_extras">Extras & Drinks</button>
       </div>
 
       <div id="menu-content-container" class="modal-content">
@@ -955,8 +963,79 @@
               <h4>🍝 Select Your Pasta</h4>
               <p>Choose from Spaghetti, Penne, or Tagliatelle at no extra charge.</p>
             </div>
-            <div class="customization-card">
-              <h4>🍕 Customize with Extra Toppings</h4>
+          </div>
+        </div>
+
+        <!-- Extras & Drinks -->
+        <div class="menu-tab-pane" id="pane-extras-drinks">
+          <div class="menu-grid">
+            <!-- Dipping Sauces -->
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Garlic Sourcream Dip</span>
+                <span class="menu-item-price">400 Ft</span>
+              </div>
+              <p class="menu-item-desc">Homemade garlic sourcream dipping sauce, perfect for dipping crusts.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-veg">🌱 Veg</span>
+                <span class="badge badge-allergen">Allergens: 7</span>
+              </div>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Spicy Chili Dip</span>
+                <span class="menu-item-price">400 Ft</span>
+              </div>
+              <p class="menu-item-desc">Spicy chili tomato sauce dip for an extra kick.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-vegan">🍃 Vegan</span>
+              </div>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">BBQ Dip</span>
+                <span class="menu-item-price">400 Ft</span>
+              </div>
+              <p class="menu-item-desc">Sweet and smoky barbecue dipping sauce.</p>
+              <div class="menu-item-badges">
+                <span class="badge badge-vegan">🍃 Vegan</span>
+              </div>
+            </div>
+
+            <!-- Drinks -->
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Coca-Cola (0.33l)</span>
+                <span class="menu-item-price">550 Ft</span>
+              </div>
+              <p class="menu-item-desc">Classic, ice-cold refreshing soft drink.</p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Coca-Cola Zero (0.33l)</span>
+                <span class="menu-item-price">550 Ft</span>
+              </div>
+              <p class="menu-item-desc">Classic Coca-Cola taste with zero sugar.</p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Fanta Orange (0.33l)</span>
+                <span class="menu-item-price">550 Ft</span>
+              </div>
+              <p class="menu-item-desc">Sweet and bubbly orange soda drink.</p>
+            </div>
+            <div class="menu-item">
+              <div class="menu-item-header">
+                <span class="menu-item-name">Mineral Water (0.5l)</span>
+                <span class="menu-item-price">450 Ft</span>
+              </div>
+              <p class="menu-item-desc">Still natural mineral water.</p>
+            </div>
+          </div>
+
+          <div class="menu-customizations" style="margin-top: 2rem;">
+            <div class="customization-card" style="width: 100%; max-width: 100%;">
+              <h4 data-i18n="customize_toppings">🍕 Customize with Extra Toppings</h4>
               <div class="toppings-grid">
                 <span class="topping-badge premium">Chicken <strong class="price">+600 Ft</strong></span>
                 <span class="topping-badge premium">Bacon <strong class="price">+600 Ft</strong></span>
@@ -978,7 +1057,7 @@
   <!-- Footer -->
   <footer class="main-footer">
     <div class="container footer-container">
-      <p class="footer-copy">&copy; 2026 Pizza Colombia Újpest. All rights reserved.</p>
+      <p class="footer-copy" data-i18n="footer_rights">&copy; 2026 Pizza Colombia Újpest. All rights reserved.</p>
       <div class="footer-socials">
         <a href="https://www.facebook.com/share/1AqeZmP2rR/?mibextid=wwXIfr" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
           <svg class="social-icon social-facebook" viewBox="0 0 24 24" fill="currentColor">
@@ -998,6 +1077,271 @@
       </div>
     </div>
   </footer>
+
+  <!-- Floating Cart Button -->
+  <button id="btn-floating-cart" class="floating-cart-btn hidden" aria-label="Open Shopping Cart">
+    <div class="cart-icon-wrapper">
+      <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="21" r="1"></circle>
+        <circle cx="20" cy="21" r="1"></circle>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+      </svg>
+      <span id="cart-count" class="cart-count-badge">0</span>
+    </div>
+    <span id="cart-total-floating" class="cart-total-floating">0 Ft</span>
+  </button>
+
+  <!-- Shopping Cart Drawer -->
+  <div id="cart-drawer" class="cart-drawer">
+    <div class="cart-drawer-overlay"></div>
+    <div class="cart-drawer-container">
+      <header class="cart-drawer-header">
+        <h2 id="cart-drawer-title">Your Order 🛒</h2>
+        <button id="btn-close-cart" class="cart-close-btn" aria-label="Close cart">&times;</button>
+      </header>
+      
+      <div class="cart-drawer-content">
+        <!-- Step 1: Cart Items List -->
+        <div id="step-cart" class="drawer-step active">
+          <div id="cart-items-container" class="cart-items-container">
+            <!-- Empty State -->
+            <div class="cart-empty-state">
+              <span class="cart-empty-emoji">🍕</span>
+              <p>Your cart is empty.</p>
+              <p class="empty-sub">Add some delicious pizzas from our menu to get started!</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Step 2: Checkout Form -->
+        <div id="step-checkout" class="drawer-step">
+          <form id="checkout-form" class="checkout-form">
+            <div class="form-section-title" data-i18n="form_title">Delivery Details</div>
+            
+            <div class="form-group">
+              <label for="checkout-name" data-i18n="form_name_label">Full Name *</label>
+              <input type="text" id="checkout-name" required placeholder="John Doe" data-i18n-placeholder="placeholder_name">
+            </div>
+            
+            <div class="form-group">
+              <label for="checkout-phone" data-i18n="form_phone_label">Phone Number *</label>
+              <input type="tel" id="checkout-phone" required placeholder="+36 70 123 4567" data-i18n-placeholder="placeholder_phone">
+            </div>
+            
+            <div class="form-group">
+              <label data-i18n="form_type_label">Order Option *</label>
+              <div class="order-type-toggle">
+                <input type="radio" id="type-pickup" name="order-type" value="pickup" checked>
+                <label for="type-pickup" class="toggle-label label-pickup" data-i18n="form_pickup_toggle">🚶 Pickup</label>
+                
+                <input type="radio" id="type-delivery" name="order-type" value="delivery">
+                <label for="type-delivery" class="toggle-label label-delivery" data-i18n="form_delivery_toggle">🚗 Delivery</label>
+              </div>
+            </div>
+            
+            <div id="delivery-address-group" class="form-group address-group hidden">
+              <div style="margin-bottom: 0.85rem;">
+                <label for="checkout-address" data-i18n="form_address_label">Delivery Address (Street, Number) *</label>
+                <input type="text" id="checkout-address" placeholder="e.g. Megyeri út 205/D" data-i18n-placeholder="placeholder_address">
+              </div>
+              
+              <div class="address-details-row" style="display: flex; gap: 0.65rem; margin-bottom: 0.85rem;">
+                <div class="form-group-sub" style="flex: 1;">
+                  <label for="checkout-floor" data-i18n="form_floor_label">Floor</label>
+                  <input type="text" id="checkout-floor" placeholder="e.g. 3rd" data-i18n-placeholder="placeholder_floor">
+                </div>
+                <div class="form-group-sub" style="flex: 1;">
+                  <label for="checkout-door" data-i18n="form_door_label">Door</label>
+                  <input type="text" id="checkout-door" placeholder="e.g. 12" data-i18n-placeholder="placeholder_door">
+                </div>
+                <div class="form-group-sub" style="flex: 1;">
+                  <label for="checkout-doorbell" data-i18n="form_doorbell_label">Doorbell</label>
+                  <input type="text" id="checkout-doorbell" placeholder="e.g. Kiss / 45" data-i18n-placeholder="placeholder_doorbell">
+                </div>
+              </div>
+              
+              <div style="margin-bottom: 0.25rem;">
+                <label for="checkout-notes" data-i18n="form_notes_label">Notes for Courier</label>
+                <input type="text" id="checkout-notes" placeholder="e.g. Ring code 45, lift is broken" data-i18n-placeholder="placeholder_notes">
+              </div>
+            </div>
+          </form>
+        </div>
+        
+        <!-- Step 3: Order Review Summary -->
+        <div id="step-review" class="drawer-step">
+          <div class="review-summary-card">
+            <div class="summary-section">
+              <h4 data-i18n="review_title">Order Summary</h4>
+              <div id="review-items-list" class="review-items-list">
+                <!-- Items summary injected here -->
+              </div>
+            </div>
+            
+            <div class="summary-divider"></div>
+            
+            <div class="summary-section">
+              <h4 data-i18n="review_details_title">Customer Details</h4>
+              <p><strong data-i18n="review_name_label">Name:</strong> <span id="review-name">-</span></p>
+              <p><strong data-i18n="review_phone_label">Phone:</strong> <span id="review-phone">-</span></p>
+              <p><strong data-i18n="review_method_label">Method:</strong> <span id="review-method">-</span></p>
+              <div id="review-address-box" class="hidden">
+                <p><strong data-i18n="review_address_label">Address:</strong> <span id="review-address">-</span></p>
+              </div>
+              <div id="review-notes-box" class="hidden">
+                <p><strong data-i18n="review_notes_label">Notes:</strong> <span id="review-notes">-</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3.5: Payment Pending -->
+        <div id="step-payment" class="drawer-step success-view">
+          <div class="success-icon-circle" style="background-color: rgba(52, 152, 219, 0.1);">
+            <svg class="checkmark-svg" viewBox="0 0 24 24" fill="none" stroke="#3498DB" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width: 42px; height: 42px; color: #3498DB; margin-top: 19px;">
+              <rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect>
+              <line x1="2" y1="10" x2="22" y2="10"></line>
+            </svg>
+          </div>
+          <h3 data-i18n="payment_pending_title">Payment Pending</h3>
+          <p class="success-instruction">
+            <span data-i18n="payment_pending_instruction">We have opened the secure SumUp payment portal in a new tab. Please pay exactly</span> <strong id="pending-total-amount">0 Ft</strong>.
+            <button type="button" id="btn-copy-payment-amount" class="btn-copy-amount" style="margin-left: 5px; font-size: 0.8rem; padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid rgba(0,0,0,0.15); background: white; cursor: pointer; color: var(--text-dark); display: inline-flex; align-items: center; gap: 0.25rem;">
+              <span data-i18n="btn_copy_amount">📋 Copy Amount</span>
+            </button>
+          </p>
+          <p style="color: #E74C3C; font-size: 0.88rem; font-weight: 600; margin-top: 0.5rem; background-color: rgba(231, 76, 60, 0.08); padding: 0.5rem 0.75rem; border-radius: 6px; border: 1px dashed rgba(231, 76, 60, 0.2); width: 100%; box-sizing: border-box; line-height: 1.4;" data-i18n="payment_pending_warning">
+            ⚠️ IMPORTANT: If your payment is not confirmed in our system, your order will NOT be prepared.
+          </p>
+          <div class="pending-actions" style="display: flex; flex-direction: column; gap: 0.85rem; width: 100%; margin-top: 1rem;">
+            <button type="button" id="btn-payment-done" class="btn btn-primary" style="width: 100%;" data-i18n="btn_payment_done">
+              Done / I Have Paid
+            </button>
+            <button type="button" id="btn-payment-cancel" class="btn btn-secondary" style="width: 100%; border: 1px solid rgba(0,0,0,0.1); background: white; color: var(--text-muted);" data-i18n="btn_payment_cancel">
+              Cancel / Go Back
+            </button>
+          </div>
+        </div>
+
+
+        <!-- Step 4: Success View -->
+        <div id="step-success" class="drawer-step success-view">
+          <div class="success-icon-circle">
+            <svg class="checkmark-svg" viewBox="0 0 52 52">
+              <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none" stroke="#2ECC71" stroke-width="4"/>
+              <path class="checkmark-check" fill="none" stroke="#2ECC71" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" d="M14 27l8 8 16-16"/>
+            </svg>
+          </div>
+          <h3 data-i18n="success_title">Order Submitted!</h3>
+          <p class="success-instruction" data-i18n="success_instruction">We have received your order details. Your pizza will be prepared as soon as your payment is verified! 🍕</p>
+          <p style="color: #E74C3C; font-size: 0.88rem; font-weight: 600; margin-top: 0.5rem; background-color: rgba(231, 76, 60, 0.08); padding: 0.5rem 0.75rem; border-radius: 6px; border: 1px dashed rgba(231, 76, 60, 0.2); width: 100%; box-sizing: border-box; line-height: 1.4;" data-i18n="success_warning">
+            ⚠️ NOTE: If payment is not confirmed on SumUp, your order will NOT be prepared.
+          </p>
+          <div class="success-details">
+            <p>
+              <span data-i18n="success_total_label">Total Amount:</span> <strong id="success-total-amount">0 Ft</strong>
+              <button type="button" id="btn-copy-success-amount" class="btn-copy-amount" style="margin-left: 5px; font-size: 0.8rem; padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid rgba(0,0,0,0.15); background: white; cursor: pointer; color: var(--text-dark); display: inline-flex; align-items: center; gap: 0.25rem;">
+                <span data-i18n="btn_copy_amount">📋 Copy Amount</span>
+              </button>
+            </p>
+          </div>
+          <button id="btn-success-close" class="btn btn-primary" style="margin-top: 2rem; width: 100%;" data-i18n="btn_success_close">
+            Done / Order Again
+          </button>
+        </div>
+      </div>
+      
+      <!-- Cart Footer / Sticky summary -->
+      <footer id="cart-drawer-footer" class="cart-drawer-footer hidden">
+        <div class="cart-summary-row">
+          <span data-i18n="cart_subtotal_label">Subtotal:</span>
+          <span id="cart-summary-subtotal">0 Ft</span>
+        </div>
+        <div id="delivery-fee-row" class="cart-summary-row fee-row hidden">
+          <span data-i18n="cart_delivery_label">Delivery Fee:</span>
+          <span id="cart-summary-delivery">800 Ft</span>
+        </div>
+        <div class="cart-summary-row total-row">
+          <span data-i18n="cart_total_label">Total:</span>
+          <span id="cart-summary-total">0 Ft</span>
+        </div>
+        
+        <div class="cart-footer-actions">
+          <!-- Step 1 Button -->
+          <button type="button" id="btn-goto-checkout" class="btn btn-primary btn-footer-action active">
+            <span>Proceed to Checkout</span>
+            <svg class="order-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+
+          <!-- Step 2 Buttons -->
+          <div id="checkout-buttons-group" class="cart-footer-btn-group hidden">
+            <button type="button" id="btn-back-to-cart" class="btn btn-secondary btn-back-action">Back</button>
+            <button type="button" id="btn-goto-review" class="btn btn-primary btn-footer-action">
+              <span>Review Order</span>
+            </button>
+          </div>
+
+          <!-- Step 3 Buttons -->
+          <div id="review-buttons-group" class="cart-footer-btn-group hidden">
+            <button type="button" id="btn-back-to-checkout" class="btn btn-secondary btn-back-action">Edit Info</button>
+            <button type="button" id="btn-pay-sumup" class="btn btn-primary btn-pay-action">
+              <span>Pay with SumUp</span>
+            </button>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Chef Verification Modal Overlay -->
+  <div id="verification-modal" class="modal-overlay hidden" style="z-index: 100000; backdrop-filter: blur(8px); background-color: rgba(0, 0, 0, 0.65); display: flex; align-items: center; justify-content: center; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;">
+    <div class="modal-container" style="max-width: 420px; width: 90%; padding: 2rem; border-radius: 20px; background: white; box-shadow: 0 15px 35px rgba(0,0,0,0.25); text-align: center; position: relative; max-height: 90vh; overflow-y: auto;">
+      <div class="chef-loader-container" style="margin: 0 auto 1.5rem auto;">
+        <div class="chef-emoji-pulse">🧑‍🍳</div>
+        <div class="glowing-ring" id="verification-ring"></div>
+      </div>
+      <h3 style="font-family: var(--font-heading); font-weight: 700; margin-bottom: 0.75rem;" data-i18n="verification_title">Awaiting Chef Confirmation</h3>
+      <p id="verification-instruction-text" style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 0.5rem;" data-i18n="verification_instruction">We are matching your WhatsApp order details with your SumUp payment. Once the kitchen confirms your payment, click the confirmation button below.</p>
+      <p style="color: #E74C3C; font-size: 0.82rem; font-weight: 600; background-color: rgba(231, 76, 60, 0.08); padding: 0.4rem 0.6rem; border-radius: 6px; border: 1px dashed rgba(231, 76, 60, 0.2); box-sizing: border-box; margin: 0.5rem 0;" data-i18n="verification_warning">
+        ⚠️ If payment is not confirmed, your order will NOT be prepared.
+      </p>
+      
+      <!-- Timer Display -->
+      <div class="timer-box">
+        <span class="timer-label" data-i18n="verification_timer_label">Estimated Verification Time</span>
+        <div class="timer-countdown" id="verification-timer">03:00</div>
+      </div>
+
+      <div class="pulse-indicator" style="margin-bottom: 1rem;">
+        <span id="verification-pulse-dot" class="pulse-dot-green"></span>
+        <span id="verification-pulse-text" data-i18n="verification_pulse_text">Waiting for kitchen response...</span>
+      </div>
+
+      <!-- Actions Container -->
+      <div id="verification-actions-container" style="display: flex; flex-direction: column; gap: 0.75rem; width: 100%; margin-top: 1rem; box-sizing: border-box;">
+        <!-- Primary Confirmation Button -->
+        <button type="button" id="btn-chef-confirmed" class="btn btn-primary" style="width: 100%; background-color: #2ECC71; border-color: #2ECC71; color: white; padding: 0.85rem; font-size: 1rem; font-weight: 600; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; cursor: pointer;">
+          <span data-i18n="btn_chef_confirmed">Kitchen Has Confirmed ✅</span>
+        </button>
+        
+        <!-- Contact Buttons (Hidden initially, shown on timeout/issue) -->
+        <div id="verification-contact-group" class="hidden" style="display: flex; flex-direction: column; gap: 0.75rem; width: 100%;">
+          <button type="button" id="btn-verification-whatsapp" class="btn btn-primary" style="width: 100%; background-color: #25D366; border-color: #25D366; color: white; padding: 0.85rem; font-size: 1.05rem; font-weight: 600; border-radius: 12px; cursor: pointer;">
+            <span data-i18n="btn_verification_whatsapp">💬 Contact Chef on WhatsApp</span>
+          </button>
+          <a href="tel:+36708846991" id="btn-verification-call" class="btn btn-secondary" style="width: 100%; border: 1px solid rgba(0,0,0,0.15); background: white; color: var(--text-dark); padding: 0.85rem; font-size: 1.05rem; font-weight: 600; border-radius: 12px; text-decoration: none; display: inline-block; box-sizing: border-box;">
+            <span data-i18n="btn_verification_call">📞 Call Kitchen (+36 70 884 6991)</span>
+          </a>
+          <button type="button" id="btn-verification-cancel" class="btn btn-secondary" style="width: 100%; border: none; background: transparent; color: var(--text-muted); text-decoration: underline; font-size: 0.9rem; cursor: pointer; padding: 0.5rem;">
+            <span data-i18n="btn_verification_cancel">Cancel / Go Back</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Confetti Particle Overlay -->
   <canvas id="confetti-canvas"></canvas>
