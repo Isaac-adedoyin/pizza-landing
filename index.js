@@ -52,7 +52,25 @@ function parseCSV(text) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  let currentLang = localStorage.getItem('pizza_lang') || 'en';
+  // Safe localStorage helper functions to prevent crashes in private modes/safari
+  const safeGetItem = (key) => {
+    try {
+      return localStorage.getItem(key);
+    } catch (e) {
+      console.warn('localStorage is not accessible:', e);
+      return null;
+    }
+  };
+
+  const safeSetItem = (key, value) => {
+    try {
+      localStorage.setItem(key, value);
+    } catch (e) {
+      console.warn('localStorage could not save:', e);
+    }
+  };
+
+  let currentLang = safeGetItem('pizza_lang') || 'en';
 
   // 1. Navigation Scroll State
   const navbar = document.querySelector('.navbar');
@@ -636,7 +654,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const validateWheelForm = () => {
-    if (localStorage.getItem('pizza_wheel_prize') !== null) {
+    if (safeGetItem('pizza_wheel_prize') !== null) {
       if (btnSpinWheel) btnSpinWheel.classList.add('disabled');
       return false;
     }
@@ -686,7 +704,7 @@ document.addEventListener('DOMContentLoaded', () => {
     drawWheel();
 
     // Check localStorage
-    const savedPrizeIndex = localStorage.getItem('pizza_wheel_prize');
+    const savedPrizeIndex = safeGetItem('pizza_wheel_prize');
     if (savedPrizeIndex !== null) {
       const idx = parseInt(savedPrizeIndex, 10);
       const prize = prizes[idx];
@@ -707,7 +725,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let isSpinning = false;
 
     btnSpinWheel.addEventListener('click', () => {
-      if (isSpinning || localStorage.getItem('pizza_wheel_prize') !== null) return;
+      if (isSpinning || safeGetItem('pizza_wheel_prize') !== null) return;
 
       // Validate inputs
       const nameVal = leadNameInput ? leadNameInput.value.trim() : '';
@@ -741,7 +759,7 @@ document.addEventListener('DOMContentLoaded', () => {
         pizzaWheel.removeEventListener('transitionend', handler);
         isSpinning = false;
         
-        localStorage.setItem('pizza_wheel_prize', winIndex);
+        safeSetItem('pizza_wheel_prize', winIndex);
         saveWheelLead(nameVal, contactVal, prize);
         showPrizeResult(prize, false);
       });
@@ -2319,7 +2337,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const selectedLang = btn.getAttribute('data-lang');
       if (selectedLang && selectedLang !== currentLang) {
         currentLang = selectedLang;
-        localStorage.setItem('pizza_lang', currentLang);
+        safeSetItem('pizza_lang', currentLang);
         updateLanguageUI();
       }
     });
