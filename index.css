@@ -3618,3 +3618,45 @@ input[type="checkbox"]:checked::after {
   margin-bottom: 2px;
 }
 
+/* Premium Language Selector Group */
+.lang-selector {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 0.2rem 0.4rem;
+  border-radius: 30px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.btn-lang-select {
+  background: transparent;
+  border: none;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #7F8C8D;
+  cursor: pointer;
+  padding: 0.3rem 0.6rem;
+  border-radius: 20px;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.btn-lang-select:hover {
+  color: var(--primary);
+}
+
+.btn-lang-select.active {
+  color: var(--text-dark) !important;
+  background-color: var(--bg-white) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.lang-separator {
+  color: rgba(0, 0, 0, 0.2);
+  font-size: 0.8rem;
+  user-select: none;
+}
+

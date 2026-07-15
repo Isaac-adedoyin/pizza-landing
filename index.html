@@ -64,9 +64,11 @@
       </nav>
 
       <div class="navbar-right" style="display: flex; align-items: center; gap: 0.75rem;">
-        <button type="button" class="btn-lang-toggle" style="background: transparent; border: 1px solid rgba(0,0,0,0.1); padding: 0.35rem 0.65rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 0.35rem; color: var(--text-dark); transition: all 0.3s;">
-          <span class="flag-icon">🇬🇧</span> <span class="lang-label">EN</span>
-        </button>
+        <div class="lang-selector">
+          <button type="button" class="btn-lang-select" data-lang="en">🇬🇧 EN</button>
+          <span class="lang-separator">|</span>
+          <button type="button" class="btn-lang-select" data-lang="hu">🇭🇺 HU</button>
+        </div>
         <button class="mobile-nav-toggle" aria-label="Toggle navigation">
           <span></span>
           <span></span>
@@ -86,9 +88,11 @@
     <a href="#catering" data-i18n="nav_catering">Batch Order</a>
     <a href="#careers" data-i18n="nav_careers">Join Us</a>
     <a href="#order-actions" class="btn-mobile-order" data-i18n="nav_order_mobile">Order Online</a>
-    <button type="button" class="btn-lang-toggle" style="margin-top: 1.5rem; background: rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.1); padding: 0.65rem 1.25rem; border-radius: 30px; font-size: 1rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; color: var(--text-dark); width: 80%; max-width: 250px; margin-left: auto; margin-right: auto; box-sizing: border-box;">
-      <span class="flag-icon">🇬🇧</span> <span class="lang-label">EN</span>
-    </button>
+    <div class="lang-selector" style="margin-top: 1.5rem; display: inline-flex; justify-content: center; gap: 0.5rem; align-items: center; width: auto; margin-left: auto; margin-right: auto; box-sizing: border-box;">
+      <button type="button" class="btn-lang-select" data-lang="en">🇬🇧 EN</button>
+      <span class="lang-separator">|</span>
+      <button type="button" class="btn-lang-select" data-lang="hu">🇭🇺 HU</button>
+    </div>
   </div>
 
   <!-- Hero Section -->

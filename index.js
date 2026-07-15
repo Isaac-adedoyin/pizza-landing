@@ -2242,16 +2242,13 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // 3. Flags and label toggler updates
-    document.querySelectorAll('.btn-lang-toggle').forEach(btn => {
-      const flagEl = btn.querySelector('.flag-icon');
-      const labelEl = btn.querySelector('.lang-label');
-      if (currentLang === 'hu') {
-        if (flagEl) flagEl.innerText = '🇭🇺';
-        if (labelEl) labelEl.innerText = 'HU';
+    // 3. Update active states on side-by-side selectors
+    document.querySelectorAll('.btn-lang-select').forEach(btn => {
+      const btnLang = btn.getAttribute('data-lang');
+      if (btnLang === currentLang) {
+        btn.classList.add('active');
       } else {
-        if (flagEl) flagEl.innerText = '🇬🇧';
-        if (labelEl) labelEl.innerText = 'EN';
+        btn.classList.remove('active');
       }
     });
 
@@ -2315,13 +2312,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // Bind language switcher buttons
-  document.querySelectorAll('.btn-lang-toggle').forEach(btn => {
+  // Bind language selector buttons
+  document.querySelectorAll('.btn-lang-select').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
-      currentLang = currentLang === 'en' ? 'hu' : 'en';
-      localStorage.setItem('pizza_lang', currentLang);
-      updateLanguageUI();
+      const selectedLang = btn.getAttribute('data-lang');
+      if (selectedLang && selectedLang !== currentLang) {
+        currentLang = selectedLang;
+        localStorage.setItem('pizza_lang', currentLang);
+        updateLanguageUI();
+      }
     });
   });
 
