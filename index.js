@@ -2307,8 +2307,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Update careers selected position translation
-    if (typeof updatePositionUI === 'function') {
-      updatePositionUI();
+    if (typeof window.updatePositionUI === 'function') {
+      window.updatePositionUI();
     }
   };
 
@@ -2617,8 +2617,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const pos = row.getAttribute('data-position');
       if (pos) {
         selectedPosition = pos;
-        if (typeof updatePositionUI === 'function') {
-          updatePositionUI();
+        if (typeof window.updatePositionUI === 'function') {
+          window.updatePositionUI();
         }
       }
       validateJobForm();
@@ -2706,8 +2706,8 @@ document.addEventListener('DOMContentLoaded', () => {
           const defaultCard = document.querySelector('.careers-pos-row[data-position="Pizza Chef"]');
           if (defaultCard) defaultCard.classList.add('selected');
           selectedPosition = "Pizza Chef";
-          if (typeof updatePositionUI === 'function') {
-            updatePositionUI();
+          if (typeof window.updatePositionUI === 'function') {
+            window.updatePositionUI();
           }
 
           validateJobForm();
