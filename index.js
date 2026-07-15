@@ -12,7 +12,10 @@ const CONFIG = {
   // Configurable SumUp payment link
   sumupPaymentLink: "https://pay.sumup.com/b2c/Q2NFISOS",
   // Restaurant WhatsApp Phone Number for receiving orders
-  whatsappNumber: "36708846991"
+  whatsappNumber: "36708846991",
+  // Configurable Google Apps Script Web App URL to save wheel spins directly to a Google Sheet.
+  // Example: 'https://script.google.com/macros/s/.../exec'
+  wheelLeadsUrl: "https://script.google.com/macros/s/AKfycbxvEED6ycKlp_BoVF7ScK_EVWEyXK6yZvlhPigfJOP4MFnv3mPtbop4i_5_HING34NJ/exec"
 };
 
 // Simple but robust CSV parser handling commas and quotes inside fields
@@ -53,13 +56,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 1. Navigation Scroll State
   const navbar = document.querySelector('.navbar');
+  let scrollTimeout = false;
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-      navbar.classList.add('scrolled');
-    } else {
-      navbar.classList.remove('scrolled');
+    if (!scrollTimeout) {
+      window.requestAnimationFrame(() => {
+        if (window.scrollY > 50) {
+          navbar.classList.add('scrolled');
+        } else {
+          navbar.classList.remove('scrolled');
+        }
+        scrollTimeout = false;
+      });
+      scrollTimeout = true;
     }
-  });
+  }, { passive: true });
 
   // 2. Mobile Menu Toggle
   const mobileToggle = document.querySelector('.mobile-nav-toggle');
@@ -346,31 +356,47 @@ document.addEventListener('DOMContentLoaded', () => {
       
       // Opening hours schedule (startHr, startMin, endHr, endMin)
       const schedule = {
-        Monday: [13, 30, 23, 30],
-        Tuesday: [12, 0, 23, 30],
-        Wednesday: [12, 0, 23, 30],
-        Thursday: [12, 0, 23, 30],
-        Friday: [11, 30, 23, 30],
-        Saturday: [11, 30, 23, 30],
-        Sunday: [11, 30, 23, 30]
+        Monday: { startH: 13, startM: 30, endH: 23, endM: 30 },
+        Tuesday: { startH: 12, startM: 0, endH: 23, endM: 30 },
+        Wednesday: { startH: 12, startM: 0, endH: 23, endM: 30 },
+        Thursday: { startH: 12, startM: 0, endH: 23, endM: 30 },
+        Friday: { startH: 11, startM: 30, endH: 25, endM: 30 }, // 01:30 next day
+        Saturday: { startH: 11, startM: 30, endH: 25, endM: 30 }, // 01:30 next day
+        Sunday: { startH: 11, startM: 30, endH: 25, endM: 30 } // 01:30 next day
       };
       
-      const currentDayHours = schedule[day];
-      if (currentDayHours) {
-        const [startH, startM, endH, endM] = currentDayHours;
-        const currentMinutes = hour * 60 + minute;
-        const startMinutes = startH * 60 + startM;
-        const endMinutes = endH * 60 + endM;
-        
-        const isOpen = currentMinutes >= startMinutes && currentMinutes <= endMinutes;
-        
-        if (isOpen) {
-          statusBadge.innerText = currentLang === 'hu' ? 'Nyitva' : 'Open Now';
-          statusBadge.className = 'status-badge open';
-        } else {
-          statusBadge.innerText = currentLang === 'hu' ? 'Zárva' : 'Closed';
-          statusBadge.className = 'status-badge closed';
+      const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      const todayIndex = daysOfWeek.indexOf(day);
+      const yesterday = daysOfWeek[(todayIndex + 6) % 7];
+      
+      const currentMinutes = hour * 60 + minute;
+      let isOpen = false;
+
+      // Check today's standard slot
+      const todaySched = schedule[day];
+      if (todaySched) {
+        const startMins = todaySched.startH * 60 + todaySched.startM;
+        const endMins = todaySched.endH * 60 + todaySched.endM;
+        if (currentMinutes >= startMins && currentMinutes <= endMins) {
+          isOpen = true;
         }
+      }
+
+      // Check yesterday's late-night overflow slot
+      const yesterdaySched = schedule[yesterday];
+      if (!isOpen && yesterdaySched && yesterdaySched.endH >= 24) {
+        const overflowLimit = (yesterdaySched.endH - 24) * 60 + yesterdaySched.endM;
+        if (currentMinutes <= overflowLimit) {
+          isOpen = true;
+        }
+      }
+
+      if (isOpen) {
+        statusBadge.innerText = currentLang === 'hu' ? 'Nyitva' : 'Open Now';
+        statusBadge.className = 'status-badge open';
+      } else {
+        statusBadge.innerText = currentLang === 'hu' ? 'Zárva' : 'Closed';
+        statusBadge.className = 'status-badge closed';
       }
 
       // Highlight current day row
@@ -391,14 +417,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // Spin the Pizza Wheel Logic
   // ==========================================================================
   const prizes = [
-    { text: '5% Off Bill', color: '#E74C3C', textCol: '#ffffff', code: 'COLOMBIA-5', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest, and show it to our staff when dining in to claim your Surprise Pack.' },
-    { text: 'Free Drink', color: '#F1C40F', textCol: '#2C3E50', code: 'FREE-DRINK', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest, and show it to our staff when dining in to claim your Surprise Pack.' },
-    { text: 'Try Again', color: '#BDC3C7', textCol: '#2C3E50', code: '', desc: 'No luck this time! Spin again tomorrow.' },
-    { text: '10% Off Bill', color: '#E67E22', textCol: '#ffffff', code: 'COLOMBIA-10', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest, and show it to our staff when dining in to claim your Surprise Pack.' },
-    { text: 'Free Drink', color: '#F1C40F', textCol: '#2C3E50', code: 'FREE-DRINK', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest, and show it to our staff when dining in to claim your Surprise Pack.' },
-    { text: 'Real Spin', color: '#9B59B6', textCol: '#ffffff', code: 'EATIN-SPIN', desc: 'You won a Real-Life Spin at our pizzeria! Take a screenshot now, post & tag us on Facebook/Instagram, and show this screen to our staff when dining in to spin our physical wheel for a surprise reward! 🎡' },
-    { text: 'Free Nutella', color: '#2ECC71', textCol: '#ffffff', code: 'FREE-NUTELLA', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest, and show it to our staff when dining in to claim your Surprise Pack.' },
-    { text: 'Try Again', color: '#BDC3C7', textCol: '#2C3E50', code: '', desc: 'No luck today! Spin again tomorrow.' }
+    { text: 'Buy 1 Get 1 Free', color: '#E74C3C', textCol: '#ffffff', code: 'COLOMBIA-BOGO', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest on Facebook/Instagram/TikTok to receive your bonus gift! 🍕' },
+    { text: '50% Off 2nd Pizza', color: '#E67E22', textCol: '#ffffff', code: 'COLOMBIA-50', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest on Facebook/Instagram/TikTok to receive your bonus gift! 🍕' },
+    { text: 'Free 500ml Drink', color: '#F1C40F', textCol: '#2C3E50', code: 'DRINK-500ML', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest on Facebook/Instagram/TikTok to receive your bonus gift! 🥤' },
+    { text: 'Spin Again', color: '#BDC3C7', textCol: '#2C3E50', code: '', desc: 'No luck this time! Spin again tomorrow.' },
+    { text: 'Free 1000ml Drink', color: '#F1C40F', textCol: '#2C3E50', code: 'DRINK-1000ML', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest on Facebook/Instagram/TikTok to receive your bonus gift! 🥤' },
+    { text: 'Free Drink Upgrade', color: '#1ABC9C', textCol: '#ffffff', code: 'DRINK-UPGRADE', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest on Facebook/Instagram/TikTok to receive your bonus gift! 🥤' },
+    { text: 'Free Daily Dessert', color: '#2ECC71', textCol: '#ffffff', code: 'FREE-DESSERT', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest on Facebook/Instagram/TikTok to receive your bonus gift! 🍰' },
+    { text: 'Spin Again', color: '#BDC3C7', textCol: '#2C3E50', code: '', desc: 'No luck today! Spin again tomorrow.' }
   ];
 
   const pizzaWheel = document.getElementById('pizza-wheel');
@@ -409,6 +435,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const prizeDesc = document.getElementById('wheel-prize-desc');
   const promoCodeText = document.getElementById('wheel-promo-code');
   const btnCopyPromo = document.getElementById('btn-copy-promo');
+
+  const leadNameInput = document.getElementById('wheel-lead-name');
+  const leadContactInput = document.getElementById('wheel-lead-contact');
+  const leadFormContainer = document.getElementById('wheel-lead-form');
+  const spinHintText = document.getElementById('wheel-spin-hint');
+  const leadPrivacyInput = document.getElementById('wheel-lead-privacy');
 
   // Confetti Particle Engine
   let confettiActive = false;
@@ -548,7 +580,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.translate(cx, cy);
       ctx.rotate(midAngle);
       ctx.fillStyle = prize.textCol;
-      ctx.font = 'bold 12px sans-serif';
+      ctx.font = 'bold 14px Outfit, sans-serif';
       ctx.textAlign = 'right';
       ctx.textBaseline = 'middle';
       const textToDraw = currentLang === 'hu' ? (wheelTranslations.hu[prize.text]?.text || prize.text) : prize.text;
@@ -569,10 +601,14 @@ document.addEventListener('DOMContentLoaded', () => {
   function showPrizeResult(prize, alreadySpun) {
     if (alreadySpun) {
       const winIndex = prizes.indexOf(prize);
-      const targetDegrees = 270 - (winIndex * 45) - 22.5;
+      const sliceDegrees = 360 / prizes.length;
+      const targetDegrees = 270 - (winIndex * sliceDegrees) - (sliceDegrees / 2);
       pizzaWheel.style.transition = 'none';
       pizzaWheel.style.transform = `rotate(${targetDegrees}deg)`;
     }
+
+    if (leadFormContainer) leadFormContainer.classList.add('hidden');
+    if (spinHintText) spinHintText.classList.add('hidden');
 
     btnSpinWheel.classList.add('disabled');
     btnSpinWheel.innerText = currentLang === 'hu' ? 'PÖRGETVE' : 'SPUN';
@@ -599,6 +635,53 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  const validateWheelForm = () => {
+    if (localStorage.getItem('pizza_wheel_prize') !== null) {
+      if (btnSpinWheel) btnSpinWheel.classList.add('disabled');
+      return false;
+    }
+
+    const nameVal = leadNameInput ? leadNameInput.value.trim() : '';
+    const contactVal = leadContactInput ? leadContactInput.value.trim() : '';
+    const isPrivacyAccepted = leadPrivacyInput ? leadPrivacyInput.checked : false;
+
+    const isNameValid = nameVal.length >= 2;
+    const isContactValid = contactVal.length >= 5;
+
+    if (isNameValid && isContactValid && isPrivacyAccepted) {
+      if (btnSpinWheel) btnSpinWheel.classList.remove('disabled');
+      const errorEl = document.getElementById('wheel-form-error');
+      if (errorEl) errorEl.classList.add('hidden');
+      return true;
+    } else {
+      if (btnSpinWheel) btnSpinWheel.classList.add('disabled');
+      return false;
+    }
+  };
+
+  async function saveWheelLead(name, contact, prize) {
+    // Push to Google Sheet Web App if configured
+    if (CONFIG.wheelLeadsUrl) {
+      try {
+        const leadData = {
+          name: name,
+          contact: contact,
+          prize: prize.text,
+          code: prize.code || 'N/A'
+        };
+
+        await fetch(CONFIG.wheelLeadsUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          body: JSON.stringify(leadData)
+        });
+        console.log('Lead successfully pushed to Google Sheet.');
+      } catch (err) {
+        console.error('Error pushing lead to Google Sheet:', err);
+      }
+    }
+  }
+
   if (pizzaWheel && btnSpinWheel) {
     drawWheel();
 
@@ -608,6 +691,17 @@ document.addEventListener('DOMContentLoaded', () => {
       const idx = parseInt(savedPrizeIndex, 10);
       const prize = prizes[idx];
       showPrizeResult(prize, true);
+    } else {
+      // Setup lead validation listeners if not spun yet
+      if (leadNameInput && leadContactInput) {
+        leadNameInput.addEventListener('input', validateWheelForm);
+        leadContactInput.addEventListener('input', validateWheelForm);
+        if (leadPrivacyInput) {
+          leadPrivacyInput.addEventListener('change', validateWheelForm);
+        }
+        // Initial call
+        validateWheelForm();
+      }
     }
 
     let isSpinning = false;
@@ -615,16 +709,31 @@ document.addEventListener('DOMContentLoaded', () => {
     btnSpinWheel.addEventListener('click', () => {
       if (isSpinning || localStorage.getItem('pizza_wheel_prize') !== null) return;
 
+      // Validate inputs
+      const nameVal = leadNameInput ? leadNameInput.value.trim() : '';
+      const contactVal = leadContactInput ? leadContactInput.value.trim() : '';
+      const privacyVal = leadPrivacyInput ? leadPrivacyInput.checked : false;
+
+      if (nameVal.length < 2 || contactVal.length < 5 || !privacyVal) {
+        const errorEl = document.getElementById('wheel-form-error');
+        if (errorEl) {
+          errorEl.innerText = currentLang === 'hu' ? 'Kérjük, fogadd el az adatkezelési hozzájárulást!' : 'Please accept the data processing consent!';
+          errorEl.classList.remove('hidden');
+        }
+        return;
+      }
+
       isSpinning = true;
       btnSpinWheel.classList.add('disabled');
 
       // Random winner based on odds weightings
-      const pool = [0, 0, 0, 1, 1, 1, 2, 3, 4, 4, 4, 5, 6, 7];
+      const pool = [0, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 5, 5, 5, 5, 6, 6, 7, 7, 7];
       const winIndex = pool[Math.floor(Math.random() * pool.length)];
       const prize = prizes[winIndex];
 
       const fullSpins = 5;
-      const targetDegrees = (fullSpins * 360) + (270 - (winIndex * 45) - 22.5);
+      const sliceDegrees = 360 / prizes.length;
+      const targetDegrees = (fullSpins * 360) + (270 - (winIndex * sliceDegrees) - (sliceDegrees / 2));
 
       pizzaWheel.style.transform = `rotate(${targetDegrees}deg)`;
 
@@ -633,6 +742,7 @@ document.addEventListener('DOMContentLoaded', () => {
         isSpinning = false;
         
         localStorage.setItem('pizza_wheel_prize', winIndex);
+        saveWheelLead(nameVal, contactVal, prize);
         showPrizeResult(prize, false);
       });
     });
@@ -1621,14 +1731,19 @@ document.addEventListener('DOMContentLoaded', () => {
       order_title: 'Taste Pizza Colombia',
       order_subtitle: 'Browse our digital menu or order delivery directly below!',
       wheel_title: '🍕 Dine-In Spin & Win!',
-      wheel_desc: 'Available for Eat-In only! Spin the wheel, take a screenshot of your win, post & tag us on Facebook, Instagram, or TikTok to receive a special Surprise Pack on your next visit! 🎁',
-      prize_10: '🍕 10% Off Bill',
+      wheel_desc: 'Available for Eat-In only! Spin the wheel, take a screenshot of your win, post & tag us on Facebook, Instagram, or TikTok to receive a special Bonus Gift on your next visit! 🎁',
+      wheel_form_title: 'Enter details to spin the wheel! 🎁',
+      placeholder_contact_lead: 'Email or Phone Number',
+      wheel_privacy_label: 'I agree to the processing of my data to claim the prize.',
+      prize_bogo: '🍕 Buy 1 Get 1 Free',
+      prize_50_second: '🍕 50% Off 2nd Pizza',
+      prize_drink_500: '🥤 Free 500ml Drink',
+      prize_drink_1000: '🥤 Free 1000ml Drink',
+      prize_drink_upgrade: '🥤 Free Drink Upgrade',
+      prize_daily_dessert: '🍰 Free Daily Dessert',
       tag_rare: 'Rare',
-      prize_drink: '🥤 Free Drink',
       tag_common: 'Common',
-      prize_real: '🎡 Real-Life Spin',
       tag_lucky: 'Lucky',
-      prize_5: '🍕 5% Off Bill',
       wheel_hint: 'Click SPIN in the center of the pizza to test your luck!',
       wheel_spin_btn: 'SPIN',
       result_celebration_win: '🎉 DINE-IN WINNER! 🎉',
@@ -1701,8 +1816,85 @@ document.addEventListener('DOMContentLoaded', () => {
       placeholder_address: 'e.g. Megyeri út 205/D',
       placeholder_floor: 'e.g. 3rd',
       placeholder_door: 'e.g. 12',
-      placeholder_doorbell: 'e.g. Kiss / 45',
-      placeholder_notes: 'e.g. Ring code 45, lift is broken'
+      placeholder_notes: 'e.g. Ring code 45, lift is broken',
+      nav_catering: 'Batch Order',
+      catering_title: 'Corporate & Batch Ordering',
+      catering_subtitle: 'Order in batch for offices, team events, meetings and site deliveries directly below!',
+      catering_options_header: 'Batch Delivery to Site Options',
+      catering_options_desc: 'Select quantities for each package option',
+      catering_pizza_name: 'Pizza Batch',
+      catering_pizza_desc: 'Authentic Neapolitan & NY styles',
+      catering_meals_name: 'Standard Meals',
+      catering_meals_desc: 'Complete daily lunch main courses',
+      catering_chicken_name: 'Chicken Plates',
+      catering_chicken_desc: 'Fresh roasted & breaded chicken meals',
+      catering_sandwich_name: 'Sandwich Platters',
+      catering_sandwich_desc: 'Assorted fresh gourmet sandwiches',
+      catering_tortilla_name: 'Tortilla Platters',
+      catering_tortilla_desc: 'Fresh rolled wraps & burritos',
+      catering_cheesecake_name: 'Cheesecake',
+      catering_cheesecake_desc: 'Fresh signature daily dessert portion',
+      catering_presets_label: 'Scale All Quantities:',
+      catering_preset_clear: 'Clear',
+      catering_form_header: 'Batch Order Enquiry Contact Form',
+      catering_form_desc: 'Please fill out details to request a custom offer',
+      label_catering_name: 'Contact Person Name *',
+      label_catering_phone: 'Phone Number *',
+      label_catering_email: 'Email Address *',
+      label_catering_address: 'Delivery Address *',
+      label_catering_company: 'Company Name',
+      label_catering_vat: 'VAT Number (Adószám)',
+      label_catering_persons: 'Number of Persons *',
+      label_catering_datetime: 'Date and Time *',
+      catering_success_msg: 'Enquiry successfully sent! We will contact you soon.',
+      catering_submit_btn: 'Submit Batch Order Enquiry',
+      catering_privacy_label: 'I agree to the processing of my data for the enquiry.',
+      app_privacy_label: 'I agree to the processing of my personal data for the job application.',
+      hours_extension_text: '* Pickup and self-delivery are available until 01:30 (Friday – Sunday).',
+      nav_careers: 'Join Us',
+      careers_title: 'Join Our Team',
+      careers_subtitle: 'We are looking for motivated colleagues in Újpest. Select a role and apply below!',
+      careers_positions_header: 'Open Positions',
+      careers_positions_desc: 'Click a card to select the position you are applying for',
+      careers_pos_pizza_chef_title: 'Pizza Chef (Pizzaszakács)',
+      careers_pos_pizza_chef_desc: 'Full-time • Deck oven experience required',
+      careers_pos_kitchen_assistant_title: 'Kitchen Assistant (Kisegítő)',
+      careers_pos_kitchen_assistant_desc: 'Full-time or Part-time • Food prep helper',
+      careers_pos_delivery_driver_title: 'Delivery Driver (Futár)',
+      careers_pos_delivery_driver_desc: 'Flexible shifts • Local area knowledge',
+      careers_direct_apply: 'Direct Contact:',
+      careers_resume_email: 'Email resume to:',
+      careers_resume_phone: 'Phone:',
+      careers_form_header: 'Application Form',
+      careers_form_desc: 'Please fill out all required details below',
+      form_group_personal: '1. Personal Information',
+      label_app_firstname: 'First Name *',
+      placeholder_app_firstname: 'First Name',
+      label_app_surname: 'Surname *',
+      placeholder_app_surname: 'Surname',
+      label_app_dob: 'Date of Birth *',
+      label_app_pob: 'Place of Birth *',
+      label_app_nationality: 'Nationality *',
+      label_app_mother: "Mother's Name *",
+      form_group_contact: '2. Contact Details',
+      label_app_phone: 'Phone Number *',
+      label_app_whatsapp: 'WhatsApp Number',
+      label_app_email: 'Email Address *',
+      form_group_status: '3. Address & Legal Status',
+      label_app_address: 'Address *',
+      label_app_availability: 'Availability *',
+      option_availability_full: 'Full-time',
+      option_availability_part: 'Part-time',
+      label_app_residency: 'Residency Card Validity',
+      label_app_taj: 'TAJ Card Status *',
+      label_app_tax: 'Tax Card Status *',
+      option_card_have: 'Yes, I have it',
+      option_card_donthave: 'No, I do not have it',
+      form_group_intro: '4. Position & Experience',
+      label_app_position: 'Selected Position *',
+      label_app_intro: 'Brief Experience & Intro',
+      app_success_msg: 'Application successfully submitted! Thank you.',
+      app_submit_btn: 'Submit Job Application'
     },
     hu: {
       nav_home: 'Kezdőlap',
@@ -1764,14 +1956,19 @@ document.addEventListener('DOMContentLoaded', () => {
       order_title: 'Kóstolja meg a Pizza Colombiát',
       order_subtitle: 'Böngésszen digitális étlapunkon vagy rendeljen házhoz szállítást közvetlenül alább!',
       wheel_title: '🍕 Pörgess és Nyerj Helyben!',
-      wheel_desc: 'Kizárólag helyben fogyasztás esetén! Pörgesd meg a kereket, készíts képernyőképet a nyereményről, posztolj és jelölj meg minket Facebookon, Instagramon vagy TikTokon, hogy különleges Meglepetés Csomagot kapj a következő látogatásodkor! 🎁',
-      prize_10: '🍕 10% Kedvezmény',
+      wheel_desc: 'Kizárólag helyben fogyasztás esetén! Pörgesd meg a kereket, készíts képernyőképet a nyereményről, posztolj és jelölj meg minket Facebookon, Instagramon vagy TikTokon, hogy különleges bónusz ajándékot kapj! 🎁',
+      wheel_form_title: 'Add meg az adataidat a pörgetéshez! 🎁',
+      placeholder_contact_lead: 'Email cím vagy telefonszám',
+      wheel_privacy_label: 'Hozzájárulok az adataim kezeléséhez a nyeremény átvételéhez.',
+      prize_bogo: '🍕 1+1 Ingyen Pizza',
+      prize_50_second: '🍕 -50% a 2. pizzára',
+      prize_drink_500: '🥤 Ingyen 500ml ital',
+      prize_drink_1000: '🥤 Ingyen 1L ital',
+      prize_drink_upgrade: '🥤 Ingyen ital upgrade',
+      prize_daily_dessert: '🍰 Ingyen napi desszert',
       tag_rare: 'Ritka',
-      prize_drink: '🥤 Ingyen Ital',
       tag_common: 'Gyakori',
-      prize_real: '🎡 Valódi Pörgetés',
       tag_lucky: 'Szerencsés',
-      prize_5: '🍕 5% Kedvezmény',
       wheel_hint: 'Kattints a PÖRGETÉS gombra a pizza közepén, hogy próbára tedd a szerencsédet!',
       wheel_spin_btn: 'PÖRGETÉS',
       result_celebration_win: '🎉 HELYBEN FOGYASZTÁS NYERTES! 🎉',
@@ -1845,7 +2042,85 @@ document.addEventListener('DOMContentLoaded', () => {
       placeholder_floor: 'pl. 3. emelet',
       placeholder_door: 'pl. 12',
       placeholder_doorbell: 'pl. Kiss / 45',
-      placeholder_notes: 'pl. Kapucsengő kód 45, a lift nem működik'
+      placeholder_notes: 'pl. Kapucsengő kód 45, a lift nem működik',
+      nav_catering: 'Csoportos Rendelés',
+      catering_title: 'Céges & Csoportos Rendelés',
+      catering_subtitle: 'Rendeljen nagy tételben irodákba, csapatépítőkre, megbeszélésekre és helyszíni kiszállításra alább!',
+      catering_options_header: 'Csoportos Helyszíni Szuper Opciók',
+      catering_options_desc: 'Válassza ki a mennyiségeket az egyes menüpontokhoz',
+      catering_pizza_name: 'Pizza Csomagok',
+      catering_pizza_desc: 'Eredeti nápolyi és NY stílusú pizzák',
+      catering_meals_name: 'Napi Menük',
+      catering_meals_desc: 'Teljes napi ebéd főételek',
+      catering_chicken_name: 'Csirke Tálak',
+      catering_chicken_desc: 'Frissen sült és rántott csirkehúsos ételek',
+      catering_sandwich_name: 'Szendvics Tálak',
+      catering_sandwich_desc: 'Vegyes friss gourmet szendvicsek',
+      catering_tortilla_name: 'Tortilla Tálak',
+      catering_tortilla_desc: 'Frissen tekert wrapok és burritók',
+      catering_cheesecake_name: 'Sajttorta',
+      catering_cheesecake_desc: 'Friss napi signature desszert adagok',
+      catering_presets_label: 'Minden mennyiség szorzása:',
+      catering_preset_clear: 'Törlés',
+      catering_form_header: 'Csoportos Ajánlatkérő Űrlap',
+      catering_form_desc: 'Kérjük, adja meg a részleteket az egyedi ajánlatunkhoz',
+      label_catering_name: 'Kapcsolattartó neve *',
+      label_catering_phone: 'Telefonszám *',
+      label_catering_email: 'Email cím *',
+      label_catering_address: 'Szállítási cím *',
+      label_catering_company: 'Cégnév',
+      label_catering_vat: 'Adószám',
+      label_catering_persons: 'Személyek száma *',
+      label_catering_datetime: 'Dátum és időpont *',
+      catering_submit_btn: 'CSOPORTOS AJÁNLATKÉRÉS KÜLDÉSE',
+      catering_success_msg: 'Ajánlatkérés sikeresen elküldve! Hamarosan felvesszük Önnel a kapcsolatot.',
+      catering_privacy_label: 'Hozzájárulok az adataim kezeléséhez az ajánlatkérés céljából.',
+      app_privacy_label: 'Hozzájárulok a személyes adataim kezeléséhez a jelentkezési folyamat során.',
+      hours_extension_text: '* Helyszíni átvétel és saját házhozszállítás elérhető 01:30-ig (Péntek – Vasárnap).',
+      nav_careers: 'Csatlakozz',
+      careers_title: 'Csatlakozz a Csapatunkhoz',
+      careers_subtitle: 'Motivált munkatársakat keresünk Újpesten. Válaszd ki a pozíciót és jelentkezz alább!',
+      careers_positions_header: 'Nyitott Pozíciók',
+      careers_positions_desc: 'Kattints egy kártyára a pozíció kiválasztásához',
+      careers_pos_pizza_chef_title: 'Pizza Chef (Pizzaszakács)',
+      careers_pos_pizza_chef_desc: 'Teljes munkaidő • Deck kemence tapasztalat szükséges',
+      careers_pos_kitchen_assistant_title: 'Kitchen Assistant (Kisegítő)',
+      careers_pos_kitchen_assistant_desc: 'Teljes vagy részmunkaidő • Előkészítő segítő',
+      careers_pos_delivery_driver_title: 'Delivery Driver (Futár)',
+      careers_pos_delivery_driver_desc: 'Rugalmas műszakok • Helyismeret előny',
+      careers_direct_apply: 'Közvetlen Kapcsolat:',
+      careers_resume_email: 'Küldd el a fényképes önéletrajzod ide:',
+      careers_resume_phone: 'Telefon:',
+      careers_form_header: 'Jelentkezési Lap',
+      careers_form_desc: 'Kérjük, töltsd ki az összes kötelező mezőt alább',
+      form_group_personal: '1. Személyes Adatok',
+      label_app_firstname: 'Keresztnév *',
+      placeholder_app_firstname: 'Keresztnév',
+      label_app_surname: 'Vezetéknév *',
+      placeholder_app_surname: 'Vezetéknév',
+      label_app_dob: 'Születési Dátum *',
+      label_app_pob: 'Születési Hely *',
+      label_app_nationality: 'Állampolgárság *',
+      label_app_mother: 'Anyja Leánykori Neve *',
+      form_group_contact: '2. Kapcsolattartási Adatok',
+      label_app_phone: 'Telefonszám *',
+      label_app_whatsapp: 'WhatsApp Szám',
+      label_app_email: 'Email Cím *',
+      form_group_status: '3. Lakcím és Jogviszony',
+      label_app_address: 'Lakcím *',
+      label_app_availability: 'Munkaidő *',
+      option_availability_full: 'Teljes munkaidő',
+      option_availability_part: 'Részmunkaidő',
+      label_app_residency: 'Tartózkodási Kártya Érvényessége',
+      label_app_taj: 'TAJ Kártya Státusz *',
+      label_app_tax: 'Adóigazolvány Státusz *',
+      option_card_have: 'Igen, rendelkezem vele',
+      option_card_donthave: 'Nem rendelkezem vele',
+      form_group_intro: '4. Pozíció és Tapasztalat',
+      label_app_position: 'Kiválasztott Pozíció *',
+      label_app_intro: 'Rövid Tapasztalat és Bemutatkozás',
+      app_success_msg: 'Jelentkezés sikeresen elküldve! Köszönjük.',
+      app_submit_btn: 'JELENTKEZÉS KÜLDÉSE'
     }
   };
 
@@ -1931,20 +2206,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const wheelTranslations = {
     en: {
-      '5% Off Bill': { text: '5% Off Bill', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest, and show it to our staff when dining in to claim your Surprise Pack.' },
-      'Free Drink': { text: 'Free Drink', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest, and show it to our staff when dining in to claim your Surprise Pack.' },
-      'Try Again': { text: 'Try Again', desc: 'No luck this time! Spin again tomorrow.' },
-      '10% Off Bill': { text: '10% Off Bill', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest, and show it to our staff when dining in to claim your Surprise Pack.' },
-      'Real Spin': { text: 'Real Spin', desc: 'You won a Real-Life Spin at our pizzeria! Take a screenshot now, post & tag us on Facebook/Instagram, and show this screen to our staff when dining in to spin our physical wheel for a surprise reward! 🎡' },
-      'Free Nutella': { text: 'Free Nutella', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest, and show it to our staff when dining in to claim your Surprise Pack.' }
+      'Buy 1 Get 1 Free': { text: 'BOGO Free', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest on Facebook/Instagram/TikTok to receive your bonus gift! 🍕' },
+      '50% Off 2nd Pizza': { text: '50% Off 2nd', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest on Facebook/Instagram/TikTok to receive your bonus gift! 🍕' },
+      'Free 500ml Drink': { text: 'Free 500ml', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest on Facebook/Instagram/TikTok to receive your bonus gift! 🥤' },
+      'Spin Again': { text: 'Spin Again', desc: 'No luck this time! Spin again tomorrow.' },
+      'Free 1000ml Drink': { text: 'Free 1L Drink', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest on Facebook/Instagram/TikTok to receive your bonus gift! 🥤' },
+      'Free Drink Upgrade': { text: 'Free Upgrade', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest on Facebook/Instagram/TikTok to receive your bonus gift! 🥤' },
+      'Free Daily Dessert': { text: 'Free Dessert', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest on Facebook/Instagram/TikTok to receive your bonus gift! 🍰' }
     },
     hu: {
-      '5% Off Bill': { text: '5% Kedvezmény', desc: 'Készíts képernyőképet a nyereményről most! Oszd meg történetedben, jelöld be a @pizzacolombiaujpest fiókot, és mutasd meg munkatársainknak helyben, hogy átvedd a meglepetés csomagodat.' },
-      'Free Drink': { text: 'Ingyen Ital', desc: 'Készíts képernyőképet a nyereményről most! Oszd meg történetedben, jelöld be a @pizzacolombiaujpest fiókot, és mutasd meg munkatársainknak helyben, hogy átvedd a meglepetés csomagodat.' },
-      'Try Again': { text: 'Próbáld újra', desc: 'Sajnos most nem sikerült! Pörgess újra holnap.' },
-      '10% Off Bill': { text: '10% Kedvezmény', desc: 'Készíts képernyőképet a nyereményről most! Oszd meg történetedben, jelöld be a @pizzacolombiaujpest fiókot, és mutasd meg munkatársainknak helyben, hogy átvedd a meglepetés csomagodat.' },
-      'Real Spin': { text: 'Valódi pörgetés', desc: 'Nyertél egy valódi pörgetést a pizzériánkban! Készíts képernyőképet, oszd meg és jelölj meg minket Facebookon/Instagramon, majd mutasd meg a helyszínen, hogy megpörgethesd a fizikai szerencsekerekünket egy meglepetés ajándékért! 🎡' },
-      'Free Nutella': { text: 'Ingyen Nutella', desc: 'Készíts képernyőképet a nyereményről most! Oszd meg történetedben, jelöld be a @pizzacolombiaujpest fiókot, és mutasd meg munkatársainknak helyben, hogy átvedd a meglepetés csomagodat.' }
+      'Buy 1 Get 1 Free': { text: '1+1 Ingyen Pizza', desc: 'Készíts képernyőképet a nyereményről! Oszd meg történetedben, jelöld meg a @pizzacolombiaujpest fiókot Facebookon, Instagramon vagy TikTokon az ajándékodért! 🍕' },
+      '50% Off 2nd Pizza': { text: '-50% a 2. pizzára', desc: 'Készíts képernyőképet a nyereményről! Oszd meg történetedben, jelöld meg a @pizzacolombiaujpest fiókot Facebookon, Instagramon vagy TikTokon az ajándékodért! 🍕' },
+      'Free 500ml Drink': { text: 'Ingyen 500ml', desc: 'Készíts képernyőképet a nyereményről! Oszd meg történetedben, jelöld meg a @pizzacolombiaujpest fiókot Facebookon, Instagramon vagy TikTokon az ajándékodért! 🥤' },
+      'Spin Again': { text: 'Pörgess újra', desc: 'Sajnos most nem sikerült! Pörgess újra holnap.' },
+      'Free 1000ml Drink': { text: 'Ingyen 1L ital', desc: 'Készíts képernyőképet a nyereményről! Oszd meg történetedben, jelöld meg a @pizzacolombiaujpest fiókot Facebookon, Instagramon vagy TikTokon az ajándékodért! 🥤' },
+      'Free Drink Upgrade': { text: 'Ingyen upgrade', desc: 'Készíts képernyőképet a nyereményről! Oszd meg történetedben, jelöld meg a @pizzacolombiaujpest fiókot Facebookon, Instagramon vagy TikTokon az ajándékodért! 🥤' },
+      'Free Daily Dessert': { text: 'Ingyen desszert', desc: 'Készíts képernyőképet a nyereményről! Oszd meg történetedben, jelöld meg a @pizzacolombiaujpest fiókot Facebookon, Instagramon vagy TikTokon az ajándékodért! 🍰' }
     }
   };
 
@@ -2031,6 +2308,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof drawWheel === 'function') {
       drawWheel();
     }
+
+    // Update careers selected position translation
+    if (typeof updatePositionUI === 'function') {
+      updatePositionUI();
+    }
   };
 
   // Bind language switcher buttons
@@ -2053,6 +2335,407 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Trigger initial language translation rendering
   updateLanguageUI();
+
+  // --- Catering & Event Batch Ordering Interactive Logic ---
+  const cateringForm = document.getElementById('catering-enquiry-form');
+  const cateringSubmitBtn = document.getElementById('btn-submit-catering');
+  const cateringFormError = document.getElementById('catering-form-error');
+  const cateringFormSuccess = document.getElementById('catering-form-success');
+
+  const getCateringItemsSummary = () => {
+    const items = [];
+    document.querySelectorAll('.catering-item-row').forEach(row => {
+      const qtyInput = row.querySelector('.catering-item-qty');
+      const qty = parseInt(qtyInput.value, 10) || 0;
+      if (qty > 0) {
+        const itemType = row.getAttribute('data-item');
+        const nameTranslationKey = `catering_${itemType}_name`;
+        const translatedName = (uiTranslations[currentLang] && uiTranslations[currentLang][nameTranslationKey]) || itemType;
+        items.push(`${translatedName} (${qty})`);
+      }
+    });
+    return items.join(', ');
+  };
+
+  const validateCateringForm = () => {
+    if (!cateringForm) return false;
+
+    const name = document.getElementById('catering-name').value.trim();
+    const phone = document.getElementById('catering-phone').value.trim();
+    const email = document.getElementById('catering-email').value.trim();
+    const address = document.getElementById('catering-address').value.trim();
+    const persons = parseInt(document.getElementById('catering-persons').value, 10) || 0;
+    const datetime = document.getElementById('catering-datetime').value;
+    const privacyChecked = document.getElementById('catering-privacy').checked;
+
+    // Check quantities
+    let totalQty = 0;
+    document.querySelectorAll('.catering-item-qty').forEach(input => {
+      totalQty += parseInt(input.value, 10) || 0;
+    });
+
+    const isNameValid = name.length >= 2;
+    const isPhoneValid = phone.length >= 5;
+    const isEmailValid = email.includes('@') && email.includes('.');
+    const isAddressValid = address.length >= 10;
+    const isPersonsValid = persons >= 5;
+    const isDatetimeValid = datetime !== "";
+    const hasItems = totalQty > 0;
+
+    const isValid = isNameValid && isPhoneValid && isEmailValid && isAddressValid && isPersonsValid && isDatetimeValid && privacyChecked && hasItems;
+
+    if (cateringSubmitBtn) {
+      if (isValid) {
+        cateringSubmitBtn.classList.remove('disabled');
+        cateringSubmitBtn.disabled = false;
+      } else {
+        cateringSubmitBtn.classList.add('disabled');
+        cateringSubmitBtn.disabled = true;
+      }
+    }
+
+    return isValid;
+  };
+
+  // Bind counter buttons
+  document.querySelectorAll('.catering-item-row').forEach(row => {
+    const minusBtn = row.querySelector('.btn-qty-minus');
+    const plusBtn = row.querySelector('.btn-qty-plus');
+    const qtyInput = row.querySelector('.catering-item-qty');
+
+    minusBtn.addEventListener('click', () => {
+      let qty = parseInt(qtyInput.value, 10) || 0;
+      if (qty > 0) {
+        qty--;
+        qtyInput.value = qty;
+        if (qty === 0) {
+          row.classList.remove('selected');
+        }
+        validateCateringForm();
+      }
+    });
+
+    plusBtn.addEventListener('click', () => {
+      let qty = parseInt(qtyInput.value, 10) || 0;
+      qty++;
+      qtyInput.value = qty;
+      row.classList.add('selected');
+      validateCateringForm();
+    });
+  });
+
+  // Bind preset scale buttons
+  document.querySelectorAll('.btn-preset-qty').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetQty = parseInt(btn.getAttribute('data-qty'), 10) || 0;
+      document.querySelectorAll('.catering-item-row').forEach(row => {
+        const qtyInput = row.querySelector('.catering-item-qty');
+        qtyInput.value = targetQty;
+        if (targetQty > 0) {
+          row.classList.add('selected');
+        } else {
+          row.classList.remove('selected');
+        }
+      });
+      validateCateringForm();
+    });
+  });
+
+  const clearPresetBtn = document.querySelector('.btn-preset-clear');
+  if (clearPresetBtn) {
+    clearPresetBtn.addEventListener('click', () => {
+      document.querySelectorAll('.catering-item-row').forEach(row => {
+        const qtyInput = row.querySelector('.catering-item-qty');
+        qtyInput.value = 0;
+        row.classList.remove('selected');
+      });
+      validateCateringForm();
+    });
+  }
+
+  // Bind inputs for realtime validation
+  if (cateringForm) {
+    cateringForm.querySelectorAll('input').forEach(input => {
+      input.addEventListener('input', validateCateringForm);
+      input.addEventListener('change', validateCateringForm);
+    });
+
+    // Form submit listener
+    cateringForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!validateCateringForm()) return;
+
+      const nameVal = document.getElementById('catering-name').value.trim();
+      const phoneVal = document.getElementById('catering-phone').value.trim();
+      const emailVal = document.getElementById('catering-email').value.trim();
+      const addressVal = document.getElementById('catering-address').value.trim();
+      const companyVal = document.getElementById('catering-company').value.trim() || 'N/A';
+      const vatVal = document.getElementById('catering-vat').value.trim() || 'N/A';
+      const personsVal = document.getElementById('catering-persons').value;
+      const datetimeVal = document.getElementById('catering-datetime').value;
+      const itemsSummaryVal = getCateringItemsSummary();
+
+      if (cateringSubmitBtn) {
+        cateringSubmitBtn.classList.add('disabled');
+        cateringSubmitBtn.innerText = currentLang === 'hu' ? 'KÜLDÉS...' : 'SENDING...';
+      }
+
+      if (cateringFormError) cateringFormError.classList.add('hidden');
+      if (cateringFormSuccess) cateringFormSuccess.classList.add('hidden');
+
+      const payload = {
+        type: "catering",
+        name: nameVal,
+        contact: phoneVal,
+        email: emailVal,
+        address: addressVal,
+        company: companyVal,
+        vatNumber: vatVal,
+        persons: personsVal,
+        dateTime: datetimeVal,
+        itemsSummary: itemsSummaryVal
+      };
+
+      if (CONFIG.wheelLeadsUrl) {
+        try {
+          await fetch(CONFIG.wheelLeadsUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: JSON.stringify(payload)
+          });
+
+          // Show success message
+          if (cateringFormSuccess) {
+            cateringFormSuccess.classList.remove('hidden');
+            setTimeout(() => {
+              cateringFormSuccess.classList.add('hidden');
+            }, 5000);
+          }
+
+          // Reset Form
+          cateringForm.reset();
+          document.querySelectorAll('.catering-item-row').forEach(row => {
+            const qtyInput = row.querySelector('.catering-item-qty');
+            qtyInput.value = 0;
+            row.classList.remove('selected');
+          });
+
+          validateCateringForm();
+        } catch (err) {
+          console.error('Error submitting catering enquiry:', err);
+          if (cateringFormError) {
+            cateringFormError.innerText = currentLang === 'hu' ? 'Hiba történt a küldés során! Kérjük, próbáld újra.' : 'Error sending enquiry! Please try again.';
+            cateringFormError.classList.remove('hidden');
+          }
+        } finally {
+          if (cateringSubmitBtn) {
+            cateringSubmitBtn.innerText = uiTranslations[currentLang]['catering_submit_btn'] || 'Submit Catering Enquiry';
+          }
+        }
+      } else {
+        if (cateringFormError) {
+          cateringFormError.innerText = currentLang === 'hu' ? 'Catering szolgáltatás jelenleg nem elérhető.' : 'Catering service is currently offline.';
+          cateringFormError.classList.remove('hidden');
+        }
+        if (cateringSubmitBtn) {
+          cateringSubmitBtn.innerText = uiTranslations[currentLang]['catering_submit_btn'] || 'Submit Catering Enquiry';
+        }
+      }
+    });
+
+    // Initial validation call
+    validateCateringForm();
+  }
+
+  // --- Careers & Job Application Interactive Logic ---
+  const jobForm = document.getElementById('job-application-form');
+  const jobSubmitBtn = document.getElementById('btn-submit-app');
+  const jobFormError = document.getElementById('app-form-error');
+  const jobFormSuccess = document.getElementById('app-form-success');
+  const positionInput = document.getElementById('app-position');
+  let selectedPosition = "Pizza Chef";
+
+  window.updatePositionUI = () => {
+    if (!positionInput) return;
+    const roleTranslationKey = `careers_pos_${selectedPosition.toLowerCase().replace(" ", "_")}_title`;
+    let displayName = selectedPosition;
+    if (uiTranslations[currentLang] && uiTranslations[currentLang][roleTranslationKey]) {
+      const fullTitle = uiTranslations[currentLang][roleTranslationKey];
+      const match = fullTitle.match(/^([^(]+)/);
+      if (match) {
+        displayName = match[1].trim();
+      }
+    }
+    positionInput.value = displayName;
+  };
+
+  const validateJobForm = () => {
+    if (!jobForm) return false;
+
+    const firstName = document.getElementById('app-firstname').value.trim();
+    const surname = document.getElementById('app-surname').value.trim();
+    const dob = document.getElementById('app-dob').value;
+    const pob = document.getElementById('app-pob').value.trim();
+    const nationality = document.getElementById('app-nationality').value.trim();
+    const mother = document.getElementById('app-mother').value.trim();
+    const phone = document.getElementById('app-phone').value.trim();
+    const email = document.getElementById('app-email').value.trim();
+    const address = document.getElementById('app-address').value.trim();
+    const privacyChecked = document.getElementById('app-privacy').checked;
+
+    const isFirstNameValid = firstName.length >= 2;
+    const isSurnameValid = surname.length >= 2;
+    const isDobValid = dob !== "";
+    const isPobValid = pob.length >= 2;
+    const isNationalityValid = nationality.length >= 2;
+    const isMotherValid = mother.length >= 3;
+    const isPhoneValid = phone.length >= 5;
+    const isEmailValid = email.includes('@') && email.includes('.');
+    const isAddressValid = address.length >= 10;
+
+    const isValid = isFirstNameValid && isSurnameValid && isDobValid && isPobValid && isNationalityValid && isMotherValid && isPhoneValid && isEmailValid && isAddressValid && privacyChecked;
+
+    if (jobSubmitBtn) {
+      if (isValid) {
+        jobSubmitBtn.classList.remove('disabled');
+        jobSubmitBtn.disabled = false;
+      } else {
+        jobSubmitBtn.classList.add('disabled');
+        jobSubmitBtn.disabled = true;
+      }
+    }
+
+    return isValid;
+  };
+
+  // Bind active position card clicks
+  document.querySelectorAll('.careers-pos-row').forEach(row => {
+    row.addEventListener('click', () => {
+      document.querySelectorAll('.careers-pos-row').forEach(r => r.classList.remove('selected'));
+      row.classList.add('selected');
+      
+      const pos = row.getAttribute('data-position');
+      if (pos) {
+        selectedPosition = pos;
+        if (typeof updatePositionUI === 'function') {
+          updatePositionUI();
+        }
+      }
+      validateJobForm();
+    });
+  });
+
+  // Bind inputs for realtime validation
+  if (jobForm) {
+    jobForm.querySelectorAll('input, select, textarea').forEach(input => {
+      input.addEventListener('input', validateJobForm);
+      input.addEventListener('change', validateJobForm);
+    });
+
+    // Form submit listener
+    jobForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!validateJobForm()) return;
+
+      const fNameVal = document.getElementById('app-firstname').value.trim();
+      const sNameVal = document.getElementById('app-surname').value.trim();
+      const dobVal = document.getElementById('app-dob').value;
+      const pobVal = document.getElementById('app-pob').value.trim();
+      const nationalityVal = document.getElementById('app-nationality').value.trim();
+      const motherVal = document.getElementById('app-mother').value.trim();
+      const phoneVal = document.getElementById('app-phone').value.trim();
+      const whatsappVal = document.getElementById('app-whatsapp').value.trim() || 'N/A';
+      const emailVal = document.getElementById('app-email').value.trim();
+      const addressVal = document.getElementById('app-address').value.trim();
+      const availabilityVal = document.getElementById('app-availability').value;
+      const residencyVal = document.getElementById('app-residency').value.trim() || 'N/A';
+      const tajVal = document.getElementById('app-taj').value;
+      const taxVal = document.getElementById('app-tax').value;
+      const introVal = document.getElementById('app-intro').value.trim() || 'N/A';
+
+      if (jobSubmitBtn) {
+        jobSubmitBtn.classList.add('disabled');
+        jobSubmitBtn.disabled = true;
+        jobSubmitBtn.innerText = currentLang === 'hu' ? 'KÜLDÉS...' : 'SENDING...';
+      }
+
+      if (jobFormError) jobFormError.classList.add('hidden');
+      if (jobFormSuccess) jobFormSuccess.classList.add('hidden');
+
+      const payload = {
+        type: "job_application",
+        firstName: fNameVal,
+        surname: sNameVal,
+        phone: phoneVal,
+        email: emailVal,
+        whatsapp: whatsappVal,
+        dob: dobVal,
+        pob: pobVal,
+        nationality: nationalityVal,
+        mothersName: motherVal,
+        address: addressVal,
+        availability: availabilityVal,
+        tajStatus: tajVal,
+        taxStatus: taxVal,
+        residencyValidity: residencyVal,
+        position: selectedPosition,
+        intro: introVal
+      };
+
+      if (CONFIG.wheelLeadsUrl) {
+        try {
+          await fetch(CONFIG.wheelLeadsUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: JSON.stringify(payload)
+          });
+
+          // Show success message
+          if (jobFormSuccess) {
+            jobFormSuccess.classList.remove('hidden');
+            setTimeout(() => {
+              jobFormSuccess.classList.add('hidden');
+            }, 5000);
+          }
+
+          // Reset Form
+          jobForm.reset();
+          
+          // Reset Selected Card to default (Pizza Chef)
+          document.querySelectorAll('.careers-pos-row').forEach(r => r.classList.remove('selected'));
+          const defaultCard = document.querySelector('.careers-pos-row[data-position="Pizza Chef"]');
+          if (defaultCard) defaultCard.classList.add('selected');
+          selectedPosition = "Pizza Chef";
+          if (typeof updatePositionUI === 'function') {
+            updatePositionUI();
+          }
+
+          validateJobForm();
+        } catch (err) {
+          console.error('Error submitting job application:', err);
+          if (jobFormError) {
+            jobFormError.innerText = currentLang === 'hu' ? 'Hiba történt a jelentkezés küldése során! Kérjük, próbáld újra.' : 'Error sending application! Please try again.';
+            jobFormError.classList.remove('hidden');
+          }
+        } finally {
+          if (jobSubmitBtn) {
+            jobSubmitBtn.innerText = uiTranslations[currentLang]['app_submit_btn'] || 'Submit Job Application';
+          }
+        }
+      } else {
+        if (jobFormError) {
+          jobFormError.innerText = currentLang === 'hu' ? 'A jelentkezési rendszer jelenleg nem elérhető.' : 'Application system is currently offline.';
+          jobFormError.classList.remove('hidden');
+        }
+        if (jobSubmitBtn) {
+          jobSubmitBtn.innerText = uiTranslations[currentLang]['app_submit_btn'] || 'Submit Job Application';
+        }
+      }
+    });
+
+    // Initial validation call
+    validateJobForm();
+  }
 
   // Load menu
   loadDynamicMenu().then(() => {

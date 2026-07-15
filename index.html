@@ -58,7 +58,9 @@
         <a href="#showcase-2" data-i18n="nav_ingredients">Ingredients</a>
         <a href="#showcase-3" data-i18n="nav_styles">Styles</a>
         <a href="#stats" data-i18n="nav_stats">Stats</a>
-        <a href="#order" class="btn-nav-order" data-i18n="nav_order">Order Now</a>
+        <a href="#catering" data-i18n="nav_catering">Batch Order</a>
+        <a href="#careers" data-i18n="nav_careers">Join Us</a>
+        <a href="#order-actions" class="btn-nav-order" data-i18n="nav_order">Order Now</a>
       </nav>
 
       <div class="navbar-right" style="display: flex; align-items: center; gap: 0.75rem;">
@@ -81,7 +83,9 @@
     <a href="#showcase-2" data-i18n="nav_ingredients">Ingredients</a>
     <a href="#showcase-3" data-i18n="nav_styles">Styles</a>
     <a href="#stats" data-i18n="nav_stats">Stats</a>
-    <a href="#order" class="btn-mobile-order" data-i18n="nav_order_mobile">Order Online</a>
+    <a href="#catering" data-i18n="nav_catering">Batch Order</a>
+    <a href="#careers" data-i18n="nav_careers">Join Us</a>
+    <a href="#order-actions" class="btn-mobile-order" data-i18n="nav_order_mobile">Order Online</a>
     <button type="button" class="btn-lang-toggle" style="margin-top: 1.5rem; background: rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.1); padding: 0.65rem 1.25rem; border-radius: 30px; font-size: 1rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; color: var(--text-dark); width: 80%; max-width: 250px; margin-left: auto; margin-right: auto; box-sizing: border-box;">
       <span class="flag-icon">🇬🇧</span> <span class="lang-label">EN</span>
     </button>
@@ -99,7 +103,7 @@
           View our menu, see upcoming events, and get all essential information in one place.
         </p>
         <div class="hero-actions">
-          <a href="#order" class="btn btn-primary btn-magnetic" data-i18n="hero_btn">
+          <a href="#order-actions" class="btn btn-primary btn-magnetic" data-i18n="hero_btn">
             <span>Explore Menu & Order</span>
             <svg class="arrow-down-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -297,8 +301,8 @@
           <div class="wheel-column wheel-visual-col">
             <div class="wheel-wrapper">
               <div class="wheel-pointer"></div>
-              <canvas id="pizza-wheel" width="380" height="380"></canvas>
-              <button id="btn-spin-wheel" class="wheel-center-btn" data-i18n="wheel_spin_btn">SPIN</button>
+              <canvas id="pizza-wheel" width="480" height="480"></canvas>
+              <button id="btn-spin-wheel" class="wheel-center-btn disabled" data-i18n="wheel_spin_btn">SPIN</button>
             </div>
           </div>
           
@@ -306,18 +310,36 @@
             <div class="wheel-info-card">
               <div class="wheel-card-header">
                 <h3 data-i18n="wheel_title">🍕 Dine-In Spin & Win!</h3>
-                <p data-i18n="wheel_desc"><strong>Available for Eat-In only!</strong> Spin the wheel, take a screenshot of your win, post & tag us on Facebook, Instagram, or TikTok to receive a special <strong>Surprise Pack</strong> on your next visit! 🎁</p>
+                <p data-i18n="wheel_desc"><strong>Available for Eat-In only!</strong> Spin the wheel, take a screenshot of your win, post & tag us on Facebook, Instagram, or TikTok to receive a special <strong>Bonus Gift</strong> on your next visit! 🎁</p>
               </div>
               
               <div id="wheel-status-area" class="wheel-status-area">
                 <div class="wheel-prizes-list">
-                  <div class="prize-row"><span class="prize-dot" style="background-color: #E67E22;"></span><span data-i18n="prize_10">🍕 10% Off Bill</span><span class="odds-tag rare" data-i18n="tag_rare">Rare</span></div>
-                  <div class="prize-row"><span class="prize-dot" style="background-color: #F1C40F;"></span><span data-i18n="prize_drink">🥤 Free Drink</span><span class="odds-tag common" data-i18n="tag_common">Common</span></div>
-                  <div class="prize-row"><span class="prize-dot" style="background-color: #9B59B6;"></span><span data-i18n="prize_real">🎡 Real-Life Spin</span><span class="odds-tag lucky" data-i18n="tag_lucky">Lucky</span></div>
-                  <div class="prize-row"><span class="prize-dot" style="background-color: #2ECC71;"></span><span data-i18n="prize_5">🍕 5% Off Bill</span><span class="odds-tag common" data-i18n="tag_common">Common</span></div>
+                  <div class="prize-row"><span class="prize-dot" style="background-color: #E74C3C;"></span><span data-i18n="prize_bogo">🍕 Buy 1 Get 1 Free</span><span class="odds-tag lucky" data-i18n="tag_lucky">Lucky</span></div>
+                  <div class="prize-row"><span class="prize-dot" style="background-color: #E67E22;"></span><span data-i18n="prize_50_second">🍕 50% Off 2nd Pizza</span><span class="odds-tag rare" data-i18n="tag_rare">Rare</span></div>
+                  <div class="prize-row"><span class="prize-dot" style="background-color: #F1C40F;"></span><span data-i18n="prize_drink_500">🥤 Free 500ml Drink</span><span class="odds-tag common" data-i18n="tag_common">Common</span></div>
+                  <div class="prize-row"><span class="prize-dot" style="background-color: #F1C40F;"></span><span data-i18n="prize_drink_1000">🥤 Free 1000ml Drink</span><span class="odds-tag rare" data-i18n="tag_rare">Rare</span></div>
+                  <div class="prize-row"><span class="prize-dot" style="background-color: #1ABC9C;"></span><span data-i18n="prize_drink_upgrade">🥤 Free Drink Upgrade</span><span class="odds-tag common" data-i18n="tag_common">Common</span></div>
+                  <div class="prize-row"><span class="prize-dot" style="background-color: #2ECC71;"></span><span data-i18n="prize_daily_dessert">🍰 Free Daily Dessert</span><span class="odds-tag common" data-i18n="tag_common">Common</span></div>
                 </div>
+                
                 <div class="wheel-action-hint">
-                  <p data-i18n="wheel_hint">Click <strong>SPIN</strong> in the center of the pizza to test your luck!</p>
+                  <!-- Lead Capture Form -->
+                  <div id="wheel-lead-form" class="wheel-lead-form">
+                    <p class="form-title-lead" data-i18n="wheel_form_title">Enter details to spin the wheel! 🎁</p>
+                    <div class="input-group-lead">
+                      <input type="text" id="wheel-lead-name" placeholder="Full Name" data-i18n-placeholder="placeholder_name" required>
+                    </div>
+                    <div class="input-group-lead" style="margin-top: 0.5rem;">
+                      <input type="text" id="wheel-lead-contact" placeholder="Email or Phone Number" data-i18n-placeholder="placeholder_contact_lead" required>
+                    </div>
+                    <div class="input-group-lead" style="margin-top: 0.5rem; display: flex; align-items: flex-start; gap: 0.5rem; text-align: left;">
+                      <input type="checkbox" id="wheel-lead-privacy" style="margin-top: 0.2rem; cursor: pointer;" required>
+                      <label for="wheel-lead-privacy" style="font-size: 0.8rem; line-height: 1.3; color: var(--text-muted); cursor: pointer;" data-i18n="wheel_privacy_label">I agree to the processing of my data to claim the prize.</label>
+                    </div>
+                    <p id="wheel-form-error" class="form-error-lead hidden"></p>
+                  </div>
+                  <p id="wheel-spin-hint" class="wheel-spin-hint hidden" data-i18n="wheel_hint">Click <strong>SPIN</strong> in the center of the pizza to test your luck!</p>
                 </div>
               </div>
 
@@ -359,7 +381,7 @@
         </div>
       </div>
 
-      <div class="order-actions" style="margin-bottom: 4rem;">
+      <div id="order-actions" class="order-actions" style="margin-bottom: 4rem;">
         <!-- Wolt Order Button -->
         <a href="https://wolt.com/hu/hun/budapest/restaurant/pizza-colombia-ujpest" target="_blank" class="btn btn-order wolt-btn btn-magnetic">
           <svg class="order-brand-icon" viewBox="0 0 24 24" fill="currentColor">
@@ -460,6 +482,405 @@
         </div>
       </div>
 
+
+
+    </div>
+  </section>
+
+  <!-- Corporate & Event Catering Section -->
+  <section id="catering" class="catering-section scroll-reveal">
+    <div class="container catering-container">
+      <div class="accent-line-gradient center"></div>
+      <h2 class="catering-title" data-i18n="catering_title">Corporate & Batch Ordering</h2>
+      <p class="catering-subtitle" data-i18n="catering_subtitle">Order in batch for offices, team events, meetings and site deliveries directly below!</p>
+      
+      <div class="catering-grid">
+        <!-- Left Column: Catering Options Selection -->
+        <div class="catering-options-card">
+          <div class="catering-options-header">
+            <h3 data-i18n="catering_options_header">Batch Delivery to Site Options</h3>
+            <p data-i18n="catering_options_desc">Select quantities for each package option</p>
+          </div>
+          
+          <div class="catering-items-list">
+            <!-- Item 1: Pizza -->
+            <div class="catering-item-row" data-item="pizza">
+              <div class="catering-item-info">
+                <span class="catering-item-icon">🍕</span>
+                <div>
+                  <h4 data-i18n="catering_pizza_name">Pizza Batch</h4>
+                  <p data-i18n="catering_pizza_desc">Authentic Neapolitan & NY styles</p>
+                </div>
+              </div>
+              <div class="catering-item-counter">
+                <button type="button" class="btn-qty btn-qty-minus">-</button>
+                <input type="number" class="catering-item-qty" value="0" min="0" max="200" readonly>
+                <button type="button" class="btn-qty btn-qty-plus">+</button>
+              </div>
+            </div>
+
+            <!-- Item 2: Meals -->
+            <div class="catering-item-row" data-item="meals">
+              <div class="catering-item-info">
+                <span class="catering-item-icon">🍲</span>
+                <div>
+                  <h4 data-i18n="catering_meals_name">Standard Meals</h4>
+                  <p data-i18n="catering_meals_desc">Complete daily lunch main courses</p>
+                </div>
+              </div>
+              <div class="catering-item-counter">
+                <button type="button" class="btn-qty btn-qty-minus">-</button>
+                <input type="number" class="catering-item-qty" value="0" min="0" max="200" readonly>
+                <button type="button" class="btn-qty btn-qty-plus">+</button>
+              </div>
+            </div>
+
+            <!-- Item 3: Chicken Plates -->
+            <div class="catering-item-row" data-item="chicken">
+              <div class="catering-item-info">
+                <span class="catering-item-icon">🍗</span>
+                <div>
+                  <h4 data-i18n="catering_chicken_name">Chicken Plates</h4>
+                  <p data-i18n="catering_chicken_desc">Fresh roasted & breaded chicken meals</p>
+                </div>
+              </div>
+              <div class="catering-item-counter">
+                <button type="button" class="btn-qty btn-qty-minus">-</button>
+                <input type="number" class="catering-item-qty" value="0" min="0" max="200" readonly>
+                <button type="button" class="btn-qty btn-qty-plus">+</button>
+              </div>
+            </div>
+
+            <!-- Item 4: Sandwich Platters -->
+            <div class="catering-item-row" data-item="sandwich">
+              <div class="catering-item-info">
+                <span class="catering-item-icon">🥪</span>
+                <div>
+                  <h4 data-i18n="catering_sandwich_name">Sandwich Platters</h4>
+                  <p data-i18n="catering_sandwich_desc">Assorted fresh gourmet sandwiches</p>
+                </div>
+              </div>
+              <div class="catering-item-counter">
+                <button type="button" class="btn-qty btn-qty-minus">-</button>
+                <input type="number" class="catering-item-qty" value="0" min="0" max="200" readonly>
+                <button type="button" class="btn-qty btn-qty-plus">+</button>
+              </div>
+            </div>
+
+            <!-- Item 5: Tortilla Platters -->
+            <div class="catering-item-row" data-item="tortilla">
+              <div class="catering-item-info">
+                <span class="catering-item-icon">🌯</span>
+                <div>
+                  <h4 data-i18n="catering_tortilla_name">Tortilla Platters</h4>
+                  <p data-i18n="catering_tortilla_desc">Fresh rolled wraps & burritos</p>
+                </div>
+              </div>
+              <div class="catering-item-counter">
+                <button type="button" class="btn-qty btn-qty-minus">-</button>
+                <input type="number" class="catering-item-qty" value="0" min="0" max="200" readonly>
+                <button type="button" class="btn-qty btn-qty-plus">+</button>
+              </div>
+            </div>
+
+            <!-- Item 6: Cheesecake -->
+            <div class="catering-item-row" data-item="cheesecake">
+              <div class="catering-item-info">
+                <span class="catering-item-icon">🍰</span>
+                <div>
+                  <h4 data-i18n="catering_cheesecake_name">Cheesecake</h4>
+                  <p data-i18n="catering_cheesecake_desc">Fresh signature daily dessert portion</p>
+                </div>
+              </div>
+              <div class="catering-item-counter">
+                <button type="button" class="btn-qty btn-qty-minus">-</button>
+                <input type="number" class="catering-item-qty" value="0" min="0" max="200" readonly>
+                <button type="button" class="btn-qty btn-qty-plus">+</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quantity Presets Multipliers -->
+          <div class="catering-presets-container">
+            <span class="presets-label" data-i18n="catering_presets_label">Scale All Quantities:</span>
+            <div class="presets-buttons">
+              <button type="button" class="btn-preset-qty" data-qty="10">10x</button>
+              <button type="button" class="btn-preset-qty" data-qty="20">20x</button>
+              <button type="button" class="btn-preset-qty" data-qty="30">30x</button>
+              <button type="button" class="btn-preset-clear" data-i18n="catering_preset_clear">Clear</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Catering Enquiry Contact Form -->
+        <div class="catering-form-card">
+          <div class="catering-form-header">
+            <h3 data-i18n="catering_form_header">Batch Order Enquiry Contact Form</h3>
+            <p data-i18n="catering_form_desc">Please fill out details to request a custom offer</p>
+          </div>
+          
+          <form id="catering-enquiry-form" class="catering-enquiry-form">
+            <div class="catering-form-group">
+              <label for="catering-name" data-i18n="label_catering_name">Contact Person Name *</label>
+              <input type="text" id="catering-name" placeholder="Full Name" data-i18n-placeholder="placeholder_name" required>
+            </div>
+
+            <div class="catering-form-row">
+              <div class="catering-form-group">
+                <label for="catering-phone" data-i18n="label_catering_phone">Phone Number *</label>
+                <input type="text" id="catering-phone" placeholder="Phone Number" data-i18n-placeholder="placeholder_contact_lead" required>
+              </div>
+              <div class="catering-form-group">
+                <label for="catering-email" data-i18n="label_catering_email">Email Address *</label>
+                <input type="email" id="catering-email" placeholder="email@company.com" required>
+              </div>
+            </div>
+
+            <div class="catering-form-group">
+              <label for="catering-address" data-i18n="label_catering_address">Delivery Address *</label>
+              <input type="text" id="catering-address" placeholder="Delivery Street, Building, Floor" required>
+            </div>
+
+            <div class="catering-form-row">
+              <div class="catering-form-group">
+                <label for="catering-company" data-i18n="label_catering_company">Company Name</label>
+                <input type="text" id="catering-company" placeholder="e.g. Acme Kft.">
+              </div>
+              <div class="catering-form-group">
+                <label for="catering-vat" data-i18n="label_catering_vat">VAT Number (Adószám)</label>
+                <input type="text" id="catering-vat" placeholder="12345678-1-12">
+              </div>
+            </div>
+
+            <div class="catering-form-row">
+              <div class="catering-form-group">
+                <label for="catering-persons" data-i18n="label_catering_persons">Number of Persons *</label>
+                <input type="number" id="catering-persons" value="10" min="5" max="500" required>
+              </div>
+              <div class="catering-form-group">
+                <label for="catering-datetime" data-i18n="label_catering_datetime">Date and Time *</label>
+                <input type="datetime-local" id="catering-datetime" required>
+              </div>
+            </div>
+
+            <!-- GDPR Consent -->
+            <div class="catering-form-group" style="display: flex; align-items: flex-start; gap: 0.5rem; text-align: left; margin-top: 0.5rem;">
+              <input type="checkbox" id="catering-privacy" style="margin-top: 0.2rem; cursor: pointer;" required>
+              <label for="catering-privacy" style="font-size: 0.8rem; line-height: 1.3; color: var(--text-muted); cursor: pointer;" data-i18n="catering_privacy_label">I agree to the processing of my data for the enquiry.</label>
+            </div>
+
+            <p id="catering-form-error" class="form-error-lead hidden" style="text-align: left; margin-bottom: 0.5rem;"></p>
+            <p id="catering-form-success" class="form-success-lead hidden" style="color: #2ECC71; font-size: 0.85rem; font-weight: 600; text-align: left; margin-bottom: 0.5rem;" data-i18n="catering_success_msg">Enquiry successfully sent! We will contact you soon.</p>
+
+            <button type="submit" id="btn-submit-catering" class="btn btn-primary btn-magnetic disabled" style="width: 100%;" data-i18n="catering_submit_btn">Submit Batch Order Enquiry</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Careers & Job Application Section -->
+  <section id="careers" class="careers-section scroll-reveal">
+    <div class="container careers-container">
+      <div class="accent-line-gradient center"></div>
+      <h2 class="careers-title" data-i18n="careers_title">Join Our Team</h2>
+      <p class="careers-subtitle" data-i18n="careers_subtitle">We are looking for motivated colleagues in Újpest. Select a role and apply below!</p>
+      
+      <div class="careers-grid">
+        <!-- Left Column: Open Positions -->
+        <div class="careers-positions-card">
+          <div class="careers-positions-header">
+            <h3 data-i18n="careers_positions_header">Open Positions</h3>
+            <p data-i18n="careers_positions_desc">Click a card to select the position you are applying for</p>
+          </div>
+          
+          <div class="careers-positions-list">
+            <!-- Role 1: Pizza Chef -->
+            <div class="careers-pos-row selected" data-position="Pizza Chef">
+              <div class="careers-pos-info">
+                <span class="careers-pos-icon">👨‍🍳</span>
+                <div>
+                  <h4 data-i18n="careers_pos_chef_title">Pizza Chef (Pizzaszakács)</h4>
+                  <p data-i18n="careers_pos_chef_desc">Full-time • Deck oven experience required</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Role 2: Kitchen Assistant -->
+            <div class="careers-pos-row" data-position="Kitchen Assistant">
+              <div class="careers-pos-info">
+                <span class="careers-pos-icon">🧼</span>
+                <div>
+                  <h4 data-i18n="careers_pos_assistant_title">Kitchen Assistant (Kisegítő)</h4>
+                  <p data-i18n="careers_pos_assistant_desc">Full-time or Part-time • Food prep helper</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Role 3: Delivery Driver -->
+            <div class="careers-pos-row" data-position="Delivery Driver">
+              <div class="careers-pos-info">
+                <span class="careers-pos-icon">🚗</span>
+                <div>
+                  <h4 data-i18n="careers_pos_driver_title">Delivery Driver (Futár)</h4>
+                  <p data-i18n="careers_pos_driver_desc">Flexible shifts • Local area knowledge</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Resume Box -->
+          <div class="careers-resume-notice" style="margin-top: 1.5rem; text-align: left; padding: 1.25rem; background-color: var(--bg-light); border-radius: 16px; border: 1px solid rgba(0, 0, 0, 0.03);">
+            <strong data-i18n="careers_direct_apply">Direct Contact:</strong>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">
+              <span data-i18n="careers_resume_email">Email resume to:</span> <a href="mailto:pizzacolombiaujpest@gmail.com" style="color: var(--primary); font-weight: 700;">pizzacolombiaujpest@gmail.com</a><br>
+              <span data-i18n="careers_resume_phone">Phone:</span> <a href="tel:+36707443534" style="color: var(--primary); font-weight: 700;">+36 70 744 3534</a>
+            </p>
+          </div>
+        </div>
+
+        <!-- Right Column: Application Form -->
+        <div class="careers-form-card">
+          <div class="careers-form-header">
+            <h3 data-i18n="careers_form_header">Application Form</h3>
+            <p data-i18n="careers_form_desc">Please fill out all required details below</p>
+          </div>
+          
+          <form id="job-application-form" class="careers-application-form">
+            <!-- Group 1: Personal Info -->
+            <div class="form-group-section" style="margin-bottom: 1.5rem; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 1rem;">
+              <h4 style="font-family: var(--font-heading); font-size: 1.1rem; color: var(--primary); margin-bottom: 1rem;" data-i18n="form_group_personal">1. Personal Information</h4>
+              
+              <div class="careers-form-row">
+                <div class="careers-form-group">
+                  <label for="app-firstname" data-i18n="label_app_firstname">First Name *</label>
+                  <input type="text" id="app-firstname" placeholder="First Name" data-i18n-placeholder="placeholder_app_firstname" required>
+                </div>
+                <div class="careers-form-group">
+                  <label for="app-surname" data-i18n="label_app_surname">Surname *</label>
+                  <input type="text" id="app-surname" placeholder="Surname" data-i18n-placeholder="placeholder_app_surname" required>
+                </div>
+              </div>
+
+              <div class="careers-form-row" style="margin-top: 1rem;">
+                <div class="careers-form-group">
+                  <label for="app-dob" data-i18n="label_app_dob">Date of Birth *</label>
+                  <input type="date" id="app-dob" required>
+                </div>
+                <div class="careers-form-group">
+                  <label for="app-pob" data-i18n="label_app_pob">Place of Birth *</label>
+                  <input type="text" id="app-pob" placeholder="City of Birth" required>
+                </div>
+              </div>
+
+              <div class="careers-form-row" style="margin-top: 1rem;">
+                <div class="careers-form-group">
+                  <label for="app-nationality" data-i18n="label_app_nationality">Nationality *</label>
+                  <input type="text" id="app-nationality" placeholder="e.g. Hungarian" required>
+                </div>
+                <div class="careers-form-group">
+                  <label for="app-mother" data-i18n="label_app_mother">Mother's Name *</label>
+                  <input type="text" id="app-mother" placeholder="Mother's Maiden Name" required>
+                </div>
+              </div>
+            </div>
+
+            <!-- Group 2: Contact Info -->
+            <div class="form-group-section" style="margin-bottom: 1.5rem; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 1rem;">
+              <h4 style="font-family: var(--font-heading); font-size: 1.1rem; color: var(--primary); margin-bottom: 1rem;" data-i18n="form_group_contact">2. Contact Details</h4>
+              
+              <div class="careers-form-row">
+                <div class="careers-form-group">
+                  <label for="app-phone" data-i18n="label_app_phone">Phone Number *</label>
+                  <input type="text" id="app-phone" placeholder="Phone Number" data-i18n-placeholder="placeholder_contact_lead" required>
+                </div>
+                <div class="careers-form-group">
+                  <label for="app-whatsapp" data-i18n="label_app_whatsapp">WhatsApp Number</label>
+                  <input type="text" id="app-whatsapp" placeholder="WhatsApp Number">
+                </div>
+              </div>
+
+              <div class="careers-form-group" style="margin-top: 1rem;">
+                <label for="app-email" data-i18n="label_app_email">Email Address *</label>
+                <input type="email" id="app-email" placeholder="email@example.com" required>
+              </div>
+            </div>
+
+            <!-- Group 3: Address & Status -->
+            <div class="form-group-section" style="margin-bottom: 1.5rem; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 1rem;">
+              <h4 style="font-family: var(--font-heading); font-size: 1.1rem; color: var(--primary); margin-bottom: 1rem;" data-i18n="form_group_status">3. Address & Legal Status</h4>
+              
+              <div class="careers-form-group">
+                <label for="app-address" data-i18n="label_app_address">Address *</label>
+                <input type="text" id="app-address" placeholder="Postal Code, Street, House No., Floor, Door" required>
+              </div>
+
+              <div class="careers-form-row" style="margin-top: 1rem;">
+                <div class="careers-form-group">
+                  <label for="app-availability" data-i18n="label_app_availability">Availability *</label>
+                  <select id="app-availability" required style="width: 100%; padding: 0.75rem 1rem; border-radius: 10px; border: 1px solid rgba(0, 0, 0, 0.08); background-color: var(--bg-white); color: var(--text-main); font-size: 0.9rem; outline: none; transition: border-color 0.3s; cursor: pointer;">
+                    <option value="Full-time" data-i18n="option_availability_full">Full-time</option>
+                    <option value="Part-time" data-i18n="option_availability_part">Part-time</option>
+                  </select>
+                </div>
+                <div class="careers-form-group">
+                  <label for="app-residency" data-i18n="label_app_residency">Residency Card Validity</label>
+                  <input type="text" id="app-residency" placeholder="e.g. Hungarian Citizen / Valid until 2028">
+                </div>
+              </div>
+
+              <div class="careers-form-row" style="margin-top: 1rem;">
+                <div class="careers-form-group">
+                  <label for="app-taj" data-i18n="label_app_taj">TAJ Card Status *</label>
+                  <select id="app-taj" required style="width: 100%; padding: 0.75rem 1rem; border-radius: 10px; border: 1px solid rgba(0, 0, 0, 0.08); background-color: var(--bg-white); color: var(--text-main); font-size: 0.9rem; outline: none; cursor: pointer;">
+                    <option value="Have" data-i18n="option_card_have">Yes, I have it</option>
+                    <option value="Do not have" data-i18n="option_card_donthave">No, I do not have it</option>
+                  </select>
+                </div>
+                <div class="careers-form-group">
+                  <label for="app-tax" data-i18n="label_app_tax">Tax Card Status *</label>
+                  <select id="app-tax" required style="width: 100%; padding: 0.75rem 1rem; border-radius: 10px; border: 1px solid rgba(0, 0, 0, 0.08); background-color: var(--bg-white); color: var(--text-main); font-size: 0.9rem; outline: none; cursor: pointer;">
+                    <option value="Have" data-i18n="option_card_have">Yes, I have it</option>
+                    <option value="Do not have" data-i18n="option_card_donthave">No, I do not have it</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Group 4: Selected position tracker & Intro -->
+            <div class="form-group-section" style="margin-bottom: 1.5rem;">
+              <h4 style="font-family: var(--font-heading); font-size: 1.1rem; color: var(--primary); margin-bottom: 1rem;" data-i18n="form_group_intro">4. Position & Experience</h4>
+              
+              <div class="careers-form-group">
+                <label for="app-position" data-i18n="label_app_position">Selected Position *</label>
+                <input type="text" id="app-position" value="Pizza Chef" readonly style="font-weight: 700; background-color: var(--bg-light); cursor: not-allowed;">
+              </div>
+
+              <div class="careers-form-group" style="margin-top: 1rem;">
+                <label for="app-intro" data-i18n="label_app_intro">Brief Experience & Intro</label>
+                <textarea id="app-intro" rows="4" placeholder="Tell us about your previous pizzeria or work experience..." style="width: 100%; padding: 0.75rem 1rem; border-radius: 10px; border: 1px solid rgba(0, 0, 0, 0.08); background-color: var(--bg-white); color: var(--text-main); font-size: 0.9rem; font-family: inherit; resize: vertical; transition: border-color 0.3s;"></textarea>
+              </div>
+            </div>
+
+            <!-- GDPR Consent -->
+            <div class="careers-form-group" style="display: flex; align-items: flex-start; gap: 0.5rem; text-align: left; margin-top: 0.5rem;">
+              <input type="checkbox" id="app-privacy" style="margin-top: 0.2rem; cursor: pointer;" required>
+              <label for="app-privacy" style="font-size: 0.8rem; line-height: 1.3; color: var(--text-muted); cursor: pointer;" data-i18n="app_privacy_label">I agree to the processing of my personal data for the job application.</label>
+            </div>
+
+            <p id="app-form-error" class="form-error-lead hidden" style="text-align: left; margin-bottom: 0.5rem;"></p>
+            <p id="app-form-success" class="form-success-lead hidden" style="color: #2ECC71; font-size: 0.85rem; font-weight: 600; text-align: left; margin-bottom: 0.5rem;" data-i18n="app_success_msg">Application successfully submitted! Thank you.</p>
+
+            <button type="submit" id="btn-submit-app" class="btn btn-primary btn-magnetic disabled" style="width: 100%;" data-i18n="app_submit_btn">Submit Job Application</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Map & Hours Section -->
+  <section id="info" class="info-section scroll-reveal">
+    <div class="container info-container">
       <!-- Info Details (Map, Opening Hours, Address) -->
       <div class="info-grid">
         <!-- Card 1: Visit & Hours Dashboard -->
@@ -526,6 +947,7 @@
                     <p data-day="Saturday"><span>Saturday</span><span>11:30 – 23:30</span></p>
                     <p data-day="Sunday"><span>Sunday</span><span>11:30 – 23:30</span></p>
                   </div>
+                  <p class="hours-extension-text" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.75rem; font-style: italic; font-weight: 500;" data-i18n="hours_extension_text">* Pickup and self-delivery are available until 01:30 (Friday – Sunday).</p>
                 </div>
               </div>
             </div>
@@ -554,7 +976,6 @@
           </iframe>
         </div>
       </div>
-
     </div>
   </section>
 
