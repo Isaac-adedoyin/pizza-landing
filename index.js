@@ -70,6 +70,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
+  const safeRemoveItem = (key) => {
+    try {
+      localStorage.removeItem(key);
+    } catch (e) {
+      console.warn('localStorage could not remove:', e);
+    }
+  };
+
   let currentLang = safeGetItem('pizza_lang') || 'en';
 
   // 1. Navigation Scroll State
@@ -702,6 +710,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const initPizzaWheel = () => {
     if (pizzaWheel && btnSpinWheel) {
+      // Check 24-hour spin expiry
+      const savedPrizeIndexOnStart = safeGetItem('pizza_wheel_prize');
+      const savedSpinTime = safeGetItem('pizza_wheel_spin_time');
+      if (savedPrizeIndexOnStart !== null && savedSpinTime !== null) {
+        const spinTime = parseInt(savedSpinTime, 10);
+        const oneDayMs = 24 * 60 * 60 * 1000; // 24 hours in ms
+        if (Date.now() - spinTime > oneDayMs) {
+          safeRemoveItem('pizza_wheel_prize');
+          safeRemoveItem('pizza_wheel_spin_time');
+        }
+      }
+
       drawWheel();
 
       // Check localStorage
@@ -761,6 +781,7 @@ document.addEventListener('DOMContentLoaded', () => {
           isSpinning = false;
           
           safeSetItem('pizza_wheel_prize', winIndex);
+          safeSetItem('pizza_wheel_spin_time', Date.now());
           saveWheelLead(nameVal, contactVal, prize);
           showPrizeResult(prize, false);
         });
