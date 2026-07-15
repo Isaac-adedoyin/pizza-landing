@@ -700,71 +700,73 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  if (pizzaWheel && btnSpinWheel) {
-    drawWheel();
+  const initPizzaWheel = () => {
+    if (pizzaWheel && btnSpinWheel) {
+      drawWheel();
 
-    // Check localStorage
-    const savedPrizeIndex = safeGetItem('pizza_wheel_prize');
-    if (savedPrizeIndex !== null) {
-      const idx = parseInt(savedPrizeIndex, 10);
-      const prize = prizes[idx];
-      showPrizeResult(prize, true);
-    } else {
-      // Setup lead validation listeners if not spun yet
-      if (leadNameInput && leadContactInput) {
-        leadNameInput.addEventListener('input', validateWheelForm);
-        leadContactInput.addEventListener('input', validateWheelForm);
-        if (leadPrivacyInput) {
-          leadPrivacyInput.addEventListener('change', validateWheelForm);
+      // Check localStorage
+      const savedPrizeIndex = safeGetItem('pizza_wheel_prize');
+      if (savedPrizeIndex !== null) {
+        const idx = parseInt(savedPrizeIndex, 10);
+        const prize = prizes[idx];
+        showPrizeResult(prize, true);
+      } else {
+        // Setup lead validation listeners if not spun yet
+        if (leadNameInput && leadContactInput) {
+          leadNameInput.addEventListener('input', validateWheelForm);
+          leadContactInput.addEventListener('input', validateWheelForm);
+          if (leadPrivacyInput) {
+            leadPrivacyInput.addEventListener('change', validateWheelForm);
+          }
+          // Initial call
+          validateWheelForm();
         }
-        // Initial call
-        validateWheelForm();
-      }
-    }
-
-    let isSpinning = false;
-
-    btnSpinWheel.addEventListener('click', () => {
-      if (isSpinning || safeGetItem('pizza_wheel_prize') !== null) return;
-
-      // Validate inputs
-      const nameVal = leadNameInput ? leadNameInput.value.trim() : '';
-      const contactVal = leadContactInput ? leadContactInput.value.trim() : '';
-      const privacyVal = leadPrivacyInput ? leadPrivacyInput.checked : false;
-
-      if (nameVal.length < 2 || contactVal.length < 5 || !privacyVal) {
-        const errorEl = document.getElementById('wheel-form-error');
-        if (errorEl) {
-          errorEl.innerText = currentLang === 'hu' ? 'Kérjük, fogadd el az adatkezelési hozzájárulást!' : 'Please accept the data processing consent!';
-          errorEl.classList.remove('hidden');
-        }
-        return;
       }
 
-      isSpinning = true;
-      btnSpinWheel.classList.add('disabled');
+      let isSpinning = false;
 
-      // Random winner based on odds weightings
-      const pool = [0, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 5, 5, 5, 5, 6, 6, 7, 7, 7];
-      const winIndex = pool[Math.floor(Math.random() * pool.length)];
-      const prize = prizes[winIndex];
+      btnSpinWheel.addEventListener('click', () => {
+        if (isSpinning || safeGetItem('pizza_wheel_prize') !== null) return;
 
-      const fullSpins = 5;
-      const sliceDegrees = 360 / prizes.length;
-      const targetDegrees = (fullSpins * 360) + (270 - (winIndex * sliceDegrees) - (sliceDegrees / 2));
+        // Validate inputs
+        const nameVal = leadNameInput ? leadNameInput.value.trim() : '';
+        const contactVal = leadContactInput ? leadContactInput.value.trim() : '';
+        const privacyVal = leadPrivacyInput ? leadPrivacyInput.checked : false;
 
-      pizzaWheel.style.transform = `rotate(${targetDegrees}deg)`;
+        if (nameVal.length < 2 || contactVal.length < 5 || !privacyVal) {
+          const errorEl = document.getElementById('wheel-form-error');
+          if (errorEl) {
+            errorEl.innerText = currentLang === 'hu' ? 'Kérjük, fogadd el az adatkezelési hozzájárulást!' : 'Please accept the data processing consent!';
+            errorEl.classList.remove('hidden');
+          }
+          return;
+        }
 
-      pizzaWheel.addEventListener('transitionend', function handler() {
-        pizzaWheel.removeEventListener('transitionend', handler);
-        isSpinning = false;
-        
-        safeSetItem('pizza_wheel_prize', winIndex);
-        saveWheelLead(nameVal, contactVal, prize);
-        showPrizeResult(prize, false);
+        isSpinning = true;
+        btnSpinWheel.classList.add('disabled');
+
+        // Random winner based on odds weightings
+        const pool = [0, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 5, 5, 5, 5, 6, 6, 7, 7, 7];
+        const winIndex = pool[Math.floor(Math.random() * pool.length)];
+        const prize = prizes[winIndex];
+
+        const fullSpins = 5;
+        const sliceDegrees = 360 / prizes.length;
+        const targetDegrees = (fullSpins * 360) + (270 - (winIndex * sliceDegrees) - (sliceDegrees / 2));
+
+        pizzaWheel.style.transform = `rotate(${targetDegrees}deg)`;
+
+        pizzaWheel.addEventListener('transitionend', function handler() {
+          pizzaWheel.removeEventListener('transitionend', handler);
+          isSpinning = false;
+          
+          safeSetItem('pizza_wheel_prize', winIndex);
+          saveWheelLead(nameVal, contactVal, prize);
+          showPrizeResult(prize, false);
+        });
       });
-    });
-  }
+    }
+  };
 
   // Copy Promo Code to clipboard
   if (btnCopyPromo) {
@@ -2762,6 +2764,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initToppingBadges();
     bindCopyAmountButton('btn-copy-payment-amount', 'pending-total-amount');
     bindCopyAmountButton('btn-copy-success-amount', 'success-total-amount');
+    initPizzaWheel();
     updateLanguageUI();
   });
 
