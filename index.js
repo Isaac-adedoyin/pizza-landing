@@ -708,40 +708,84 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  const resetWheelUI = () => {
+    if (pizzaWheel) {
+      pizzaWheel.style.transition = 'transform 1s ease-out';
+      pizzaWheel.style.transform = 'rotate(0deg)';
+    }
+
+    if (leadFormContainer) leadFormContainer.classList.remove('hidden');
+    if (spinHintText) spinHintText.classList.remove('hidden');
+
+    if (btnSpinWheel) {
+      btnSpinWheel.classList.remove('disabled');
+      btnSpinWheel.innerText = currentLang === 'hu' ? 'PÖRGETÉS' : 'SPIN';
+    }
+
+    if (statusArea) statusArea.classList.remove('hidden');
+    if (resultCard) resultCard.classList.add('hidden');
+
+    if (leadNameInput) leadNameInput.value = '';
+    if (leadContactInput) leadContactInput.value = '';
+    if (leadPrivacyInput) leadPrivacyInput.checked = false;
+
+    validateWheelForm();
+  };
+
+  const checkSpinExpiry = () => {
+    const savedPrizeIndex = safeGetItem('pizza_wheel_prize');
+    const savedSpinTime = safeGetItem('pizza_wheel_spin_time');
+    
+    if (savedPrizeIndex !== null) {
+      const spinTime = parseInt(savedSpinTime, 10);
+      const oneDayMs = 24 * 60 * 60 * 1000;
+      
+      if (isNaN(spinTime) || (Date.now() - spinTime > oneDayMs)) {
+        safeRemoveItem('pizza_wheel_prize');
+        safeRemoveItem('pizza_wheel_spin_time');
+        resetWheelUI();
+        return true;
+      }
+    }
+    return false;
+  };
+
   const initPizzaWheel = () => {
     if (pizzaWheel && btnSpinWheel) {
-      // Check 24-hour spin expiry
-      const savedPrizeIndexOnStart = safeGetItem('pizza_wheel_prize');
-      const savedSpinTime = safeGetItem('pizza_wheel_spin_time');
-      if (savedPrizeIndexOnStart !== null && savedSpinTime !== null) {
-        const spinTime = parseInt(savedSpinTime, 10);
-        const oneDayMs = 24 * 60 * 60 * 1000; // 24 hours in ms
-        if (Date.now() - spinTime > oneDayMs) {
-          safeRemoveItem('pizza_wheel_prize');
-          safeRemoveItem('pizza_wheel_spin_time');
+      // Setup lead validation listeners always
+      if (leadNameInput && leadContactInput) {
+        leadNameInput.addEventListener('input', validateWheelForm);
+        leadContactInput.addEventListener('input', validateWheelForm);
+        if (leadPrivacyInput) {
+          leadPrivacyInput.addEventListener('change', validateWheelForm);
         }
       }
 
+      // Initial check for spin expiry
+      checkSpinExpiry();
+
       drawWheel();
 
-      // Check localStorage
+      // Check localStorage to set initial state
       const savedPrizeIndex = safeGetItem('pizza_wheel_prize');
       if (savedPrizeIndex !== null) {
         const idx = parseInt(savedPrizeIndex, 10);
         const prize = prizes[idx];
         showPrizeResult(prize, true);
       } else {
-        // Setup lead validation listeners if not spun yet
-        if (leadNameInput && leadContactInput) {
-          leadNameInput.addEventListener('input', validateWheelForm);
-          leadContactInput.addEventListener('input', validateWheelForm);
-          if (leadPrivacyInput) {
-            leadPrivacyInput.addEventListener('change', validateWheelForm);
-          }
-          // Initial call
-          validateWheelForm();
-        }
+        validateWheelForm();
       }
+
+      // Periodically check for 24-hour expiry (in case page is left open)
+      setInterval(checkSpinExpiry, 15000); // Check every 15 seconds
+
+      // Check for expiry when window is focused or tab becomes visible again
+      window.addEventListener('focus', checkSpinExpiry);
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+          checkSpinExpiry();
+        }
+      });
 
       let isSpinning = false;
 
