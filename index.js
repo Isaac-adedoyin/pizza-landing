@@ -707,9 +707,16 @@ function initApp() {
   const drawWheel = () => {
     const canvas = document.getElementById('pizza-wheel');
     if (!canvas) return;
+
+    const displaySize = canvas.clientWidth || 480;
+    if (displaySize > 0 && (canvas.width !== displaySize || canvas.height !== displaySize)) {
+      canvas.width = displaySize;
+      canvas.height = displaySize;
+    }
+
     const ctx = canvas.getContext('2d');
-    const cw = canvas.width;
-    const ch = canvas.height;
+    const cw = canvas.width || 480;
+    const ch = canvas.height || 480;
     const cx = cw / 2;
     const cy = ch / 2;
     const radius = cw / 2 - 10;
@@ -805,7 +812,7 @@ function initApp() {
     resultCard.classList.remove('hidden');
 
     if (prize.code) {
-      resultCard.querySelector('.result-celebration').innerText = currentLang === 'hu' ? '🎉 HELYBEN FOGYASZTÁS NYERTES! 🎉' : '🎉 DINE-IN WINNER! 🎉';
+      resultCard.querySelector('.result-celebration').innerText = currentLang === 'hu' ? '🎉 NYERTES! 🎉' : '🎉 WINNER! 🎉';
       const transText = currentLang === 'hu' ? (wheelTranslations.hu[prize.text]?.text || prize.text) : prize.text;
       prizeTitle.innerText = currentLang === 'hu' ? `Nyertél: ${transText}!` : `You won: ${prize.text}!`;
       prizeDesc.innerText = currentLang === 'hu' ? (wheelTranslations.hu[prize.text]?.desc || prize.desc) : prize.desc;
@@ -927,6 +934,9 @@ function initApp() {
       checkSpinExpiry();
 
       drawWheel();
+      requestAnimationFrame(drawWheel);
+      setTimeout(drawWheel, 150);
+      setTimeout(drawWheel, 500);
 
       // Check localStorage to set initial state
       const savedPrizeIndex = safeGetItem('pizza_wheel_prize');
