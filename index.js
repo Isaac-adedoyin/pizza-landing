@@ -51,7 +51,7 @@ function parseCSV(text) {
   return lines;
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function initApp() {
   // Safe localStorage helper functions to prevent crashes in private modes/safari
   const safeGetItem = (key) => {
     try {
@@ -103,16 +103,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const mobileLinks = document.querySelectorAll('.mobile-menu a');
 
   const toggleMobileMenu = () => {
-    mobileToggle.classList.toggle('active');
-    mobileMenu.classList.toggle('active');
+    if (mobileToggle) mobileToggle.classList.toggle('active');
+    if (mobileMenu) mobileMenu.classList.toggle('active');
     document.body.classList.toggle('no-scroll');
   };
 
-  mobileToggle.addEventListener('click', toggleMobileMenu);
+  if (mobileToggle) {
+    mobileToggle.addEventListener('click', toggleMobileMenu);
+  }
 
   mobileLinks.forEach(link => {
     link.addEventListener('click', () => {
-      if (mobileMenu.classList.contains('active')) {
+      if (mobileMenu && mobileMenu.classList.contains('active')) {
         toggleMobileMenu();
       }
     });
@@ -1023,7 +1025,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const stepPayment = document.getElementById('step-payment');
   const verificationModal = document.getElementById('verification-modal');
   const stepSuccess = document.getElementById('step-success');
-  const btnSkipTimer = document.getElementById('btn-skip-timer');
   const drawerTitle = document.getElementById('cart-drawer-title');
 
   // Footer Buttons
@@ -2833,4 +2834,10 @@ document.addEventListener('DOMContentLoaded', () => {
     updateLanguageUI();
   });
 
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initApp);
+} else {
+  initApp();
+}
