@@ -377,7 +377,7 @@
                     <span>📋 Copy Code</span>
                   </button>
                 </div>
-                <p class="result-terms" data-i18n="wheel_terms">Valid for eat in or pickup only, only one voucher per day redeemed per person and not in conjunction with any other specials.</p>
+                <p class="result-terms" data-i18n="wheel_terms">Valid for eat in or pickup only, limit of one spin per day, only one voucher per day redeemed per person and not in conjunction with any other specials.</p>
               </div>
             </div>
           </div>
@@ -1560,8 +1560,8 @@
                 <input type="radio" id="type-pickup" name="order-type" value="pickup" checked>
                 <label for="type-pickup" class="toggle-label label-pickup" data-i18n="form_pickup_toggle">🚶 Pickup</label>
                 
-                <input type="radio" id="type-delivery" name="order-type" value="delivery">
-                <label for="type-delivery" class="toggle-label label-delivery" data-i18n="form_delivery_toggle">🚗 Delivery</label>
+                <input type="radio" id="type-delivery" name="order-type" value="delivery" disabled>
+                <label for="type-delivery" class="toggle-label label-delivery" style="opacity: 0.45; cursor: not-allowed; pointer-events: none;" title="Delivery is temporarily disabled" data-i18n="form_delivery_toggle">🚗 Delivery (Disabled)</label>
               </div>
             </div>
             

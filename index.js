@@ -204,6 +204,15 @@ function initApp() {
   if (btnCloseMenu) btnCloseMenu.addEventListener('click', closeModal);
   if (modalOverlay) modalOverlay.addEventListener('click', closeModal);
 
+  // Linktree / Direct Menu URL Hash Routing (#menu)
+  const handleMenuHashRouting = () => {
+    if (window.location.hash === '#menu') {
+      openModal();
+    }
+  };
+  handleMenuHashRouting();
+  window.addEventListener('hashchange', handleMenuHashRouting);
+
   // Close modal with Escape key
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && modal.classList.contains('active')) {
@@ -1833,7 +1842,7 @@ function initApp() {
       wheel_hint: 'Click SPIN in the center of the pizza to test your luck!',
       wheel_spin_btn: 'SPIN',
       result_celebration_win: '🎉 WINNER! 🎉',
-      wheel_terms: 'Valid for eat in or pickup only, only one voucher per day redeemed per person and not in conjunction with any other specials.',
+      wheel_terms: 'Valid for eat in or pickup only, limit of one spin per day, only one voucher per day redeemed per person and not in conjunction with any other specials.',
       order_wolt: 'Order on Wolt',
       order_foodora: 'Order on Foodora',
       order_btn: 'Explore Digital Menu',
@@ -1874,7 +1883,7 @@ function initApp() {
       form_phone_label: 'Phone Number *',
       form_type_label: 'Order Option *',
       form_pickup_toggle: '🚶 Pickup',
-      form_delivery_toggle: '🚗 Delivery',
+      form_delivery_toggle: '🚗 Delivery (Disabled)',
       form_address_label: 'Delivery Address (Street, Number) *',
       form_floor_label: 'Floor',
       form_door_label: 'Door',
@@ -2058,7 +2067,7 @@ function initApp() {
       wheel_hint: 'Kattints a PÖRGETÉS gombra a pizza közepén, hogy próbára tedd a szerencsédet!',
       wheel_spin_btn: 'PÖRGETÉS',
       result_celebration_win: '🎉 NYERTES! 🎉',
-      wheel_terms: 'Kizárólag helyben fogyasztás vagy elvitel esetén érvényes. Személyenként naponta csak egy kupon váltható be, és más kedvezményekkel nem vonható össze.',
+      wheel_terms: 'Kizárólag helyben fogyasztás vagy elvitel esetén érvényes, napi 1 pörgetési korlátozással, személyenként naponta csak egy kupon váltható be, és más kedvezményekkel nem vonható össze.',
       order_wolt: 'Rendelés Wolton',
       order_foodora: 'Rendelés Foodorán',
       order_btn: 'Digitális Étlap Felfedezése',
@@ -2088,7 +2097,7 @@ function initApp() {
       verification_title: 'Várakozás a szakács jóváhagyására',
       verification_instruction: 'Összevetjük a WhatsApp rendelési adatait a SumUp fizetéssel. Amint a konyha megerősíti a fizetést, kattintson az alábbi megerősítő gombra.',
       verification_warning: '⚠️ Ha a fizetés nincs megerősítve, a rendelés NEM kerül elkészítésre.',
-      verification_timer_label: 'Becsült ellenőrzési idő',
+      verification_timer_label: 'Becsült ellenőrozési idő',
       verification_pulse_text: 'Várakozás a konyha válaszára...',
       btn_chef_confirmed: 'A konyha megerősítette ✅',
       btn_verification_whatsapp: '💬 Kapcsolatfelvétel WhatsApp-on',
@@ -2099,7 +2108,7 @@ function initApp() {
       form_phone_label: 'Telefonszám *',
       form_type_label: 'Átvétel módja *',
       form_pickup_toggle: '🚶 Átvétel',
-      form_delivery_toggle: '🚗 Kiszállítás',
+      form_delivery_toggle: '🚗 Kiszállítás (Inaktív)',
       form_address_label: 'Szállítási cím (Utca, Házszám) *',
       form_floor_label: 'Emelet',
       form_door_label: 'Ajtó',
