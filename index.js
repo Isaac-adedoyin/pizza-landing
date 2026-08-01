@@ -241,7 +241,9 @@ function initApp() {
 
   const openRateModal = () => {
     if (!rateModal) return;
+    rateModal.style.display = 'flex';
     rateModal.classList.add('active');
+    rateModal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
     resetRateModal();
   };
@@ -249,6 +251,8 @@ function initApp() {
   const closeRateModal = () => {
     if (!rateModal) return;
     rateModal.classList.remove('active');
+    rateModal.style.display = 'none';
+    rateModal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
   };
 
@@ -266,12 +270,13 @@ function initApp() {
   const rateModalOverlay = rateModal ? rateModal.querySelector('.rate-modal-overlay') : null;
   if (rateModalOverlay) rateModalOverlay.addEventListener('click', closeRateModal);
 
-  // Bind all Rate Us links on page to openRateModal
-  document.querySelectorAll('a[href="#rate"], a[href="#feedback"]').forEach(link => {
-    link.addEventListener('click', (e) => {
+  // Global click event delegation for Rate Us triggers
+  document.addEventListener('click', (e) => {
+    const target = e.target.closest('a[href="#rate"], a[href="#feedback"], .btn-rate-modal-trigger');
+    if (target) {
       e.preventDefault();
       openRateModal();
-    });
+    }
   });
 
   if (btnSentimentHappy) {
@@ -548,9 +553,9 @@ function initApp() {
         Tuesday: { startH: 12, startM: 0, endH: 23, endM: 30 },
         Wednesday: { startH: 12, startM: 0, endH: 23, endM: 30 },
         Thursday: { startH: 12, startM: 0, endH: 23, endM: 30 },
-        Friday: { startH: 11, startM: 30, endH: 25, endM: 30 }, // 01:30 next day
-        Saturday: { startH: 11, startM: 30, endH: 25, endM: 30 }, // 01:30 next day
-        Sunday: { startH: 11, startM: 30, endH: 25, endM: 30 } // 01:30 next day
+        Friday: { startH: 11, startM: 30, endH: 23, endM: 30 },
+        Saturday: { startH: 11, startM: 30, endH: 23, endM: 30 },
+        Sunday: { startH: 11, startM: 30, endH: 23, endM: 30 }
       };
       
       const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
