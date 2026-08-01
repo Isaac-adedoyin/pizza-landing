@@ -120,7 +120,7 @@ function initApp() {
     });
   });
 
-  // 3. Scroll Reveal Animations (Intersection Observer)
+  // 3. Scroll Reveal Animations (Intersection Observer & Fail-safe)
   const revealElements = document.querySelectorAll('.scroll-reveal');
   const revealObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
@@ -130,11 +130,21 @@ function initApp() {
       }
     });
   }, {
-    threshold: 0.15,
-    rootMargin: '0px 0px -50px 0px'
+    threshold: 0.01,
+    rootMargin: '200px 0px 200px 0px'
   });
 
   revealElements.forEach(el => revealObserver.observe(el));
+
+  // Fail-safe: Immediately reveal all elements if hash navigated or after short delay
+  const forceRevealAll = () => {
+    revealElements.forEach(el => el.classList.add('revealed'));
+  };
+
+  if (window.location.hash) {
+    forceRevealAll();
+  }
+  setTimeout(forceRevealAll, 300);
 
   // 4. Stats Number Counter Animation
   const statNumbers = document.querySelectorAll('.stat-number');
@@ -168,21 +178,31 @@ function initApp() {
   const statsSection = document.querySelector('.stats-section');
   let statsAnimated = false;
 
+  const triggerStatsAnimation = () => {
+    if (!statsAnimated) {
+      statNumbers.forEach(num => animateCount(num));
+      statsAnimated = true;
+    }
+  };
+
   const statsObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting && !statsAnimated) {
-        statNumbers.forEach(num => animateCount(num));
-        statsAnimated = true;
+        triggerStatsAnimation();
         statsObserver.unobserve(entry.target);
       }
     });
   }, {
-    threshold: 0.3
+    threshold: 0.01,
+    rootMargin: '100px 0px 100px 0px'
   });
 
   if (statsSection) {
     statsObserver.observe(statsSection);
   }
+
+  // Fail-safe: Trigger stats animation after 500ms automatically
+  setTimeout(triggerStatsAnimation, 500);
 
   // 5. Interactive Digital Menu Modal
   const modal = document.getElementById('menu-modal');
@@ -204,14 +224,144 @@ function initApp() {
   if (btnCloseMenu) btnCloseMenu.addEventListener('click', closeModal);
   if (modalOverlay) modalOverlay.addEventListener('click', closeModal);
 
-  // Linktree / Direct Menu URL Hash Routing (#menu)
-  const handleMenuHashRouting = () => {
-    if (window.location.hash === '#menu') {
+  // Linktree / Direct Menu URL Hash Routing (#menu, #rate, #spinner)
+  const rateModal = document.getElementById('rate-modal');
+  const btnCloseRateModal = document.getElementById('btn-close-rate-modal');
+  const btnCloseRateSuccess = document.getElementById('btn-close-rate-success');
+  const btnSentimentHappy = document.getElementById('btn-sentiment-happy');
+  const btnSentimentWrong = document.getElementById('btn-sentiment-wrong');
+  const btnShowPrivateForm = document.getElementById('btn-show-private-form');
+  const feedbackForm = document.getElementById('feedback-form');
+
+  const stepSentiment = document.getElementById('rate-step-sentiment');
+  const stepHappy = document.getElementById('rate-step-happy');
+  const stepFeedbackForm = document.getElementById('rate-step-feedback-form');
+  const stepSuccess = document.getElementById('rate-step-success');
+
+  const openRateModal = () => {
+    if (!rateModal) return;
+    rateModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    resetRateModal();
+  };
+
+  const closeRateModal = () => {
+    if (!rateModal) return;
+    rateModal.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+
+  const resetRateModal = () => {
+    if (stepSentiment) stepSentiment.classList.remove('hidden');
+    if (stepHappy) stepHappy.classList.add('hidden');
+    if (stepFeedbackForm) stepFeedbackForm.classList.add('hidden');
+    if (stepSuccess) stepSuccess.classList.add('hidden');
+    if (feedbackForm) feedbackForm.reset();
+  };
+
+  if (btnCloseRateModal) btnCloseRateModal.addEventListener('click', closeRateModal);
+  if (btnCloseRateSuccess) btnCloseRateSuccess.addEventListener('click', closeRateModal);
+
+  const rateModalOverlay = rateModal ? rateModal.querySelector('.rate-modal-overlay') : null;
+  if (rateModalOverlay) rateModalOverlay.addEventListener('click', closeRateModal);
+
+  // Bind all Rate Us links on page to openRateModal
+  document.querySelectorAll('a[href="#rate"], a[href="#feedback"]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      openRateModal();
+    });
+  });
+
+  if (btnSentimentHappy) {
+    btnSentimentHappy.addEventListener('click', () => {
+      if (stepSentiment) stepSentiment.classList.add('hidden');
+      if (stepHappy) stepHappy.classList.remove('hidden');
+    });
+  }
+
+  if (btnSentimentWrong) {
+    btnSentimentWrong.addEventListener('click', () => {
+      if (stepSentiment) stepSentiment.classList.add('hidden');
+      if (stepFeedbackForm) stepFeedbackForm.classList.remove('hidden');
+    });
+  }
+
+  if (btnShowPrivateForm) {
+    btnShowPrivateForm.addEventListener('click', () => {
+      if (stepHappy) stepHappy.classList.add('hidden');
+      if (stepFeedbackForm) stepFeedbackForm.classList.remove('hidden');
+    });
+  }
+
+  if (feedbackForm) {
+    feedbackForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const feedbackData = {
+        name: document.getElementById('rate-name')?.value || '',
+        phone: document.getElementById('rate-phone')?.value || '',
+        email: document.getElementById('rate-email')?.value || '',
+        orderNumber: document.getElementById('rate-order-num')?.value || '',
+        details: document.getElementById('rate-details')?.value || '',
+        contactMethod: document.getElementById('rate-contact-method')?.value || 'phone',
+        timestamp: new Date().toLocaleString('hu-HU', { timeZone: 'Europe/Budapest' })
+      };
+
+      if (CONFIG.wheelLeadsUrl) {
+        const feedbackPayload = {
+          sheetName: 'Feedback',
+          formType: 'Rate Experience Feedback',
+          action: 'feedback',
+          type: 'Feedback',
+          name: feedbackData.name,
+          phone: feedbackData.phone,
+          email: feedbackData.email,
+          orderNumber: feedbackData.orderNumber,
+          details: feedbackData.details,
+          contactMethod: feedbackData.contactMethod,
+          timestamp: feedbackData.timestamp
+        };
+
+        // Try JSON payload first (Google Apps Script e.postData.contents)
+        fetch(CONFIG.wheelLeadsUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(feedbackPayload)
+        }).catch(err => {
+          // Fallback to URLSearchParams
+          const formData = new URLSearchParams();
+          Object.keys(feedbackPayload).forEach(key => formData.append(key, feedbackPayload[key]));
+          fetch(CONFIG.wheelLeadsUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: formData.toString()
+          }).catch(e => console.log('Feedback log sent', e));
+        });
+      }
+
+      if (stepFeedbackForm) stepFeedbackForm.classList.add('hidden');
+      if (stepSuccess) stepSuccess.classList.remove('hidden');
+    });
+  }
+
+  const handleUniversalHashRouting = () => {
+    const hash = (window.location.hash || '').toLowerCase();
+    if (hash === '#menu') {
       openModal();
+    } else if (hash === '#rate' || hash === '#feedback' || hash === '#rate-experience') {
+      openRateModal();
+    } else if (hash === '#spinner' || hash === '#wheel' || hash === '#spin') {
+      const wheelElem = document.getElementById('order') || document.getElementById('pizza-wheel');
+      if (wheelElem) {
+        wheelElem.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
-  handleMenuHashRouting();
-  window.addEventListener('hashchange', handleMenuHashRouting);
+
+  handleUniversalHashRouting();
+  window.addEventListener('hashchange', handleUniversalHashRouting);
 
   // Close modal with Escape key
   document.addEventListener('keydown', (e) => {
@@ -1772,6 +1922,8 @@ function initApp() {
       nav_ingredients: 'Ingredients',
       nav_styles: 'Styles',
       nav_stats: 'Stats',
+      nav_rate_experience: 'Rate Us',
+      btn_rate_experience: '⭐ Rate Your Experience',
       nav_order: 'Order Now',
       nav_order_mobile: 'Order Online',
       hero_title: 'Pizza Colombia offers fresh Neapolitan and New York-style pizzas in Újpest.',
@@ -1846,7 +1998,7 @@ function initApp() {
       order_wolt: 'Order on Wolt',
       order_foodora: 'Order on Foodora',
       order_btn: 'Explore Digital Menu',
-      reviews_header: 'Google Reviews • Pizza Colombia Újpest ⭐ 4.5 / 5.0',
+      reviews_header: 'Google Reviews • Pizza Colombia Újpest',
       review1_title: 'Google Review • 5 Stars',
       review1_text: '"Five stars for food, service, and atmosphere! The authentic artisanal pizzas and crust quality in Újpest are top notch."',
       review2_title: 'Google Review • 5 Stars',
@@ -1989,7 +2141,31 @@ function initApp() {
       label_app_position: 'Selected Position *',
       label_app_intro: 'Brief Experience & Intro',
       app_success_msg: 'Application successfully submitted! Thank you.',
-      app_submit_btn: 'Submit Job Application'
+      app_submit_btn: 'Submit Job Application',
+      rate_modal_title: 'How was your experience? ⭐',
+      rate_modal_subtitle: 'We value your feedback! Select an option below to let us know how we did.',
+      sentiment_happy_title: 'Happy',
+      sentiment_happy_desc: "We're delighted you enjoyed your experience!",
+      sentiment_wrong_title: 'Something went wrong',
+      sentiment_wrong_desc: "We're sorry. Tell us what happened so we can address it quickly.",
+      happy_intro: "We're delighted you enjoyed your experience! Please consider leaving us a review online or sending private feedback:",
+      btn_google_review: 'Leave a Google Review',
+      btn_facebook_review: 'Leave a Facebook Review',
+      btn_private_feedback: 'Send Private Feedback',
+      rate_label_name: 'Full Name *',
+      rate_label_phone: 'Telephone Number *',
+      rate_label_email: 'Email Address *',
+      rate_label_ordernum: 'Order Number (Optional)',
+      rate_label_details: 'What went wrong? / Your Feedback *',
+      rate_label_method: 'Preferred Contact Method',
+      option_method_phone: 'Phone Call',
+      option_method_email: 'Email',
+      option_method_whatsapp: 'WhatsApp',
+      btn_send_feedback: 'Send Feedback',
+      rate_fallback_text: 'You can also leave a public review on our social pages:',
+      rate_success_title: 'Thank You!',
+      rate_success_msg: 'Thank you for letting us know. A member of our team will contact you as soon as possible.',
+      btn_close: 'Close'
     },
     hu: {
       nav_home: 'Kezdőlap',
@@ -1997,6 +2173,8 @@ function initApp() {
       nav_ingredients: 'Összetevők',
       nav_styles: 'Stílusok',
       nav_stats: 'Statisztika',
+      nav_rate_experience: 'Értékelj Minket',
+      btn_rate_experience: '⭐ Értékeld az Élményed',
       nav_order: 'Rendelés',
       nav_order_mobile: 'Rendelés Online',
       hero_title: 'A Pizza Colombia friss nápolyi és New York-i stílusú pizzákat kínál Újpesten.',
@@ -2071,7 +2249,7 @@ function initApp() {
       order_wolt: 'Rendelés Wolton',
       order_foodora: 'Rendelés Foodorán',
       order_btn: 'Digitális Étlap Felfedezése',
-      reviews_header: 'Google Vélemények • Pizza Colombia Újpest ⭐ 4.5 / 5.0',
+      reviews_header: 'Google Vélemények • Pizza Colombia Újpest',
       review1_title: 'Google Vélemény • 5 Csillag',
       review1_text: '"Öt csillag az ételekre, a kiszolgálásra és a hangulatra! Az autentikus kézműves pizzák és a tészta minősége Újpesten kimagasló."',
       review2_title: 'Google Vélemény • 5 Csillag',
@@ -2213,9 +2391,32 @@ function initApp() {
       option_card_donthave: 'Nem rendelkezem vele',
       form_group_intro: '4. Pozíció és Tapasztalat',
       label_app_position: 'Kiválasztott Pozíció *',
-      label_app_intro: 'Rövid Tapasztalat és Bemutatkozás',
       app_success_msg: 'Jelentkezés sikeresen elküldve! Köszönjük.',
-      app_submit_btn: 'JELENTKEZÉS KÜLDÉSE'
+      app_submit_btn: 'JELENTKEZÉS KÜLDÉSE',
+      rate_modal_title: 'Hogy tetszett az élmény? ⭐',
+      rate_modal_subtitle: 'Nagyra értékeljük a visszajelzésedet! Válassz az alábbi lehetőségek közül.',
+      sentiment_happy_title: 'Elégedett voltam 😃',
+      sentiment_happy_desc: 'Örülünk, hogy jó élményben volt részed!',
+      sentiment_wrong_title: 'Valami elromlott 😞',
+      sentiment_wrong_desc: 'Sajnáljuk. Kérjük, mondd el mi történt, hogy gyorsan orvosolhassuk.',
+      happy_intro: 'Nagyon örülünk, hogy elégedett voltál! Kérjük, írj nekünk egy értékelést online vagy küldj privát visszajelzést:',
+      btn_google_review: 'Google Értékelés Írása',
+      btn_facebook_review: 'Facebook Értékelés Írása',
+      btn_private_feedback: 'Privát Visszajelzés Küldése',
+      rate_label_name: 'Teljes név *',
+      rate_label_phone: 'Telefonszám *',
+      rate_label_email: 'Email cím *',
+      rate_label_ordernum: 'Rendelésszám (Opcionális)',
+      rate_label_details: 'Mi romlott el? / Visszajelzés *',
+      rate_label_method: 'Preferált kapcsolatfelvételi mód',
+      option_method_phone: 'Telefonhívás',
+      option_method_email: 'Email',
+      option_method_whatsapp: 'WhatsApp',
+      btn_send_feedback: 'Visszajelzés Küldése',
+      rate_fallback_text: 'Publikus értékelést is írhatsz közösségi oldalainkon:',
+      rate_success_title: 'Köszönjük!',
+      rate_success_msg: 'Köszönjük, hogy értesítettél minket. Csapatunk egyik tagja a lehető leghamarabb felveszi veled a kapcsolatot.',
+      btn_close: 'Bezárás'
     }
   };
 
@@ -2831,6 +3032,9 @@ function initApp() {
     // Initial validation call
     validateJobForm();
   }
+
+  // Synchronous init for pizza wheel canvas
+  initPizzaWheel();
 
   // Load menu
   loadDynamicMenu().then(() => {

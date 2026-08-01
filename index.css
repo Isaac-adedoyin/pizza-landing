@@ -1606,16 +1606,9 @@ button {
    Animations / Reveal classes
    ------------------------------------------------------------------------- */
 .scroll-reveal {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform, opacity;
-  backface-visibility: hidden;
-}
-
-.scroll-reveal.revealed {
   opacity: 1;
   transform: translateY(0);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* -------------------------------------------------------------------------
@@ -3658,5 +3651,250 @@ input[type="checkbox"]:checked::after {
   color: rgba(0, 0, 0, 0.2);
   font-size: 0.8rem;
   user-select: none;
+}
+
+/* ==========================================================================
+   Rate Your Experience Modal Styling
+   ========================================================================== */
+.rate-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.rate-modal.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.rate-modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(5px);
+}
+
+.rate-modal-content {
+  position: relative;
+  width: 90%;
+  max-width: 540px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 2rem;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+  z-index: 2;
+  box-sizing: border-box;
+}
+
+.btn-close-rate {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  background: #F2F4F4;
+  border: none;
+  font-size: 1.5rem;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #7F8C8D;
+  transition: all 0.2s ease;
+}
+
+.btn-close-rate:hover {
+  background: #E5E8E8;
+  color: #2C3E50;
+}
+
+.rate-modal-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.rate-modal-title {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  color: var(--text-dark);
+  margin-bottom: 0.35rem;
+}
+
+.rate-modal-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.sentiment-cards-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sentiment-card {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.25rem;
+  border-radius: 16px;
+  border: 2px solid #EAECEE;
+  background: #FAFBFB;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.25s ease;
+  width: 100%;
+}
+
+.sentiment-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+}
+
+.sentiment-happy:hover {
+  border-color: #2ECC71;
+  background: #F0FDF4;
+}
+
+.sentiment-wrong:hover {
+  border-color: #E74C3C;
+  background: #FEF2F2;
+}
+
+.sentiment-emoji {
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+.sentiment-info h3 {
+  font-size: 1.15rem;
+  color: var(--text-dark);
+  margin-bottom: 0.2rem;
+}
+
+.sentiment-info p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.happy-intro {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin-bottom: 1.25rem;
+  line-height: 1.5;
+}
+
+.review-buttons-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.btn-rate-platform {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.9rem 1.25rem;
+  border-radius: 14px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.btn-rate-platform:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+.btn-google-review {
+  background: #4285F4;
+  color: #ffffff;
+}
+
+.btn-facebook-review {
+  background: #1877F2;
+  color: #ffffff;
+}
+
+.btn-private-feedback {
+  background: #F2F4F4;
+  color: #2C3E50;
+  border: 1px solid #BDC3C7;
+}
+
+.rate-icon-svg {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.form-grid-rate {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+}
+
+@media (max-width: 580px) {
+  .form-grid-rate {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-group-rate label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 0.35rem;
+}
+
+.form-group-rate input,
+.form-group-rate select,
+.form-group-rate textarea {
+  width: 100%;
+  padding: 0.75rem 0.9rem;
+  border-radius: 12px;
+  border: 1px solid #D5D8DC;
+  font-size: 0.9rem;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.btn-submit-feedback {
+  width: 100%;
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.9rem;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-submit-feedback:hover {
+  background: var(--primary-dark);
 }
 
