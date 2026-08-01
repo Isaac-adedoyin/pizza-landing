@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offers | Pizza Colombia Újpest</title>
+  <meta name="description" content="Current Pizza Colombia Újpest special offers and announcements.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍕</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="index.css?v=3.3.0">
+  <style>
+    .offers-page { min-height: 100vh; padding: 8.5rem 1rem 5rem; background: linear-gradient(145deg, #fff8f3, #fff 55%, #f2fbf8); }
+    .offers-shell { max-width: 1050px; margin: 0 auto; }
+    .offers-header { max-width: 720px; margin: 0 auto 3rem; text-align: center; }
+    .offers-header h1 { margin: 0.65rem 0 1rem; font-family: var(--font-heading); font-size: clamp(2.5rem, 7vw, 4.5rem); color: var(--text-dark); }
+    .offers-header p { color: var(--text-muted); font-size: 1.08rem; line-height: 1.65; }
+    .offers-list:empty + .offers-empty { display: flex; }
+    .offers-empty { display: none; min-height: 320px; align-items: center; justify-content: center; flex-direction: column; padding: 2.5rem; text-align: center; background: rgba(255,255,255,.9); border: 1px solid rgba(45,43,42,.08); border-radius: 28px; box-shadow: 0 20px 55px rgba(45,43,42,.08); }
+    .offers-empty-icon { margin-bottom: 1rem; font-size: 3rem; }
+    .offers-empty h2 { margin-bottom: 0.7rem; font-size: 1.5rem; color: var(--text-dark); }
+    .offers-empty p { max-width: 520px; color: var(--text-muted); line-height: 1.6; }
+    .offers-back { display: inline-flex; margin-top: 1.5rem; padding: .8rem 1.35rem; color: #fff; background: var(--primary); border-radius: 999px; font-weight: 700; text-decoration: none; }
+    .offers-lang { display: flex; align-items: center; gap: .45rem; }
+    .offers-lang button { padding: .35rem .5rem; border: 0; background: transparent; cursor: pointer; font: inherit; font-weight: 700; }
+    @media (max-width: 480px) {
+      .offers-page { padding: 7rem .75rem 3rem; }
+      .offers-header { margin-bottom: 2rem; }
+      .offers-lang button { padding: .35rem .3rem; font-size: .82rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar scrolled">
+    <div class="nav-container">
+      <a href="index.html" class="logo-group" aria-label="Pizza Colombia home">
+        <svg class="brand-logo" viewBox="0 0 220 50" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="25" cy="25" r="18" fill="#E74C3C"/>
+          <text x="25" y="32" text-anchor="middle" font-size="20">🍕</text>
+          <text x="52" y="25" font-family="Outfit, sans-serif" font-size="15" font-weight="700" fill="#2D2B2A">PIZZA COLOMBIA</text>
+          <text x="52" y="39" font-family="Outfit, sans-serif" font-size="10" fill="#7F8C8D" letter-spacing="1">ÚJPEST</text>
+        </svg>
+      </a>
+      <div class="offers-lang" aria-label="Language selector">
+        <button type="button" data-offers-lang="en">🇬🇧 EN</button>
+        <span>|</span>
+        <button type="button" data-offers-lang="hu">🇭🇺 HU</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="offers-page">
+    <div class="offers-shell">
+      <div class="offers-header">
+        <span class="whats-new-eyebrow" data-en="Pizza Colombia specials" data-hu="Pizza Colombia akciók">Pizza Colombia specials</span>
+        <h1 data-en="Special Offers" data-hu="Különleges ajánlatok">Special Offers</h1>
+        <p data-en="See full details for our current activities and every active Pizza Colombia offer." data-hu="Tekintse meg aktuális programunk és minden aktív Pizza Colombia ajánlat teljes részleteit.">See full details for our current activities and every active Pizza Colombia offer.</p>
+      </div>
+
+      <section id="offers-list" class="offers-list whats-new-grid" aria-live="polite"></section>
+
+      <div class="offers-empty">
+        <div class="offers-empty-icon">🍕</div>
+        <h2 data-en="No special offers right now" data-hu="Jelenleg nincs különleges ajánlat">No special offers right now</h2>
+        <p data-en="Please check back soon for new Pizza Colombia offers and activities." data-hu="Kérjük, látogasson vissza hamarosan a Pizza Colombia új ajánlataiért és programjaiért.">Please check back soon for new Pizza Colombia offers and activities.</p>
+        <a href="index.html" class="offers-back" data-en="← Back to home" data-hu="← Vissza a főoldalra">← Back to home</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="offers-data.js?v=1.0.0"></script>
+  <script>
+    (() => {
+      let currentLanguage = 'en';
+      const escapeHTML = (value) => String(value ?? '').replace(/[&<>"']/g, character => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+      })[character]);
+      const localized = (value, fallback = '') => {
+        if (value && typeof value === 'object') return value[currentLanguage] || value.en || fallback;
+        return value || fallback;
+      };
+      const renderOffers = () => {
+        const container = document.getElementById('offers-list');
+        const spinOffer = {
+          id: 'spin-and-win',
+          active: true,
+          emoji: '🎁',
+          badge: { en: 'Available now', hu: 'Már elérhető' },
+          title: { en: 'Spin & Win', hu: 'Pörgess és nyerj' },
+          details: {
+            en: 'Enter your details and spin once per day for a chance to win pizza, drink, or dessert rewards. Rewards are valid for eat-in or pickup, limited to one voucher redeemed per person per day, and cannot be combined with other specials.',
+            hu: 'Adja meg adatait, és pörgessen naponta egyszer pizza-, ital- vagy desszertnyereményért. A nyeremények helyben fogyasztásra vagy elvitelre érvényesek, személyenként naponta egy kupon váltható be, és más kedvezményekkel nem vonhatók össze.'
+          },
+          cta: { en: 'Spin the Wheel →', hu: 'Szerencsekerék indítása →' },
+          href: 'index.html#spinner'
+        };
+        const offers = [spinOffer, ...(Array.isArray(window.PIZZA_OFFERS) ? window.PIZZA_OFFERS : [])
+          .filter(offer => offer && offer.active !== false)];
+        const cards = offers.map(offer => `
+            <article id="${escapeHTML(offer.id || '')}" class="whats-new-card">
+              <span class="whats-new-badge">${escapeHTML(localized(offer.badge, currentLanguage === 'hu' ? 'Ajánlat' : 'Offer'))}</span>
+              <div class="whats-new-icon">${escapeHTML(offer.emoji || '🍕')}</div>
+              <h2>${escapeHTML(localized(offer.title))}</h2>
+              <p>${escapeHTML(localized(offer.details, localized(offer.summary)))}</p>
+              ${offer.href ? `<a href="${escapeHTML(offer.href)}" class="whats-new-link">${escapeHTML(localized(offer.cta, currentLanguage === 'hu' ? 'Részletek →' : 'Read More →'))}</a>` : ''}
+            </article>
+          `);
+        while (cards.length < 3) {
+          const index = cards.length;
+          cards.push(`
+          <article class="whats-new-card">
+            <span class="whats-new-badge">${currentLanguage === 'hu' ? 'Hamarosan' : 'Coming soon'}</span>
+            <div class="whats-new-icon">${['🎁', '🍕', '✨'][index] || '✨'}</div>
+            <h2>${currentLanguage === 'hu' ? 'Kiemelt ajánlat' : 'Featured Offer'}</h2>
+            <p>${currentLanguage === 'hu' ? 'Egy jövőbeli Pizza Colombia ajánlat részletei itt jelennek meg.' : 'Full details for a future Pizza Colombia offer will appear here.'}</p>
+          </article>
+          `);
+        }
+        container.innerHTML = cards.join('');
+        if (window.location.hash) {
+          requestAnimationFrame(() => document.getElementById(window.location.hash.slice(1))?.scrollIntoView({ behavior: 'smooth' }));
+        }
+      };
+      const applyLanguage = (lang) => {
+        currentLanguage = lang;
+        document.documentElement.lang = lang;
+        document.querySelectorAll('[data-en][data-hu]').forEach((element) => {
+          element.textContent = element.dataset[lang];
+        });
+        try { localStorage.setItem('pizza_lang', lang); } catch (_) {}
+        renderOffers();
+      };
+      document.querySelectorAll('[data-offers-lang]').forEach((button) => {
+        button.addEventListener('click', () => applyLanguage(button.dataset.offersLang));
+      });
+      let savedLanguage = 'en';
+      try { savedLanguage = localStorage.getItem('pizza_lang') || 'en'; } catch (_) {}
+      applyLanguage(savedLanguage === 'hu' ? 'hu' : 'en');
+    })();
+  </script>
+</body>
+</html>

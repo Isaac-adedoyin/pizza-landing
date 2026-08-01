@@ -51,6 +51,30 @@ function parseCSV(text) {
   return lines;
 }
 
+// Escape spreadsheet/customer-controlled text before inserting it into HTML.
+function escapeHTML(value) {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function isValidEmail(value) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value).trim());
+}
+
+function isValidPhone(value) {
+  const raw = String(value).trim();
+  const digits = raw.replace(/\D/g, '');
+  return /^[+\d][\d\s()./-]*$/.test(raw) && digits.length >= 7 && digits.length <= 15;
+}
+
+function isValidEmailOrPhone(value) {
+  return isValidEmail(value) || isValidPhone(value);
+}
+
 function initApp() {
   // Safe localStorage helper functions to prevent crashes in private modes/safari
   const safeGetItem = (key) => {
@@ -237,7 +261,7 @@ function initApp() {
   const stepSentiment = document.getElementById('rate-step-sentiment');
   const stepHappy = document.getElementById('rate-step-happy');
   const stepFeedbackForm = document.getElementById('rate-step-feedback-form');
-  const stepSuccess = document.getElementById('rate-step-success');
+  const rateStepSuccess = document.getElementById('rate-step-success');
 
   const openRateModal = () => {
     if (!rateModal) return;
@@ -260,7 +284,7 @@ function initApp() {
     if (stepSentiment) stepSentiment.classList.remove('hidden');
     if (stepHappy) stepHappy.classList.add('hidden');
     if (stepFeedbackForm) stepFeedbackForm.classList.add('hidden');
-    if (stepSuccess) stepSuccess.classList.add('hidden');
+    if (rateStepSuccess) rateStepSuccess.classList.add('hidden');
     if (feedbackForm) feedbackForm.reset();
   };
 
@@ -303,6 +327,15 @@ function initApp() {
   if (feedbackForm) {
     feedbackForm.addEventListener('submit', (e) => {
       e.preventDefault();
+      const feedbackPhone = document.getElementById('rate-phone')?.value || '';
+      const feedbackEmail = document.getElementById('rate-email')?.value || '';
+      const feedbackConsent = document.getElementById('rate-privacy')?.checked === true;
+      if (!isValidPhone(feedbackPhone) || !isValidEmail(feedbackEmail) || !feedbackConsent) {
+        alert(currentLang === 'hu'
+          ? 'Kérjük, adjon meg érvényes elérhetőségeket, és fogadja el az adatkezelési hozzájárulást.'
+          : 'Please provide valid contact details and accept the data-processing consent.');
+        return;
+      }
       const feedbackData = {
         name: document.getElementById('rate-name')?.value || '',
         phone: document.getElementById('rate-phone')?.value || '',
@@ -310,6 +343,7 @@ function initApp() {
         orderNumber: document.getElementById('rate-order-num')?.value || '',
         details: document.getElementById('rate-details')?.value || '',
         contactMethod: document.getElementById('rate-contact-method')?.value || 'phone',
+        privacyConsent: document.getElementById('rate-privacy')?.checked === true,
         timestamp: new Date().toLocaleString('hu-HU', { timeZone: 'Europe/Budapest' })
       };
 
@@ -325,6 +359,7 @@ function initApp() {
           orderNumber: feedbackData.orderNumber,
           details: feedbackData.details,
           contactMethod: feedbackData.contactMethod,
+          privacyConsent: feedbackData.privacyConsent,
           timestamp: feedbackData.timestamp
         };
 
@@ -348,7 +383,7 @@ function initApp() {
       }
 
       if (stepFeedbackForm) stepFeedbackForm.classList.add('hidden');
-      if (stepSuccess) stepSuccess.classList.remove('hidden');
+      if (rateStepSuccess) rateStepSuccess.classList.remove('hidden');
     });
   }
 
@@ -846,7 +881,7 @@ function initApp() {
     const isPrivacyAccepted = leadPrivacyInput ? leadPrivacyInput.checked : false;
 
     const isNameValid = nameVal.length >= 2;
-    const isContactValid = contactVal.length >= 5;
+    const isContactValid = isValidEmailOrPhone(contactVal);
 
     if (isNameValid && isContactValid && isPrivacyAccepted) {
       if (btnSpinWheel) btnSpinWheel.classList.remove('disabled');
@@ -867,7 +902,8 @@ function initApp() {
           name: name,
           contact: contact,
           prize: prize.text,
-          code: prize.code || 'N/A'
+          code: prize.code || 'N/A',
+          privacyConsent: true
         };
 
         await fetch(CONFIG.wheelLeadsUrl, {
@@ -974,7 +1010,7 @@ function initApp() {
         const contactVal = leadContactInput ? leadContactInput.value.trim() : '';
         const privacyVal = leadPrivacyInput ? leadPrivacyInput.checked : false;
 
-        if (nameVal.length < 2 || contactVal.length < 5 || !privacyVal) {
+        if (nameVal.length < 2 || !isValidEmailOrPhone(contactVal) || !privacyVal) {
           const errorEl = document.getElementById('wheel-form-error');
           if (errorEl) {
             errorEl.innerText = currentLang === 'hu' ? 'Kérjük, fogadd el az adatkezelési hozzájárulást!' : 'Please accept the data processing consent!';
@@ -1113,9 +1149,10 @@ function initApp() {
       categories.forEach((cat, index) => {
         const slug = getSlug(cat);
         const activeClass = index === 0 ? "active" : "";
+        const safeCategory = escapeHTML(cat);
         
         // Tab button
-        tabsHTML += `<button class="tab-btn ${activeClass}" data-tab="${slug}">${cat}</button>`;
+        tabsHTML += `<button class="tab-btn ${activeClass}" data-tab="${slug}">${safeCategory}</button>`;
 
         // Tab pane
         contentHTML += `<div class="menu-tab-pane ${activeClass}" id="pane-${slug}">`;
@@ -1129,10 +1166,10 @@ function initApp() {
             const isVegan = val === "vegan";
             const badgeClass = isVegan ? "badge-vegan" : "badge-veg";
             const emoji = isVegan ? "🍃" : "🌱";
-            badgesHTML += `<span class="badge ${badgeClass}">${emoji} ${item.vegVegan}</span>`;
+            badgesHTML += `<span class="badge ${badgeClass}">${emoji} ${escapeHTML(item.vegVegan)}</span>`;
           }
           if (item.allergens) {
-            badgesHTML += `<span class="badge badge-allergen">Allergens: ${item.allergens}</span>`;
+            badgesHTML += `<span class="badge badge-allergen">Allergens: ${escapeHTML(item.allergens)}</span>`;
           }
           if (item.popular && (item.popular.toLowerCase() === "yes" || item.popular.toLowerCase() === "true")) {
             badgesHTML += `<span class="badge badge-popular">🔥 Popular</span>`;
@@ -1141,10 +1178,10 @@ function initApp() {
           contentHTML += `
             <div class="menu-item">
               <div class="menu-item-header">
-                <span class="menu-item-name">${item.name}</span>
-                <span class="menu-item-price">${item.price}</span>
+                <span class="menu-item-name">${escapeHTML(item.name)}</span>
+                <span class="menu-item-price">${escapeHTML(item.price)}</span>
               </div>
-              ${item.description ? `<p class="menu-item-desc">${item.description}</p>` : ''}
+              ${item.description ? `<p class="menu-item-desc">${escapeHTML(item.description)}</p>` : ''}
               ${badgesHTML ? `<div class="menu-item-badges">${badgesHTML}</div>` : ''}
             </div>
           `;
@@ -1374,7 +1411,7 @@ function initApp() {
       row.className = 'cart-item';
       row.innerHTML = `
         <div class="cart-item-details">
-          <div class="cart-item-name">${displayName}</div>
+          <div class="cart-item-name">${escapeHTML(displayName)}</div>
           <div class="cart-item-price">${(item.price * item.qty).toLocaleString('hu-HU')} Ft</div>
         </div>
         <div class="cart-item-controls">
@@ -1623,6 +1660,7 @@ function initApp() {
       // Validate inputs
       const name = document.getElementById('checkout-name').value.trim();
       const phone = document.getElementById('checkout-phone').value.trim();
+      const privacyAccepted = document.getElementById('checkout-privacy')?.checked === true;
       const isDelivery = radioDelivery && radioDelivery.checked;
       const address = document.getElementById('checkout-address').value.trim();
 
@@ -1631,9 +1669,14 @@ function initApp() {
         document.getElementById('checkout-name').focus();
         return;
       }
-      if (!phone) {
-        alert(currentLang === 'hu' ? 'Kérjük, adja meg a telefonszámát.' : 'Please enter your phone number.');
+      if (!isValidPhone(phone)) {
+        alert(currentLang === 'hu' ? 'Kérjük, adjon meg egy érvényes telefonszámot.' : 'Please enter a valid phone number.');
         document.getElementById('checkout-phone').focus();
+        return;
+      }
+      if (!privacyAccepted) {
+        alert(currentLang === 'hu' ? 'Kérjük, fogadja el az adatkezelési tájékoztatót.' : 'Please acknowledge the privacy notice.');
+        document.getElementById('checkout-privacy')?.focus();
         return;
       }
       if (isDelivery && !address) {
@@ -1689,7 +1732,7 @@ function initApp() {
           const row = document.createElement('div');
           row.className = 'review-item-row';
           row.innerHTML = `
-            <span class="item-qty-name">${item.qty}x ${displayName}</span>
+            <span class="item-qty-name">${item.qty}x ${escapeHTML(displayName)}</span>
             <span>${(item.price * item.qty).toLocaleString('hu-HU')} Ft</span>
           `;
           reviewList.appendChild(row);
@@ -1780,7 +1823,7 @@ function initApp() {
         orderMessage += `🛒 *Rendelt termékek:*\n${itemsText}\n`;
         orderMessage += `💰 *Részösszeg:* ${subtotal.toLocaleString('hu-HU')} Ft\n`;
         if (hasDelivery) orderMessage += `🚚 *Szállítási díj:* 800 Ft\n`;
-        orderMessage += `💳 *Fizetett végösszeg:* *${total.toLocaleString('hu-HU')} Ft*\n\n`;
+        orderMessage += `💳 *SumUp-on beküldött összeg:* *${total.toLocaleString('hu-HU')} Ft*\n\n`;
         orderMessage += `⚠️ *FONTOS: A konyha KIZÁRÓLAG azután kezdi el az étel készítését, miután megerősítette a SumUp fizetés sikeres beérkezését.*`;
       } else {
         orderMessage = `🍕 *New Order!* 🍕\n\n`;
@@ -1797,7 +1840,7 @@ function initApp() {
         orderMessage += `🛒 *Items Ordered:*\n${itemsText}\n`;
         orderMessage += `💰 *Subtotal:* ${subtotal.toLocaleString('hu-HU')} Ft\n`;
         if (hasDelivery) orderMessage += `🚚 *Delivery Fee:* 800 Ft\n`;
-        orderMessage += `💳 *Total Amount Paid:* *${total.toLocaleString('hu-HU')} Ft*\n\n`;
+        orderMessage += `💳 *Amount submitted through SumUp:* *${total.toLocaleString('hu-HU')} Ft*\n\n`;
         orderMessage += `⚠️ *IMPORTANT: The kitchen will ONLY start preparing this order AFTER confirming that the SumUp payment has been successfully received.*`;
       }
 
@@ -1805,16 +1848,9 @@ function initApp() {
       const whatsappUrl = `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(orderMessage)}`;
       window.open(whatsappUrl, '_blank');
 
-      // Close the cart drawer
-      closeCart();
-
-      // Open the chef verification modal
-      if (verificationModal) {
-        verificationModal.classList.remove('hidden');
-      }
-
-      // Start the timer
-      startVerificationTimer();
+      // This static site cannot verify SumUp automatically. The kitchen checks
+      // SumUp against the WhatsApp order and confirms directly with the customer.
+      switchStep('success');
     });
   }
 
@@ -1828,6 +1864,10 @@ function initApp() {
   // Success Done button click
   if (btnSuccessClose) {
     btnSuccessClose.addEventListener('click', () => {
+      cart = [];
+      updateCartCount();
+      updateTotals();
+      renderCartItems();
       closeCart();
       if (checkoutForm) checkoutForm.reset();
       updateAddressFieldVisibility();
@@ -1937,6 +1977,7 @@ function initApp() {
       nav_oven: 'Oven',
       nav_ingredients: 'Ingredients',
       nav_styles: 'Styles',
+      nav_whats_new: 'Offers',
       nav_stats: 'Stats',
       nav_rate_experience: 'Rate Us',
       btn_rate_experience: '⭐ Rate Your Experience',
@@ -1945,6 +1986,25 @@ function initApp() {
       hero_title: 'Pizza Colombia offers fresh Neapolitan and New York-style pizzas in Újpest.',
       hero_subtitle: 'View our menu, see upcoming events, and get all essential information in one place.',
       hero_btn: 'Explore Menu & Order',
+      whats_new_eyebrow: 'Fresh from Pizza Colombia',
+      whats_new_title: 'Offers & More',
+      whats_new_intro: 'Discover our current activity, upcoming offers, and latest updates.',
+      whats_new_live: 'Available now',
+      whats_new_spin_title: 'Spin & Win',
+      whats_new_spin_text: 'Spin once per day for a chance to win pizza, drink, or dessert rewards valid for eat-in or pickup.',
+      whats_new_spin_cta: 'Read More →',
+      whats_new_takeaway_badge: 'Takeaway',
+      whats_new_takeaway_title: 'Order and pay online',
+      whats_new_takeaway_text: 'Choose your favourites from our digital menu, pay securely with SumUp, and send the prepared order through WhatsApp.',
+      whats_new_takeaway_cta: 'Explore the menu →',
+      whats_new_social_badge: 'Follow along',
+      home_offers_badge: 'Coming soon',
+      home_offers_title: 'Special Offers',
+      home_offers_text: 'Our selected Pizza Colombia specials will appear on the Offers page as soon as they are available.',
+      home_offers_cta: 'View Offers →',
+      whats_new_social_title: 'Latest Updates',
+      whats_new_social_text: 'Follow our Instagram for the latest pizzas, activities, and announcements from Újpest.',
+      whats_new_social_cta: 'Follow on Instagram →',
       showcase1_title: 'Authentic Neapolitan Pizza Catering & Pizzeria Experience',
       showcase1_subtitle: 'Experience authentic Neapolitan pizza, whether at your event or in our pizzeria.',
       card1_title: '🔥 Mobile Gas Ovens for Off-Site Catering',
@@ -1997,7 +2057,7 @@ function initApp() {
       wheel_desc: 'Available for Eat-In or Pickup! Spin the wheel, take a screenshot of your win, post & tag us on Facebook, Instagram, or TikTok to receive a special Bonus Gift on your visit! 🎁',
       wheel_form_title: 'Enter details to spin the wheel! 🎁',
       placeholder_contact_lead: 'Email or Phone Number',
-      wheel_privacy_label: 'I agree to the processing of my data to claim the prize.',
+      wheel_privacy_label: 'I consent under the <a href="#privacy">privacy notice</a> to the processing of my details for the prize claim. I may withdraw consent at any time.',
       prize_bogo: '🍕 Buy 1 Get 1 Free',
       prize_50_second: '🍕 Buy a Pizza & Get 50% Off 2nd',
       prize_drink_500: '🥤 Free 500ml Drink',
@@ -2049,6 +2109,7 @@ function initApp() {
       form_title: 'Delivery Details',
       form_name_label: 'Full Name *',
       form_phone_label: 'Phone Number *',
+      checkout_privacy_label: 'I acknowledge the <a href="#privacy">privacy notice</a> and the processing of my contact and order details to fulfil this order.',
       form_type_label: 'Order Option *',
       form_pickup_toggle: '🚶 Pickup',
       form_delivery_toggle: '🚗 Delivery (Disabled)',
@@ -2066,12 +2127,12 @@ function initApp() {
       review_notes_label: 'Notes:',
       payment_pending_title: 'Payment Pending',
       payment_pending_instruction: 'We have opened the secure SumUp payment portal in a new tab. Please pay exactly',
-      payment_pending_warning: '⚠️ IMPORTANT: If your payment is not confirmed in our system, your order will NOT be prepared.',
+      payment_pending_warning: '⚠️ After paying, send the prepared WhatsApp order message. The kitchen will manually match it with SumUp before preparation.',
       btn_payment_done: 'Done / I Have Paid',
       btn_payment_cancel: 'Cancel / Go Back',
       success_title: 'Order Submitted!',
-      success_instruction: 'We have received your order details. Your pizza will be prepared as soon as your payment is verified! 🍕',
-      success_warning: '⚠️ NOTE: If payment is not confirmed on SumUp, your order will NOT be prepared.',
+      success_instruction: 'WhatsApp has opened with your order details. Please send that message. The kitchen will manually check SumUp and confirm your order with you! 🍕',
+      success_warning: '⚠️ Your order is submitted, not yet confirmed. Keep your SumUp receipt until the kitchen replies on WhatsApp.',
       success_total_label: 'Total Amount:',
       btn_copy_amount: '📋 Copy Amount',
       placeholder_name: 'John Doe',
@@ -2111,8 +2172,8 @@ function initApp() {
       label_catering_datetime: 'Date and Time *',
       catering_success_msg: 'Enquiry successfully sent! We will contact you soon.',
       catering_submit_btn: 'Submit Batch Order Enquiry',
-      catering_privacy_label: 'I agree to the processing of my data for the enquiry.',
-      app_privacy_label: 'I agree to the processing of my personal data for the job application.',
+      catering_privacy_label: 'I acknowledge the <a href="#privacy">privacy notice</a> and processing of my details to prepare and respond to this enquiry.',
+      app_privacy_label: 'I acknowledge the <a href="#privacy">privacy notice</a> and processing of my personal data to assess and respond to this job application.',
       hours_extension_text: '* Pickup and self-delivery are available until 01:30 (Friday – Sunday).',
       nav_careers: 'Join Us',
       careers_title: 'Join Our Team',
@@ -2171,11 +2232,14 @@ function initApp() {
       rate_label_name: 'Full Name *',
       rate_label_phone: 'Telephone Number *',
       rate_label_email: 'Email Address *',
+      rate_privacy_label: 'I consent to the processing of my feedback and contact details under the <a href="#privacy">privacy notice</a> so Pizza Colombia can respond to me. I may withdraw this consent at any time.',
       rate_label_ordernum: 'Order Number (Optional)',
       rate_label_details: 'What went wrong? / Your Feedback *',
       rate_label_method: 'Preferred Contact Method',
       option_method_phone: 'Phone Call',
       option_method_email: 'Email',
+      privacy_title: 'Privacy summary',
+      privacy_summary: 'Pizza Colombia Újpest processes only the information needed for orders, enquiries, applications, feedback, or prize claims. Data submitted through forms may be stored in our restricted Google Sheet and order details are sent through WhatsApp. We keep information only as long as needed for the stated purpose and applicable legal obligations. To request access, correction, deletion, or withdrawal of consent, email pizzacolombiaujpest@gmail.com or call +36 70 744 3534. Withdrawing consent does not affect processing already carried out lawfully.',
       option_method_whatsapp: 'WhatsApp',
       btn_send_feedback: 'Send Feedback',
       rate_fallback_text: 'You can also leave a public review on our social pages:',
@@ -2188,6 +2252,7 @@ function initApp() {
       nav_oven: 'Kemence',
       nav_ingredients: 'Összetevők',
       nav_styles: 'Stílusok',
+      nav_whats_new: 'Ajánlatok',
       nav_stats: 'Statisztika',
       nav_rate_experience: 'Értékelj Minket',
       btn_rate_experience: '⭐ Értékeld az Élményed',
@@ -2196,6 +2261,25 @@ function initApp() {
       hero_title: 'A Pizza Colombia friss nápolyi és New York-i stílusú pizzákat kínál Újpesten.',
       hero_subtitle: 'Tekintse meg étlapunkat, kísérje figyelemmel eseményeinket, és tájékozódjon a legfontosabb információkról egy helyen.',
       hero_btn: 'Étlap és rendelés',
+      whats_new_eyebrow: 'Frissen a Pizza Colombiától',
+      whats_new_title: 'Ajánlatok és újdonságok',
+      whats_new_intro: 'Fedezze fel aktuális programunkat, közelgő ajánlatainkat és legfrissebb híreinket.',
+      whats_new_live: 'Már elérhető',
+      whats_new_spin_title: 'Pörgess és nyerj',
+      whats_new_spin_text: 'Pörgessen naponta egyszer, és nyerjen helyben fogyasztásra vagy elvitelre beváltható pizza-, ital- vagy desszertajándékot.',
+      whats_new_spin_cta: 'További részletek →',
+      whats_new_takeaway_badge: 'Elvitel',
+      whats_new_takeaway_title: 'Online rendelés és fizetés',
+      whats_new_takeaway_text: 'Válassza ki kedvenceit digitális étlapunkról, fizessen biztonságosan a SumUp-pal, majd küldje el az előkészített rendelést WhatsAppon.',
+      whats_new_takeaway_cta: 'Étlap megtekintése →',
+      whats_new_social_badge: 'Kövessen minket',
+      home_offers_badge: 'Hamarosan',
+      home_offers_title: 'Különleges ajánlatok',
+      home_offers_text: 'Kiválasztott Pizza Colombia ajánlataink az Ajánlatok oldalon jelennek meg, amint elérhetővé válnak.',
+      home_offers_cta: 'Ajánlatok megtekintése →',
+      whats_new_social_title: 'Legfrissebb hírek',
+      whats_new_social_text: 'Kövessen minket Instagramon a legújabb pizzákért, programokért és újpesti hírekért.',
+      whats_new_social_cta: 'Követés Instagramon →',
       showcase1_title: 'Eredeti nápolyi pizza catering és pizzéria élmény',
       showcase1_subtitle: 'Tapasztalja meg az eredeti nápolyi pizzát, legyen szó akár rendezvényéről, akár pizzériánkról.',
       card1_title: '🔥 Mobil gázkemencék külső cateringhez',
@@ -2248,7 +2332,7 @@ function initApp() {
       wheel_desc: 'Helyben fogyasztás vagy elvitel esetén! Pörgesd meg a kereket, készíts képernyőképet a nyereményről, posztolj és jelölj meg minket Facebookon, Instagramon vagy TikTokon az ajándékodért! 🎁',
       wheel_form_title: 'Add meg az adataidat a pörgetéshez! 🎁',
       placeholder_contact_lead: 'Email cím vagy telefonszám',
-      wheel_privacy_label: 'Hozzájárulok az adataim kezeléséhez a nyeremény átvételéhez.',
+      wheel_privacy_label: 'Az <a href="#privacy">adatkezelési tájékoztató</a> szerint hozzájárulok adataim kezeléséhez a nyereményigénylés céljából. Hozzájárulásomat bármikor visszavonhatom.',
       prize_bogo: '🍕 1+1 Ingyen Pizza',
       prize_50_second: '🍕 Vásárolj pizzát, a 2. -50%',
       prize_drink_500: '🥤 Ingyen 500ml ital',
@@ -2300,6 +2384,7 @@ function initApp() {
       form_title: 'Szállítási adatok',
       form_name_label: 'Teljes név *',
       form_phone_label: 'Telefonszám *',
+      checkout_privacy_label: 'Tudomásul veszem az <a href="#privacy">adatkezelési tájékoztatót</a>, valamint kapcsolattartási és rendelési adataim kezelését a rendelés teljesítéséhez.',
       form_type_label: 'Átvétel módja *',
       form_pickup_toggle: '🚶 Átvétel',
       form_delivery_toggle: '🚗 Kiszállítás (Inaktív)',
@@ -2317,12 +2402,12 @@ function initApp() {
       review_notes_label: 'Megjegyzés:',
       payment_pending_title: 'Kifizetésre vár',
       payment_pending_instruction: 'Megnyitottuk a biztonságos SumUp fizetési felületet egy új lapon. Kérjük, fizessen ki pontosan',
-      payment_pending_warning: '⚠️ FONTOS: Ha a fizetés nincs megerősítve a rendszerünkben, a rendelés NEM kerül elkészítésre.',
+      payment_pending_warning: '⚠️ Fizetés után küldje el az előkészített WhatsApp rendelési üzenetet. A konyha az elkészítés előtt manuálisan egyezteti azt a SumUp fizetéssel.',
       btn_payment_done: 'Kész / Befizettem',
       btn_payment_cancel: 'Mégse / Vissza',
       success_title: 'Rendelés beküldve!',
-      success_instruction: 'Megkaptuk a rendelési adatait. A pizzája elkészítését azonnal megkezdjük, amint a fizetés megerősítésre kerül! 🍕',
-      success_warning: '⚠️ MEGJEGYZÉS: Ha a fizetés nincs megerősítve a SumUp-on, a rendelés NEM kerül elkészítésre.',
+      success_instruction: 'A WhatsApp megnyílt a rendelési adatokkal. Kérjük, küldje el az üzenetet. A konyha manuálisan ellenőrzi a SumUp fizetést, majd visszaigazolja a rendelést! 🍕',
+      success_warning: '⚠️ A rendelés beküldve, de még nincs visszaigazolva. Őrizze meg a SumUp bizonylatot a konyha WhatsApp-válaszáig.',
       success_total_label: 'Fizetendő végösszeg:',
       btn_copy_amount: '📋 Összeg másolása',
       placeholder_name: 'Minta János',
@@ -2363,8 +2448,8 @@ function initApp() {
       label_catering_datetime: 'Dátum és időpont *',
       catering_submit_btn: 'CSOPORTOS AJÁNLATKÉRÉS KÜLDÉSE',
       catering_success_msg: 'Ajánlatkérés sikeresen elküldve! Hamarosan felvesszük Önnel a kapcsolatot.',
-      catering_privacy_label: 'Hozzájárulok az adataim kezeléséhez az ajánlatkérés céljából.',
-      app_privacy_label: 'Hozzájárulok a személyes adataim kezeléséhez a jelentkezési folyamat során.',
+      catering_privacy_label: 'Tudomásul veszem az <a href="#privacy">adatkezelési tájékoztatót</a>, valamint adataim kezelését az ajánlat elkészítéséhez és megválaszolásához.',
+      app_privacy_label: 'Tudomásul veszem az <a href="#privacy">adatkezelési tájékoztatót</a>, valamint személyes adataim kezelését az álláspályázat elbírálásához és megválaszolásához.',
       hours_extension_text: '* Helyszíni átvétel és saját házhozszállítás elérhető 01:30-ig (Péntek – Vasárnap).',
       nav_careers: 'Csatlakozz',
       careers_title: 'Csatlakozz a Csapatunkhoz',
@@ -2422,11 +2507,14 @@ function initApp() {
       rate_label_name: 'Teljes név *',
       rate_label_phone: 'Telefonszám *',
       rate_label_email: 'Email cím *',
+      rate_privacy_label: 'Hozzájárulok visszajelzésem és elérhetőségeim kezeléséhez az <a href="#privacy">adatkezelési tájékoztató</a> szerint, hogy a Pizza Colombia kapcsolatba léphessen velem. Hozzájárulásomat bármikor visszavonhatom.',
       rate_label_ordernum: 'Rendelésszám (Opcionális)',
       rate_label_details: 'Mi romlott el? / Visszajelzés *',
       rate_label_method: 'Preferált kapcsolatfelvételi mód',
       option_method_phone: 'Telefonhívás',
       option_method_email: 'Email',
+      privacy_title: 'Adatvédelmi összefoglaló',
+      privacy_summary: 'A Pizza Colombia Újpest kizárólag a rendelésekhez, ajánlatkérésekhez, jelentkezésekhez, visszajelzésekhez vagy nyereményigényléshez szükséges adatokat kezeli. Az űrlapokon beküldött adatok a korlátozott hozzáférésű Google-táblázatunkban tárolhatók, a rendelési adatok pedig WhatsAppon kerülnek továbbításra. Az adatokat csak a megjelölt célhoz és a vonatkozó jogi kötelezettségekhez szükséges ideig őrizzük. Hozzáférés, helyesbítés, törlés vagy a hozzájárulás visszavonása céljából írjon a pizzacolombiaujpest@gmail.com címre, vagy hívja a +36 70 744 3534 számot. A visszavonás nem érinti a korábban jogszerűen végzett adatkezelést.',
       option_method_whatsapp: 'WhatsApp',
       btn_send_feedback: 'Visszajelzés Küldése',
       rate_fallback_text: 'Publikus értékelést is írhatsz közösségi oldalainkon:',
@@ -2519,22 +2607,59 @@ function initApp() {
   const wheelTranslations = {
     en: {
       'Buy 1 Get 1 Free': { text: 'BOGO Free', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest on Facebook/Instagram/TikTok to receive your bonus gift! 🍕' },
-      '50% Off 2nd Pizza': { text: '50% Off 2nd', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest on Facebook/Instagram/TikTok to receive your bonus gift! 🍕' },
+      'Buy a Pizza & Get 50% Off 2nd Pizza': { text: '50% Off 2nd', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest on Facebook/Instagram/TikTok to receive your bonus gift! 🍕' },
       'Free 500ml Drink': { text: 'Free 500ml', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest on Facebook/Instagram/TikTok to receive your bonus gift! 🥤' },
       'Spin Again': { text: 'Spin Again', desc: 'No luck this time! Spin again tomorrow.' },
       'Free 1000ml Drink': { text: 'Free 1L Drink', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest on Facebook/Instagram/TikTok to receive your bonus gift! 🥤' },
       'Free Drink Upgrade': { text: 'Free Upgrade', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest on Facebook/Instagram/TikTok to receive your bonus gift! 🥤' },
-      'Free Daily Dessert': { text: 'Free Dessert', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest on Facebook/Instagram/TikTok to receive your bonus gift! 🍰' }
+      'Free Dessert': { text: 'Free Dessert', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest on Facebook/Instagram/TikTok to receive your bonus gift! 🍰' }
     },
     hu: {
       'Buy 1 Get 1 Free': { text: '1+1 Ingyen Pizza', desc: 'Készíts képernyőképet a nyereményről! Oszd meg történetedben, jelöld meg a @pizzacolombiaujpest fiókot Facebookon, Instagramon vagy TikTokon az ajándékodért! 🍕' },
-      '50% Off 2nd Pizza': { text: '-50% a 2. pizzára', desc: 'Készíts képernyőképet a nyereményről! Oszd meg történetedben, jelöld meg a @pizzacolombiaujpest fiókot Facebookon, Instagramon vagy TikTokon az ajándékodért! 🍕' },
+      'Buy a Pizza & Get 50% Off 2nd Pizza': { text: '-50% a 2. pizzára', desc: 'Készíts képernyőképet a nyereményről! Oszd meg történetedben, jelöld meg a @pizzacolombiaujpest fiókot Facebookon, Instagramon vagy TikTokon az ajándékodért! 🍕' },
       'Free 500ml Drink': { text: 'Ingyen 500ml', desc: 'Készíts képernyőképet a nyereményről! Oszd meg történetedben, jelöld meg a @pizzacolombiaujpest fiókot Facebookon, Instagramon vagy TikTokon az ajándékodért! 🥤' },
       'Spin Again': { text: 'Pörgess újra', desc: 'Sajnos most nem sikerült! Pörgess újra holnap.' },
       'Free 1000ml Drink': { text: 'Ingyen 1L ital', desc: 'Készíts képernyőképet a nyereményről! Oszd meg történetedben, jelöld meg a @pizzacolombiaujpest fiókot Facebookon, Instagramon vagy TikTokon az ajándékodért! 🥤' },
       'Free Drink Upgrade': { text: 'Ingyen upgrade', desc: 'Készíts képernyőképet a nyereményről! Oszd meg történetedben, jelöld meg a @pizzacolombiaujpest fiókot Facebookon, Instagramon vagy TikTokon az ajándékodért! 🥤' },
-      'Free Daily Dessert': { text: 'Ingyen desszert', desc: 'Készíts képernyőképet a nyereményről! Oszd meg történetedben, jelöld meg a @pizzacolombiaujpest fiókot Facebookon, Instagramon vagy TikTokon az ajándékodért! 🍰' }
+      'Free Dessert': { text: 'Ingyen desszert', desc: 'Készíts képernyőképet a nyereményről! Oszd meg történetedben, jelöld meg a @pizzacolombiaujpest fiókot Facebookon, Instagramon vagy TikTokon az ajándékodért! 🍰' }
     }
+  };
+
+  const renderFeaturedOffers = () => {
+    const container = document.getElementById('featured-offers-preview');
+    if (!container) return;
+    const offers = (Array.isArray(window.PIZZA_OFFERS) ? window.PIZZA_OFFERS : [])
+      .filter(offer => offer && offer.active !== false)
+      .slice(0, 2);
+
+    const localized = (value, fallback = '') => {
+      if (value && typeof value === 'object') return value[currentLang] || value.en || fallback;
+      return value || fallback;
+    };
+
+    const cards = offers.map(offer => `
+      <article class="whats-new-card">
+        <span class="whats-new-badge">${escapeHTML(localized(offer.badge, currentLang === 'hu' ? 'Ajánlat' : 'Offer'))}</span>
+        <div class="whats-new-icon">${escapeHTML(offer.emoji || '🍕')}</div>
+        <h3>${escapeHTML(localized(offer.title))}</h3>
+        <p>${escapeHTML(localized(offer.summary))}</p>
+        <a href="offers.html#${encodeURIComponent(offer.id || '')}" class="whats-new-link">${currentLang === 'hu' ? 'Részletek →' : 'Read More →'}</a>
+      </article>
+    `);
+
+    while (cards.length < 2) {
+      cards.push(`
+        <article class="whats-new-card">
+          <span class="whats-new-badge">${currentLang === 'hu' ? 'Hamarosan' : 'Coming soon'}</span>
+          <div class="whats-new-icon">${cards.length === 0 ? '🍕' : '✨'}</div>
+          <h3>${currentLang === 'hu' ? 'Kiemelt ajánlat' : 'Featured Offer'}</h3>
+          <p>${currentLang === 'hu' ? 'A következő kiválasztott Pizza Colombia ajánlat itt jelenik meg.' : 'The next selected Pizza Colombia offer will appear here.'}</p>
+          <a href="offers.html" class="whats-new-link">${currentLang === 'hu' ? 'További részletek →' : 'Read More →'}</a>
+        </article>
+      `);
+    }
+
+    container.innerHTML = cards.join('');
   };
 
   const updateLanguageUI = () => {
@@ -2622,6 +2747,8 @@ function initApp() {
     if (typeof window.updatePositionUI === 'function') {
       window.updatePositionUI();
     }
+
+    renderFeaturedOffers();
   };
 
   // Bind language selector buttons
@@ -2687,8 +2814,8 @@ function initApp() {
     });
 
     const isNameValid = name.length >= 2;
-    const isPhoneValid = phone.length >= 5;
-    const isEmailValid = email.includes('@') && email.includes('.');
+    const isPhoneValid = isValidPhone(phone);
+    const isEmailValid = isValidEmail(email);
     const isAddressValid = address.length >= 10;
     const isPersonsValid = persons >= 5;
     const isDatetimeValid = datetime !== "";
@@ -2805,7 +2932,8 @@ function initApp() {
         vatNumber: vatVal,
         persons: personsVal,
         dateTime: datetimeVal,
-        itemsSummary: itemsSummaryVal
+        itemsSummary: itemsSummaryVal,
+        privacyConsent: true
       };
 
       if (CONFIG.wheelLeadsUrl) {
@@ -2901,8 +3029,8 @@ function initApp() {
     const isPobValid = pob.length >= 2;
     const isNationalityValid = nationality.length >= 2;
     const isMotherValid = mother.length >= 3;
-    const isPhoneValid = phone.length >= 5;
-    const isEmailValid = email.includes('@') && email.includes('.');
+    const isPhoneValid = isValidPhone(phone);
+    const isEmailValid = isValidEmail(email);
     const isAddressValid = address.length >= 10;
 
     const isValid = isFirstNameValid && isSurnameValid && isDobValid && isPobValid && isNationalityValid && isMotherValid && isPhoneValid && isEmailValid && isAddressValid && privacyChecked;
@@ -2991,7 +3119,8 @@ function initApp() {
         taxStatus: taxVal,
         residencyValidity: residencyVal,
         position: selectedPosition,
-        intro: introVal
+        intro: introVal,
+        privacyConsent: true
       };
 
       if (CONFIG.wheelLeadsUrl) {
