@@ -201,8 +201,9 @@ function initApp() {
     statsObserver.observe(statsSection);
   }
 
-  // Fail-safe: Trigger stats animation after 500ms automatically
-  setTimeout(triggerStatsAnimation, 500);
+  // Trigger count animation immediately
+  triggerStatsAnimation();
+  setTimeout(triggerStatsAnimation, 100);
 
   // 5. Interactive Digital Menu Modal
   const modal = document.getElementById('menu-modal');
