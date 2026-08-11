@@ -1020,6 +1020,19 @@ button {
   box-shadow: var(--shadow-md);
 }
 
+.mychef-btn {
+  background: linear-gradient(135deg, #E74C3C 0%, #C0392B 100%);
+  color: #ffffff;
+  font-weight: 700;
+  box-shadow: 0 4px 15px rgba(231, 76, 60, 0.35);
+}
+
+.mychef-btn:hover {
+  background: linear-gradient(135deg, #C0392B 0%, #A93226 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(231, 76, 60, 0.45);
+}
+
 .wolt-btn {
   background-color: #00C2E8; /* Wolt Brand Color */
 }
