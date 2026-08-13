@@ -229,20 +229,24 @@ function initApp() {
   triggerStatsAnimation();
   setTimeout(triggerStatsAnimation, 100);
 
-  // 5. Interactive Digital Menu Modal
+  // 5. Interactive Digital Menu Modal (Removed - safe fallbacks)
   const modal = document.getElementById('menu-modal');
   const btnOpenMenu = document.getElementById('btn-open-menu');
   const btnCloseMenu = document.getElementById('btn-close-menu');
   const modalOverlay = document.querySelector('.modal-overlay');
 
   const openModal = () => {
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden'; // Lock background scroll
+    if (modal) {
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
   };
 
   const closeModal = () => {
-    modal.classList.remove('active');
-    document.body.style.overflow = ''; // Release background scroll
+    if (modal) {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
   };
 
   if (btnOpenMenu) btnOpenMenu.addEventListener('click', openModal);
@@ -390,7 +394,10 @@ function initApp() {
   const handleUniversalHashRouting = () => {
     const hash = (window.location.hash || '').toLowerCase();
     if (hash === '#menu') {
-      openModal();
+      const orderSec = document.getElementById('order-actions') || document.getElementById('order');
+      if (orderSec) {
+        orderSec.scrollIntoView({ behavior: 'smooth' });
+      }
     } else if (hash === '#rate' || hash === '#feedback' || hash === '#rate-experience') {
       openRateModal();
     } else if (hash === '#spinner' || hash === '#wheel' || hash === '#spin') {
@@ -406,8 +413,13 @@ function initApp() {
 
   // Close modal with Escape key
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.classList.contains('active')) {
-      closeModal();
+    if (e.key === 'Escape') {
+      if (modal && modal.classList.contains('active')) {
+        closeModal();
+      }
+      if (rateModal && rateModal.classList.contains('active')) {
+        closeRateModal();
+      }
     }
   });
 
@@ -2054,7 +2066,7 @@ function initApp() {
       stat3_label: 'Premium Import Quality',
       stat3_desc: 'San Marzano tomatoes, premium mozzarella & quality imported toppings.',
       order_title: 'Taste Pizza Colombia',
-      order_subtitle: 'Explore our digital menu or order delivery directly below!',
+      order_subtitle: 'Order directly online or via your favourite delivery app below!',
       wheel_title: '🍕 Spin & Win!',
       wheel_desc: 'Spin daily, screenshot your win, tag us on social media & claim your bonus gift in-store! 🎁',
       wheel_form_title: 'Enter details to spin & win! 🎁',
@@ -2330,7 +2342,7 @@ function initApp() {
       stat3_label: 'Prémium import minőség',
       stat3_desc: 'San Marzano paradicsom, prémium mozzarella és minőségi olasz feltétek.',
       order_title: 'Kóstolja meg a Pizza Colombiát',
-      order_subtitle: 'Böngésszen digitális étlapunkon vagy rendeljen házhozszállítást alább!',
+      order_subtitle: 'Rendeljen közvetlenül online vagy kedvenc ételfutárján keresztül alább!',
       wheel_title: '🍕 Pörgess és Nyerj!',
       wheel_desc: 'Pörgess naponta, fotózd le a nyereményt, jelölj meg minket közösségi oldalainkon és vedd át az ajándékod! 🎁',
       wheel_form_title: 'Add meg az adataidat a pörgetéshez! 🎁',
