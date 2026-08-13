@@ -658,13 +658,13 @@ function initApp() {
   // ==========================================================================
   const prizes = [
     { text: 'Buy 1 Get 1 Free', color: '#E74C3C', textCol: '#ffffff', code: 'COLOMBIA-BOGO', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest on Facebook/Instagram/TikTok to receive your bonus gift! 🍕' },
-    { text: 'Buy a Pizza & Get 50% Off 2nd Pizza', color: '#E67E22', textCol: '#ffffff', code: 'COLOMBIA-50', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest on Facebook/Instagram/TikTok to receive your bonus gift! 🍕' },
+    { text: '50% Off 2nd Pizza', color: '#E67E22', textCol: '#ffffff', code: 'COLOMBIA-50', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest on Facebook/Instagram/TikTok to receive your bonus gift! 🍕' },
     { text: 'Free 500ml Drink', color: '#F1C40F', textCol: '#2C3E50', code: 'DRINK-500ML', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest on Facebook/Instagram/TikTok to receive your bonus gift! 🥤' },
     { text: 'Spin Again', color: '#BDC3C7', textCol: '#2C3E50', code: '', desc: 'No luck this time! Spin again tomorrow.' },
     { text: 'Free 1000ml Drink', color: '#F1C40F', textCol: '#2C3E50', code: 'DRINK-1000ML', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest on Facebook/Instagram/TikTok to receive your bonus gift! 🥤' },
     { text: 'Free Drink Upgrade', color: '#1ABC9C', textCol: '#ffffff', code: 'DRINK-UPGRADE', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest on Facebook/Instagram/TikTok to receive your bonus gift! 🥤' },
     { text: 'Free Dessert', color: '#2ECC71', textCol: '#ffffff', code: 'FREE-DESSERT', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest on Facebook/Instagram/TikTok to receive your bonus gift! 🍰' },
-    { text: 'Buy a Pizza & Get 25% Off 2nd Pizza', color: '#3498DB', textCol: '#ffffff', code: 'COLOMBIA-25', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest on Facebook/Instagram/TikTok to receive your bonus gift! 🍕' }
+    { text: '25% Off 2nd Pizza', color: '#3498DB', textCol: '#ffffff', code: 'COLOMBIA-25', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest on Facebook/Instagram/TikTok to receive your bonus gift! 🍕' }
   ];
 
   const pizzaWheel = document.getElementById('pizza-wheel');
@@ -2073,8 +2073,8 @@ function initApp() {
       placeholder_contact_lead: 'Email or Phone Number',
       wheel_privacy_label: 'I consent under the <a href="#privacy">privacy notice</a> to the processing of my details for the prize claim. I may withdraw consent at any time.',
       prize_bogo: '🍕 Buy 1 Get 1 Free',
-      prize_50_second: '🍕 Buy a Pizza & Get 50% Off 2nd',
-      prize_25_second: '🍕 Buy a Pizza & Get 25% Off 2nd',
+      prize_50_second: '🍕 50% Off 2nd Pizza',
+      prize_25_second: '🍕 25% Off 2nd Pizza',
       prize_drink_500: '🥤 Free 500ml Drink',
       prize_drink_1000: '🥤 Free 1000ml Drink',
       prize_drink_upgrade: '🥤 Free Drink Upgrade',
@@ -2350,8 +2350,8 @@ function initApp() {
       placeholder_contact_lead: 'Email cím vagy telefonszám',
       wheel_privacy_label: 'Az <a href="#privacy">adatkezelési tájékoztató</a> szerint hozzájárulok adataim kezeléséhez a nyereményigénylés céljából. Hozzájárulásomat bármikor visszavonhatom.',
       prize_bogo: '🍕 1+1 Ingyen Pizza',
-      prize_50_second: '🍕 Vásárolj pizzát, a 2. -50%',
-      prize_25_second: '🍕 Vásárolj pizzát, a 2. -25%',
+      prize_50_second: '🍕 50% kedvezmény a 2. pizzára',
+      prize_25_second: '🍕 25% kedvezmény a 2. pizzára',
       prize_drink_500: '🥤 Ingyen 500ml ital',
       prize_drink_1000: '🥤 Ingyen 1L ital',
       prize_drink_upgrade: '🥤 Ingyen ital upgrade',
@@ -2625,6 +2625,8 @@ function initApp() {
   const wheelTranslations = {
     en: {
       'Buy 1 Get 1 Free': { text: 'BOGO Free', winTitle: 'BUY A PIZZA and Get 1 Free!', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest on Facebook/Instagram/TikTok to receive your bonus gift! 🍕' },
+      '50% Off 2nd Pizza': { text: '50% Off 2nd', winTitle: 'BUY A PIZZA and Get 50% Off 2nd Pizza!', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest on Facebook/Instagram/TikTok to receive your bonus gift! 🍕' },
+      '25% Off 2nd Pizza': { text: '25% Off 2nd', winTitle: 'BUY A PIZZA and Get 25% Off 2nd Pizza!', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest on Facebook/Instagram/TikTok to receive your bonus gift! 🍕' },
       'Buy a Pizza & Get 50% Off 2nd Pizza': { text: '50% Off 2nd', winTitle: 'BUY A PIZZA and Get 50% Off 2nd Pizza!', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest on Facebook/Instagram/TikTok to receive your bonus gift! 🍕' },
       'Buy a Pizza & Get 25% Off 2nd Pizza': { text: '25% Off 2nd', winTitle: 'BUY A PIZZA and Get 25% Off 2nd Pizza!', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest on Facebook/Instagram/TikTok to receive your bonus gift! 🍕' },
       'Free 500ml Drink': { text: 'Free 500ml', winTitle: 'BUY A PIZZA and Get a Free 500ml Drink!', desc: 'Take a screenshot of this win now! Post it on your stories, tag @pizzacolombiaujpest on Facebook/Instagram/TikTok to receive your bonus gift! 🥤' },
@@ -2635,6 +2637,8 @@ function initApp() {
     },
     hu: {
       'Buy 1 Get 1 Free': { text: '1+1 Ingyen Pizza', winTitle: 'VÁSÁROLJ EGY PIZZÁT és a 2. ingyenes!', desc: 'Készíts képernyőképet a nyereményről! Oszd meg történetedben, jelöld meg a @pizzacolombiaujpest fiókot Facebookon, Instagramon vagy TikTokon az ajándékodért! 🍕' },
+      '50% Off 2nd Pizza': { text: '-50% a 2. pizzára', winTitle: 'VÁSÁROLJ EGY PIZZÁT és kapj 50% kedvezményt a 2.-ra!', desc: 'Készíts képernyőképet a nyereményről! Oszd meg történetedben, jelöld meg a @pizzacolombiaujpest fiókot Facebookon, Instagramon vagy TikTokon az ajándékodért! 🍕' },
+      '25% Off 2nd Pizza': { text: '-25% a 2. pizzára', winTitle: 'VÁSÁROLJ EGY PIZZÁT és kapj 25% kedvezményt a 2.-ra!', desc: 'Készíts képernyőképet a nyereményről! Oszd meg történetedben, jelöld meg a @pizzacolombiaujpest fiókot Facebookon, Instagramon vagy TikTokon az ajándékodért! 🍕' },
       'Buy a Pizza & Get 50% Off 2nd Pizza': { text: '-50% a 2. pizzára', winTitle: 'VÁSÁROLJ EGY PIZZÁT és kapj 50% kedvezményt a 2.-ra!', desc: 'Készíts képernyőképet a nyereményről! Oszd meg történetedben, jelöld meg a @pizzacolombiaujpest fiókot Facebookon, Instagramon vagy TikTokon az ajándékodért! 🍕' },
       'Buy a Pizza & Get 25% Off 2nd Pizza': { text: '-25% a 2. pizzára', winTitle: 'VÁSÁROLJ EGY PIZZÁT és kapj 25% kedvezményt a 2.-ra!', desc: 'Készíts képernyőképet a nyereményről! Oszd meg történetedben, jelöld meg a @pizzacolombiaujpest fiókot Facebookon, Instagramon vagy TikTokon az ajándékodért! 🍕' },
       'Free 500ml Drink': { text: 'Ingyen 500ml', winTitle: 'VÁSÁROLJ EGY PIZZÁT és kapj egy ingyen 500ml italt!', desc: 'Készíts képernyőképet a nyereményről! Oszd meg történetedben, jelöld meg a @pizzacolombiaujpest fiókot Facebookon, Instagramon vagy TikTokon az ajándékodért! 🥤' },
