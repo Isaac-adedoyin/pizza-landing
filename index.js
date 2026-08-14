@@ -908,7 +908,19 @@ function initApp() {
     }
   };
 
+  let lastSavedLeadTimestamp = 0;
+  let lastSavedLeadContact = '';
+
   async function saveWheelLead(name, contact, prize) {
+    // Prevent duplicate submission of the same lead within 10 seconds
+    const now = Date.now();
+    if (contact === lastSavedLeadContact && now - lastSavedLeadTimestamp < 10000) {
+      console.log('Duplicate lead submission prevented.');
+      return;
+    }
+    lastSavedLeadTimestamp = now;
+    lastSavedLeadContact = contact;
+
     // Push to Google Sheet Web App if configured
     if (CONFIG.wheelLeadsUrl) {
       try {
@@ -974,90 +986,94 @@ function initApp() {
     return false;
   };
 
+  let pizzaWheelInitialized = false;
+  let isSpinning = false;
+
   const initPizzaWheel = () => {
-    if (pizzaWheel && btnSpinWheel) {
-      // Setup lead validation listeners always
-      if (leadNameInput && leadContactInput) {
-        leadNameInput.addEventListener('input', validateWheelForm);
-        leadContactInput.addEventListener('input', validateWheelForm);
-        if (leadPrivacyInput) {
-          leadPrivacyInput.addEventListener('change', validateWheelForm);
-        }
+    if (!pizzaWheel || !btnSpinWheel) return;
+    if (pizzaWheelInitialized) return;
+    pizzaWheelInitialized = true;
+
+    // Setup lead validation listeners
+    if (leadNameInput && leadContactInput) {
+      leadNameInput.addEventListener('input', validateWheelForm);
+      leadContactInput.addEventListener('input', validateWheelForm);
+      if (leadPrivacyInput) {
+        leadPrivacyInput.addEventListener('change', validateWheelForm);
       }
-
-      // Initial check for spin expiry
-      checkSpinExpiry();
-
-      drawWheel();
-      requestAnimationFrame(drawWheel);
-      setTimeout(drawWheel, 150);
-      setTimeout(drawWheel, 500);
-
-      // Check localStorage to set initial state
-      const savedPrizeIndex = safeGetItem('pizza_wheel_prize');
-      if (savedPrizeIndex !== null) {
-        const idx = parseInt(savedPrizeIndex, 10);
-        const prize = prizes[idx];
-        showPrizeResult(prize, true);
-      } else {
-        validateWheelForm();
-      }
-
-      // Periodically check for 24-hour expiry (in case page is left open)
-      setInterval(checkSpinExpiry, 15000); // Check every 15 seconds
-
-      // Check for expiry when window is focused or tab becomes visible again
-      window.addEventListener('focus', checkSpinExpiry);
-      document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'visible') {
-          checkSpinExpiry();
-        }
-      });
-
-      let isSpinning = false;
-
-      btnSpinWheel.addEventListener('click', () => {
-        if (isSpinning || safeGetItem('pizza_wheel_prize') !== null) return;
-
-        // Validate inputs
-        const nameVal = leadNameInput ? leadNameInput.value.trim() : '';
-        const contactVal = leadContactInput ? leadContactInput.value.trim() : '';
-        const privacyVal = leadPrivacyInput ? leadPrivacyInput.checked : false;
-
-        if (nameVal.length < 2 || !isValidEmailOrPhone(contactVal) || !privacyVal) {
-          const errorEl = document.getElementById('wheel-form-error');
-          if (errorEl) {
-            errorEl.innerText = currentLang === 'hu' ? 'Kérjük, fogadd el az adatkezelési hozzájárulást!' : 'Please accept the data processing consent!';
-            errorEl.classList.remove('hidden');
-          }
-          return;
-        }
-
-        isSpinning = true;
-        btnSpinWheel.classList.add('disabled');
-
-        // Random winner based on odds weightings
-        const pool = [0, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 5, 5, 5, 5, 6, 6, 7, 7, 7];
-        const winIndex = pool[Math.floor(Math.random() * pool.length)];
-        const prize = prizes[winIndex];
-
-        const fullSpins = 5;
-        const sliceDegrees = 360 / prizes.length;
-        const targetDegrees = (fullSpins * 360) + (270 - (winIndex * sliceDegrees) - (sliceDegrees / 2));
-
-        pizzaWheel.style.transform = `rotate(${targetDegrees}deg)`;
-
-        pizzaWheel.addEventListener('transitionend', function handler() {
-          pizzaWheel.removeEventListener('transitionend', handler);
-          isSpinning = false;
-          
-          safeSetItem('pizza_wheel_prize', winIndex);
-          safeSetItem('pizza_wheel_spin_time', Date.now());
-          saveWheelLead(nameVal, contactVal, prize);
-          showPrizeResult(prize, false);
-        });
-      });
     }
+
+    // Initial check for spin expiry
+    checkSpinExpiry();
+
+    drawWheel();
+    requestAnimationFrame(drawWheel);
+    setTimeout(drawWheel, 150);
+    setTimeout(drawWheel, 500);
+
+    // Check localStorage to set initial state
+    const savedPrizeIndex = safeGetItem('pizza_wheel_prize');
+    if (savedPrizeIndex !== null) {
+      const idx = parseInt(savedPrizeIndex, 10);
+      const prize = prizes[idx];
+      showPrizeResult(prize, true);
+    } else {
+      validateWheelForm();
+    }
+
+    // Periodically check for 24-hour expiry (in case page is left open)
+    setInterval(checkSpinExpiry, 15000); // Check every 15 seconds
+
+    // Check for expiry when window is focused or tab becomes visible again
+    window.addEventListener('focus', checkSpinExpiry);
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        checkSpinExpiry();
+      }
+    });
+
+    btnSpinWheel.addEventListener('click', () => {
+      if (isSpinning || safeGetItem('pizza_wheel_prize') !== null) return;
+
+      // Validate inputs
+      const nameVal = leadNameInput ? leadNameInput.value.trim() : '';
+      const contactVal = leadContactInput ? leadContactInput.value.trim() : '';
+      const privacyVal = leadPrivacyInput ? leadPrivacyInput.checked : false;
+
+      if (nameVal.length < 2 || !isValidEmailOrPhone(contactVal) || !privacyVal) {
+        const errorEl = document.getElementById('wheel-form-error');
+        if (errorEl) {
+          errorEl.innerText = currentLang === 'hu' ? 'Kérjük, fogadd el az adatkezelési hozzájárulást!' : 'Please accept the data processing consent!';
+          errorEl.classList.remove('hidden');
+        }
+        return;
+      }
+
+      isSpinning = true;
+      btnSpinWheel.disabled = true;
+      btnSpinWheel.classList.add('disabled');
+
+      // Random winner based on odds weightings
+      const pool = [0, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 5, 5, 5, 5, 6, 6, 7, 7, 7];
+      const winIndex = pool[Math.floor(Math.random() * pool.length)];
+      const prize = prizes[winIndex];
+
+      const fullSpins = 5;
+      const sliceDegrees = 360 / prizes.length;
+      const targetDegrees = (fullSpins * 360) + (270 - (winIndex * sliceDegrees) - (sliceDegrees / 2));
+
+      pizzaWheel.style.transform = `rotate(${targetDegrees}deg)`;
+
+      pizzaWheel.addEventListener('transitionend', function handler() {
+        pizzaWheel.removeEventListener('transitionend', handler);
+        isSpinning = false;
+        
+        safeSetItem('pizza_wheel_prize', winIndex);
+        safeSetItem('pizza_wheel_spin_time', Date.now());
+        saveWheelLead(nameVal, contactVal, prize);
+        showPrizeResult(prize, false);
+      }, { once: true });
+    });
   };
 
   // Copy Promo Code to clipboard
@@ -3223,7 +3239,6 @@ function initApp() {
     initToppingBadges();
     bindCopyAmountButton('btn-copy-payment-amount', 'pending-total-amount');
     bindCopyAmountButton('btn-copy-success-amount', 'success-total-amount');
-    initPizzaWheel();
     updateLanguageUI();
   });
 
