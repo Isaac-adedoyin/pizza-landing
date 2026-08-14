@@ -1063,8 +1063,22 @@ function initApp() {
       btnSpinWheel.disabled = true;
       btnSpinWheel.classList.add('disabled');
 
-      // Random winner based on odds weightings
-      const pool = [0, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 5, 5, 5, 5, 6, 6, 7, 7, 7];
+      // Exact weighted probability distribution out of 100 tickets:
+      // Slice 0 (Buy 1 Get 1 Free): 1%
+      // Slice 1 (50% Off 2nd Pizza): 2%
+      // Slice 2 (Free 500ml Drink): 30%
+      // Slice 3 (Spin Again): 10%
+      // Slice 4 (Free 1000ml Drink): 5%
+      // Slice 5 (Free Drink Upgrade): 29%
+      // Slice 6 (Free Dessert): 3%
+      // Slice 7 (25% Off 2nd Pizza): 20%
+      const weights = [1, 2, 30, 10, 5, 29, 3, 20];
+      const pool = [];
+      weights.forEach((count, idx) => {
+        for (let i = 0; i < count; i++) {
+          pool.push(idx);
+        }
+      });
       const winIndex = pool[Math.floor(Math.random() * pool.length)];
       const prize = prizes[winIndex];
 
