@@ -328,11 +328,14 @@ function initApp() {
     });
   }
 
+  let isSubmittingFeedback = false;
   if (feedbackForm) {
-    feedbackForm.addEventListener('submit', (e) => {
+    feedbackForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const feedbackPhone = document.getElementById('rate-phone')?.value || '';
-      const feedbackEmail = document.getElementById('rate-email')?.value || '';
+      if (isSubmittingFeedback) return;
+
+      const feedbackPhone = document.getElementById('rate-phone')?.value.trim() || '';
+      const feedbackEmail = document.getElementById('rate-email')?.value.trim() || '';
       const feedbackConsent = document.getElementById('rate-privacy')?.checked === true;
       if (!isValidPhone(feedbackPhone) || !isValidEmail(feedbackEmail) || !feedbackConsent) {
         alert(currentLang === 'hu'
@@ -340,14 +343,22 @@ function initApp() {
           : 'Please provide valid contact details and accept the data-processing consent.');
         return;
       }
+
+      isSubmittingFeedback = true;
+      const submitBtn = feedbackForm.querySelector('button[type="submit"]');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.classList.add('disabled');
+      }
+
       const feedbackData = {
-        name: document.getElementById('rate-name')?.value || '',
-        phone: document.getElementById('rate-phone')?.value || '',
-        email: document.getElementById('rate-email')?.value || '',
-        orderNumber: document.getElementById('rate-order-num')?.value || '',
-        details: document.getElementById('rate-details')?.value || '',
+        name: document.getElementById('rate-name')?.value.trim() || '',
+        phone: feedbackPhone,
+        email: feedbackEmail,
+        orderNumber: document.getElementById('rate-order-num')?.value.trim() || '',
+        details: document.getElementById('rate-details')?.value.trim() || '',
         contactMethod: document.getElementById('rate-contact-method')?.value || 'phone',
-        privacyConsent: document.getElementById('rate-privacy')?.checked === true,
+        privacyConsent: true,
         timestamp: new Date().toLocaleString('hu-HU', { timeZone: 'Europe/Budapest' })
       };
 
@@ -367,23 +378,22 @@ function initApp() {
           timestamp: feedbackData.timestamp
         };
 
-        // Try JSON payload first (Google Apps Script e.postData.contents)
-        fetch(CONFIG.wheelLeadsUrl, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(feedbackPayload)
-        }).catch(err => {
-          // Fallback to URLSearchParams
-          const formData = new URLSearchParams();
-          Object.keys(feedbackPayload).forEach(key => formData.append(key, feedbackPayload[key]));
-          fetch(CONFIG.wheelLeadsUrl, {
+        try {
+          await fetch(CONFIG.wheelLeadsUrl, {
             method: 'POST',
             mode: 'no-cors',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: formData.toString()
-          }).catch(e => console.log('Feedback log sent', e));
-        });
+            body: JSON.stringify(feedbackPayload)
+          });
+        } catch (err) {
+          console.error('Error submitting feedback:', err);
+        }
+      }
+
+      feedbackForm.reset();
+      isSubmittingFeedback = false;
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('disabled');
       }
 
       if (stepFeedbackForm) stepFeedbackForm.classList.add('hidden');
@@ -2950,10 +2960,12 @@ function initApp() {
       input.addEventListener('change', validateCateringForm);
     });
 
+    let isSubmittingCatering = false;
+
     // Form submit listener
     cateringForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      if (!validateCateringForm()) return;
+      if (isSubmittingCatering || !validateCateringForm()) return;
 
       const nameVal = document.getElementById('catering-name').value.trim();
       const phoneVal = document.getElementById('catering-phone').value.trim();
@@ -2965,7 +2977,9 @@ function initApp() {
       const datetimeVal = document.getElementById('catering-datetime').value;
       const itemsSummaryVal = getCateringItemsSummary();
 
+      isSubmittingCatering = true;
       if (cateringSubmitBtn) {
+        cateringSubmitBtn.disabled = true;
         cateringSubmitBtn.classList.add('disabled');
         cateringSubmitBtn.innerText = currentLang === 'hu' ? 'KÜLDÉS...' : 'SENDING...';
       }
@@ -3019,16 +3033,20 @@ function initApp() {
             cateringFormError.classList.remove('hidden');
           }
         } finally {
+          isSubmittingCatering = false;
           if (cateringSubmitBtn) {
+            cateringSubmitBtn.disabled = false;
             cateringSubmitBtn.innerText = uiTranslations[currentLang]['catering_submit_btn'] || 'Submit Catering Enquiry';
           }
         }
       } else {
+        isSubmittingCatering = false;
         if (cateringFormError) {
           cateringFormError.innerText = currentLang === 'hu' ? 'Catering szolgáltatás jelenleg nem elérhető.' : 'Catering service is currently offline.';
           cateringFormError.classList.remove('hidden');
         }
         if (cateringSubmitBtn) {
+          cateringSubmitBtn.disabled = false;
           cateringSubmitBtn.innerText = uiTranslations[currentLang]['catering_submit_btn'] || 'Submit Catering Enquiry';
         }
       }
@@ -3123,10 +3141,12 @@ function initApp() {
       input.addEventListener('change', validateJobForm);
     });
 
+    let isSubmittingJob = false;
+
     // Form submit listener
     jobForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      if (!validateJobForm()) return;
+      if (isSubmittingJob || !validateJobForm()) return;
 
       const fNameVal = document.getElementById('app-firstname').value.trim();
       const sNameVal = document.getElementById('app-surname').value.trim();
@@ -3144,6 +3164,7 @@ function initApp() {
       const taxVal = document.getElementById('app-tax').value;
       const introVal = document.getElementById('app-intro').value.trim() || 'N/A';
 
+      isSubmittingJob = true;
       if (jobSubmitBtn) {
         jobSubmitBtn.classList.add('disabled');
         jobSubmitBtn.disabled = true;
@@ -3206,11 +3227,13 @@ function initApp() {
         } catch (err) {
           console.error('Error submitting job application:', err);
           if (jobFormError) {
-            jobFormError.innerText = currentLang === 'hu' ? 'Hiba történt a jelentkezés küldése során! Kérjük, próbáld újra.' : 'Error sending application! Please try again.';
+            jobFormError.innerText = currentLang === 'hu' ? 'Hiba történt a jelentkezés során! Kérjük, próbáld újra.' : 'Error sending application! Please try again.';
             jobFormError.classList.remove('hidden');
           }
         } finally {
+          isSubmittingJob = false;
           if (jobSubmitBtn) {
+            jobSubmitBtn.disabled = false;
             jobSubmitBtn.innerText = uiTranslations[currentLang]['app_submit_btn'] || 'Submit Job Application';
           }
         }
