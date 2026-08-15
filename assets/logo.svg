@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 50" width="220" height="50" fill="none">
+  <!-- Pizza Circle (Red) -->
+  <circle cx="22" cy="25" r="17" fill="#E74C3C" />
+  <path d="M 15 19.5 Q 22 17.5 29 19.5 L 22 33 Z" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+  <path d="M 16.8 22.5 Q 22 20.8 27.2 22.5" stroke="white" stroke-width="1.5" stroke-linecap="round" fill="none" />
+  <path d="M 18.2 25.2 Q 22 23.8 25.8 25.2" stroke="white" stroke-width="1.5" stroke-linecap="round" fill="none" />
+  <circle cx="22" cy="28.8" r="1.3" fill="white" />
+
+  <!-- Coffee Circle (Yellow) -->
+  <circle cx="58" cy="25" r="17" fill="#F1C40F" />
+  <path d="M 51 21 H 61 C 62.5 21 63.5 22 63.5 23.5 V 27.5 C 63.5 30 61.5 32 59 32 H 55.5 C 53 32 51 30 51 27.5 V 21 Z" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+  <path d="M 63.5 23.8 H 65.8 C 67 23.8 68 24.8 68 26 C 68 27.2 67 28.2 65.8 28.2 H 63.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+  <path d="M 54 18 V 15.5" stroke="white" stroke-width="1.6" stroke-linecap="round" />
+  <path d="M 57.25 18 V 14.5" stroke="white" stroke-width="1.6" stroke-linecap="round" />
+  <path d="M 60.5 18 V 15.5" stroke="white" stroke-width="1.6" stroke-linecap="round" />
+
+  <!-- Drink Circle (Teal) -->
+  <circle cx="94" cy="25" r="17" fill="#16B996" />
+  <path d="M 86.5 19.5 H 101.5" stroke="white" stroke-width="1.8" stroke-linecap="round" />
+  <path d="M 88.5 19.5 L 90.5 32.5 C 90.8 33.5 91.6 34 92.6 34 H 95.4 C 96.4 34 97.2 33.5 97.5 32.5 L 99.5 19.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+  <path d="M 98.2 13.8 L 93.5 20.5" stroke="white" stroke-width="1.8" stroke-linecap="round" />
+
+  <!-- Brand Typography -->
+  <text x="118" y="26.5" font-family="'Outfit', 'Segoe UI', system-ui, -apple-system, sans-serif" font-size="17" font-weight="800" fill="#222222" letter-spacing="0.5">COLOMBIA</text>
+  <text x="119" y="39.5" font-family="'Outfit', 'Segoe UI', system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="500" fill="#6B7280" letter-spacing="2.2">ÚJPEST</text>
+</svg>
