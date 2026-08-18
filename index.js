@@ -62,7 +62,7 @@ function escapeHTML(value) {
 }
 
 function isValidEmail(value) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value).trim());
+  return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(String(value).trim());
 }
 
 function isValidPhone(value) {
@@ -169,65 +169,6 @@ function initApp() {
     forceRevealAll();
   }
   setTimeout(forceRevealAll, 300);
-
-  // 4. Stats Number Counter Animation
-  const statNumbers = document.querySelectorAll('.stat-number');
-  const countDuration = 2000; // 2 seconds
-
-  const animateCount = (element) => {
-    if (!element.hasAttribute('data-target')) {
-      return;
-    }
-
-    const target = parseInt(element.getAttribute('data-target'), 10);
-    const suffix = element.getAttribute('data-suffix') || '';
-    let startTimestamp = null;
-
-    const step = (timestamp) => {
-      if (!startTimestamp) startTimestamp = timestamp;
-      const progress = Math.min((timestamp - startTimestamp) / countDuration, 1);
-      const currentVal = Math.floor(progress * target);
-      element.innerText = currentVal + suffix;
-      if (progress < 1) {
-        window.requestAnimationFrame(step);
-      } else {
-        element.innerText = target + suffix;
-      }
-    };
-
-    window.requestAnimationFrame(step);
-  };
-
-  // Trigger count animation when stats section is visible
-  const statsSection = document.querySelector('.stats-section');
-  let statsAnimated = false;
-
-  const triggerStatsAnimation = () => {
-    if (!statsAnimated) {
-      statNumbers.forEach(num => animateCount(num));
-      statsAnimated = true;
-    }
-  };
-
-  const statsObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting && !statsAnimated) {
-        triggerStatsAnimation();
-        statsObserver.unobserve(entry.target);
-      }
-    });
-  }, {
-    threshold: 0.01,
-    rootMargin: '100px 0px 100px 0px'
-  });
-
-  if (statsSection) {
-    statsObserver.observe(statsSection);
-  }
-
-  // Trigger count animation immediately
-  triggerStatsAnimation();
-  setTimeout(triggerStatsAnimation, 100);
 
   // 5. Interactive Digital Menu Modal (Removed - safe fallbacks)
   const modal = document.getElementById('menu-modal');
@@ -410,10 +351,10 @@ function initApp() {
       }
     } else if (hash === '#rate' || hash === '#feedback' || hash === '#rate-experience') {
       openRateModal();
-    } else if (hash === '#spinner' || hash === '#wheel' || hash === '#spin') {
-      const wheelElem = document.getElementById('order') || document.getElementById('pizza-wheel');
+    } else if (hash === '#spinner' || hash === '#wheel' || hash === '#spin' || hash === '#spin-and-win') {
+      const wheelElem = document.getElementById('spinner') || document.getElementById('pizza-wheel');
       if (wheelElem) {
-        wheelElem.scrollIntoView({ behavior: 'smooth' });
+        wheelElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }
   };
@@ -764,24 +705,31 @@ function initApp() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     }
+    drawWheel();
   });
 
   const drawWheel = () => {
     const canvas = document.getElementById('pizza-wheel');
     if (!canvas) return;
 
-    const displaySize = canvas.clientWidth || 480;
-    if (displaySize > 0 && (canvas.width !== displaySize || canvas.height !== displaySize)) {
-      canvas.width = displaySize;
-      canvas.height = displaySize;
+    const displaySize = Math.max(canvas.clientWidth || 480, 260);
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const renderSize = Math.round(displaySize * dpr);
+
+    if (canvas.width !== renderSize || canvas.height !== renderSize) {
+      canvas.width = renderSize;
+      canvas.height = renderSize;
     }
 
     const ctx = canvas.getContext('2d');
-    const cw = canvas.width || 480;
-    const ch = canvas.height || 480;
+    ctx.save();
+    ctx.scale(dpr, dpr);
+
+    const cw = displaySize;
+    const ch = displaySize;
     const cx = cw / 2;
     const cy = ch / 2;
-    const radius = cw / 2 - 10;
+    const radius = cw / 2 - 8;
 
     ctx.clearRect(0, 0, cw, ch);
 
@@ -792,9 +740,12 @@ function initApp() {
     ctx.fill();
 
     ctx.beginPath();
-    ctx.arc(cx, cy, radius - 8, 0, Math.PI * 2);
+    ctx.arc(cx, cy, radius - (radius * 0.038), 0, Math.PI * 2);
     ctx.fillStyle = '#E59866';
     ctx.fill();
+
+    const crustThickness = Math.max(Math.round(radius * 0.065), 10);
+    const innerSliceRadius = radius - crustThickness;
 
     // 2. Draw segments
     const sliceAngle = (Math.PI * 2) / prizes.length;
@@ -804,7 +755,7 @@ function initApp() {
 
       ctx.beginPath();
       ctx.moveTo(cx, cy);
-      ctx.arc(cx, cy, radius - 15, startAngle, endAngle);
+      ctx.arc(cx, cy, innerSliceRadius, startAngle, endAngle);
       ctx.closePath();
       ctx.fillStyle = prize.color;
       ctx.fill();
@@ -812,47 +763,53 @@ function initApp() {
       // Slice cuts
       ctx.beginPath();
       ctx.moveTo(cx, cy);
-      ctx.lineTo(cx + (radius - 15) * Math.cos(startAngle), cy + (radius - 15) * Math.sin(startAngle));
-      ctx.strokeStyle = 'rgba(255,255,255,0.4)';
+      ctx.lineTo(cx + innerSliceRadius * Math.cos(startAngle), cy + innerSliceRadius * Math.sin(startAngle));
+      ctx.strokeStyle = 'rgba(255,255,255,0.45)';
       ctx.lineWidth = 2;
       ctx.stroke();
 
       // Pepperonis on pizza slices (offset to the sides to prevent text overlap)
       ctx.fillStyle = '#C0392B';
       const midAngle = startAngle + sliceAngle / 2;
-      const pepDist = (radius - 15) * 0.55;
+      const pepDist = innerSliceRadius * 0.58;
+      const pepRadius = Math.max(Math.round(radius * 0.022), 3.5);
       
       // Left side pepperoni
       ctx.beginPath();
-      ctx.arc(cx + pepDist * Math.cos(midAngle - 0.22), cy + pepDist * Math.sin(midAngle - 0.22), 5, 0, Math.PI * 2);
+      ctx.arc(cx + pepDist * Math.cos(midAngle - 0.22), cy + pepDist * Math.sin(midAngle - 0.22), pepRadius, 0, Math.PI * 2);
       ctx.fill();
 
       // Right side pepperoni
       ctx.beginPath();
-      ctx.arc(cx + pepDist * Math.cos(midAngle + 0.22), cy + pepDist * Math.sin(midAngle + 0.22), 5, 0, Math.PI * 2);
+      ctx.arc(cx + pepDist * Math.cos(midAngle + 0.22), cy + pepDist * Math.sin(midAngle + 0.22), pepRadius, 0, Math.PI * 2);
       ctx.fill();
 
-      // Slice text
+      // Slice text (scaled dynamically to fit crisp on any screen size)
       ctx.save();
       ctx.translate(cx, cy);
       ctx.rotate(midAngle);
       ctx.fillStyle = prize.textCol;
-      ctx.font = 'bold 14px Outfit, sans-serif';
+      const fontSize = Math.max(Math.round(radius * 0.064), 11);
+      ctx.font = `bold ${fontSize}px Outfit, sans-serif`;
       ctx.textAlign = 'right';
       ctx.textBaseline = 'middle';
       const textToDraw = currentLang === 'hu' ? (wheelTranslations.hu[prize.text]?.text || prize.text) : prize.text;
-      ctx.fillText(textToDraw, radius - 35, 0);
+      const textOffset = Math.max(Math.round(radius * 0.14), 22);
+      ctx.fillText(textToDraw, innerSliceRadius - textOffset, 0);
       ctx.restore();
     });
 
     // 3. Draw inner crust circle ring
+    const centerRingRadius = Math.max(Math.round(radius * 0.165), 26);
     ctx.beginPath();
-    ctx.arc(cx, cy, 38, 0, Math.PI * 2);
+    ctx.arc(cx, cy, centerRingRadius, 0, Math.PI * 2);
     ctx.fillStyle = '#ffffff';
     ctx.fill();
-    ctx.lineWidth = 4;
+    ctx.lineWidth = Math.max(Math.round(radius * 0.018), 3);
     ctx.strokeStyle = '#D35400';
     ctx.stroke();
+
+    ctx.restore();
   };
 
   function showPrizeResult(prize, alreadySpun) {
@@ -2031,6 +1988,7 @@ function initApp() {
       nav_oven: 'Oven',
       nav_ingredients: 'Ingredients',
       nav_styles: 'Styles',
+      nav_spin: '🎁 Spin & Win',
       nav_whats_new: 'Offers',
       nav_stats: 'Stats',
       nav_rate_experience: 'Rate Us',
@@ -2040,6 +1998,7 @@ function initApp() {
       hero_title: 'Fresh Artisanal Neapolitan & New York Pizza in Újpest',
       hero_subtitle: 'Handcrafted stone-baked pizzas made with premium Italian ingredients. Dine-in, takeaway & event catering.',
       hero_btn: 'Order Online',
+      hero_spin_btn: '🎁 Spin & Win',
       whats_new_eyebrow: 'Fresh from Pizza Colombia',
       whats_new_title: 'Offers & Specials',
       whats_new_intro: 'Current promotions, rewards, and announcements.',
@@ -2130,6 +2089,11 @@ function initApp() {
       order_wolt: 'Order on Wolt',
       order_foodora: 'Order on Foodora',
       order_btn: 'Digital Menu',
+      hero_address_text: 'Megyeri út 205, ép D, 1048 Budapest',
+      orange_banner_title: 'Visit Us in Person or Order for Pickup!',
+      orange_banner_visit: 'Visit us at:',
+      orange_banner_call: 'Call us:',
+      orange_banner_maps: '📍 Get Directions',
       reviews_header: 'Google Reviews • Pizza Colombia Újpest',
       review1_title: 'Google Review • 5 Stars',
       review1_text: '"Five stars for food, service, and atmosphere! The authentic artisanal pizzas and crust quality in Újpest are top notch."',
@@ -2309,6 +2273,7 @@ function initApp() {
       nav_oven: 'Kemence',
       nav_ingredients: 'Összetevők',
       nav_styles: 'Stílusok',
+      nav_spin: '🎁 Pörgess és Nyerj',
       nav_whats_new: 'Ajánlatok',
       nav_stats: 'Statisztika',
       nav_rate_experience: 'Értékelj Minket',
@@ -2318,6 +2283,7 @@ function initApp() {
       hero_title: 'Friss kézműves nápolyi és New York-i pizza Újpesten',
       hero_subtitle: 'Kézzel nyújtott, samott lapon sült pizzák prémium olasz alapanyagokból. Helyben, elvitelre és rendezvényekre.',
       hero_btn: 'Rendelés Online',
+      hero_spin_btn: '🎁 Pörgess és Nyerj',
       whats_new_eyebrow: 'Frissen a Pizza Colombiától',
       whats_new_title: 'Ajánlatok és Akciók',
       whats_new_intro: 'Aktuális kedvezmények, nyeremények és hírek.',
@@ -2408,6 +2374,11 @@ function initApp() {
       order_wolt: 'Rendelés Wolton',
       order_foodora: 'Rendelés Foodorán',
       order_btn: 'Digitális Étlap',
+      hero_address_text: 'Megyeri út 205, ép D, 1048 Budapest',
+      orange_banner_title: 'Látogass el hozzánk személyesen vagy rendelj elvitelre!',
+      orange_banner_visit: 'Címünk:',
+      orange_banner_call: 'Hívj minket:',
+      orange_banner_maps: '📍 Útvonaltervezés',
       reviews_header: 'Google Vélemények • Pizza Colombia Újpest',
       review1_title: 'Google Vélemény • 5 Csillag',
       review1_text: '"Öt csillag az ételekre, a kiszolgálásra és a hangulatra! Az autentikus kézműves pizzák és a tészta minősége Újpesten kimagasló."',

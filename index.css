@@ -289,6 +289,47 @@ button {
   max-width: 540px;
 }
 
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+.hero-location-strip {
+  margin-top: 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding: 0.55rem 1.15rem;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 50px;
+  font-size: 0.92rem;
+  color: var(--text-main);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.hero-location-strip .strip-divider {
+  color: var(--primary-dark);
+  opacity: 0.4;
+}
+
+.hero-location-strip .strip-phone-link {
+  color: var(--primary-dark);
+  text-decoration: none;
+  font-weight: 700;
+  transition: var(--transition-fast);
+}
+
+.hero-location-strip .strip-phone-link:hover {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
 /* Hero Button styling */
 .btn {
   display: inline-flex;
@@ -312,6 +353,22 @@ button {
   transform: translateY(-3px);
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
   background-color: #FFFBF9;
+}
+
+.btn-hero-spin {
+  background-color: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.btn-hero-spin:hover {
+  background-color: #ffffff;
+  color: var(--primary-dark);
+  border-color: #ffffff;
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.18);
 }
 
 .arrow-down-icon {
@@ -1070,6 +1127,211 @@ button {
   height: 20px;
 }
 
+/* -------------------------------------------------------------------------
+   Orange Physical Address & Phone Number Banner (Below Order Online)
+   ------------------------------------------------------------------------- */
+.orange-address-banner {
+  max-width: 960px;
+  margin: 2.5rem auto 4rem;
+  background: linear-gradient(135deg, #FF6F00 0%, #F57C00 45%, #E65100 100%);
+  border-radius: 26px;
+  padding: 1.85rem 2.5rem;
+  color: #ffffff;
+  box-shadow: 0 18px 40px rgba(230, 81, 0, 0.28), 0 4px 12px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+
+.orange-address-banner::before {
+  content: '';
+  position: absolute;
+  top: -60%;
+  right: -25%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.orange-address-banner:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 50px rgba(230, 81, 0, 0.35), 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.orange-banner-inner {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  position: relative;
+  z-index: 1;
+}
+
+.orange-banner-icon-col {
+  flex-shrink: 0;
+}
+
+.orange-banner-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 2px 5px rgba(255, 255, 255, 0.3), 0 6px 14px rgba(0, 0, 0, 0.1);
+}
+
+.orange-banner-icon svg {
+  width: 32px;
+  height: 32px;
+  stroke: #ffffff;
+}
+
+.orange-banner-content {
+  flex: 1;
+  text-align: left;
+}
+
+.orange-banner-heading {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.45rem;
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+}
+
+.orange-banner-address {
+  font-size: 1.05rem;
+  line-height: 1.5;
+  margin-bottom: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.orange-banner-address .addr-label {
+  font-weight: 500;
+  opacity: 0.92;
+}
+
+.orange-banner-address .addr-val {
+  font-weight: 700;
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.15);
+  padding: 0.2rem 0.65rem;
+  border-radius: 8px;
+  letter-spacing: 0.01em;
+}
+
+.orange-banner-contacts {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  font-size: 0.95rem;
+}
+
+.orange-banner-contacts .contact-label {
+  font-weight: 600;
+  opacity: 0.92;
+}
+
+.orange-contact-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #ffffff;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.18);
+  padding: 0.35rem 0.85rem;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  font-weight: 600;
+  transition: var(--transition-fast);
+}
+
+.orange-contact-link:hover {
+  background: #ffffff;
+  color: #E65100;
+  border-color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.18);
+}
+
+.orange-contact-link:hover .contact-svg-icon {
+  stroke: #E65100;
+}
+
+.contact-svg-icon {
+  width: 15px;
+  height: 15px;
+  stroke: #ffffff;
+  transition: stroke 0.2s ease;
+}
+
+.orange-banner-contacts .contact-sep {
+  opacity: 0.4;
+  font-weight: 700;
+}
+
+.btn-banner-directions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #E65100;
+  background: #ffffff;
+  text-decoration: none;
+  padding: 0.35rem 0.95rem;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 0.88rem;
+  margin-left: 0.25rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  transition: var(--transition-fast);
+}
+
+.btn-banner-directions:hover {
+  background: #FFF3E0;
+  transform: translateY(-2px);
+  box-shadow: 0 7px 16px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+  .orange-address-banner {
+    padding: 1.5rem 1.25rem;
+    margin: 2rem 0.5rem 3.5rem;
+    border-radius: 22px;
+  }
+  
+  .orange-banner-inner {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+  
+  .orange-banner-content {
+    text-align: center;
+  }
+  
+  .orange-banner-address {
+    justify-content: center;
+  }
+  
+  .orange-banner-contacts {
+    justify-content: center;
+  }
+}
+
 /* Info Grid (Map & Hours) */
 .info-grid {
   display: flex;
@@ -1649,6 +1911,10 @@ button {
     margin-right: auto;
   }
   
+  .hero-actions {
+    justify-content: center;
+  }
+  
   .showcase-container,
   .showcase-container.reverse {
     grid-template-columns: 1fr;
@@ -1742,9 +2008,15 @@ button {
    ========================================================================== */
 
 .pizza-wheel-section {
-  max-width: 1150px;
-  margin: 2.5rem auto 4.5rem;
+  padding: 85px 0 50px;
+  background: linear-gradient(180deg, var(--bg-light) 0%, #ffffff 100%);
+  scroll-margin-top: calc(var(--nav-height, 75px) + 20px);
   width: 100%;
+}
+
+.pizza-wheel-shell {
+  max-width: 1150px;
+  margin: 0 auto;
 }
 
 .pizza-wheel-container {
@@ -1763,37 +2035,87 @@ button {
 }
 
 @media (max-width: 868px) {
+  .pizza-wheel-section {
+    padding: 60px 0 40px;
+  }
+
   .pizza-wheel-container {
     grid-template-columns: 1fr;
-    gap: 2rem;
-    padding: 1.5rem;
+    gap: 2.25rem;
+    padding: 2rem 1.5rem;
   }
-}
 
-@media (max-width: 480px) {
-  .pizza-wheel-container {
-    padding: 1rem;
-    gap: 1.5rem;
-    border-radius: 24px;
+  .wheel-wrapper {
+    max-width: 400px;
   }
 
   .wheel-center-btn {
-    width: 60px;
-    height: 60px;
-    font-size: 0.9rem;
+    width: 62px;
+    height: 62px;
+    font-size: 0.92rem;
+  }
+}
+
+@media (max-width: 540px) {
+  .pizza-wheel-section {
+    padding: 45px 0 30px;
+  }
+
+  .pizza-wheel-shell {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  .pizza-wheel-container {
+    padding: 1.25rem 0.85rem;
+    gap: 1.75rem;
+    border-radius: 22px;
+  }
+
+  .wheel-wrapper {
+    max-width: 350px;
+    width: 100%;
+  }
+
+  .wheel-center-btn {
+    width: 52px;
+    height: 52px;
+    font-size: 0.82rem;
     border-width: 3px;
   }
 
   .wheel-pointer {
-    top: -8px;
-    width: 26px;
-    height: 26px;
+    top: -9px;
+    width: 24px;
+    height: 24px;
   }
 
   .wheel-pointer::before {
-    border-left-width: 13px;
-    border-right-width: 13px;
+    border-left-width: 12px;
+    border-right-width: 12px;
     border-top-width: 20px;
+  }
+}
+
+@media (max-width: 380px) {
+  .pizza-wheel-shell {
+    padding-left: 0.35rem;
+    padding-right: 0.35rem;
+  }
+
+  .pizza-wheel-container {
+    padding: 1rem 0.65rem;
+  }
+
+  .wheel-wrapper {
+    max-width: 315px;
+  }
+
+  .wheel-center-btn {
+    width: 48px;
+    height: 48px;
+    font-size: 0.76rem;
+    border-width: 2.5px;
   }
 }
 
@@ -3920,6 +4242,11 @@ input[type="checkbox"]:checked::after {
   margin: 4rem 0;
   padding: 4rem 2rem;
   border-radius: 30px;
+}
+
+.whats-new-shell {
+  max-width: 1150px;
+  margin: 0 auto;
 }
 
 .whats-new-heading {
